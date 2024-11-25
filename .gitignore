@@ -43,3 +43,6 @@ bin/
 .DS_Store
 
 /*.hprof
+
+### project conventions
+/dev.properties
