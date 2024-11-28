@@ -7,7 +7,7 @@ import kotlin.test.Test
 class JsonSchemaTest {
 
   @Test
-  fun shouldCreateObjectSchema() {
+  fun `should create ObjectSchema`() {
     ObjectSchema {
       title = "Person"
       description = "A person schema"
@@ -37,7 +37,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateObjectSchemaWithDefinitions() {
+  fun `should create ObjectSchema with definitions`() {
     ObjectSchema {
       title = "Person"
       properties = mapOf(
@@ -82,12 +82,12 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateEmptyObjectSchema() {
+  fun `should create empty ObjectSchema`() {
     ObjectSchema {}.toString() shouldEqualJson """{"type": "object"}"""
   }
 
   @Test
-  fun shouldCreateStringSchema() {
+  fun `should create StringSchema`() {
     StringSchema {
       title = "Username"
       description = "A username"
@@ -107,7 +107,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateStringSchemaWithFormat() {
+  fun `should create StringSchema with format`() {
     StringSchema {
       title = "Email"
       description = "An email"
@@ -127,7 +127,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateStringSchemaWithEnum() {
+  fun `should create StringSchema with enum`() {
     StringSchema {
       title = "Color"
       enum = listOf("red", "green", "blue")
@@ -141,7 +141,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateStringSchemaWithContentEncoding() {
+  fun `should create StringSchema with contentEncoding`() {
     StringSchema {
       title = "Image"
       description = "User's avatar image"
@@ -159,12 +159,12 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateEmptyStringSchema() {
+  fun `should create empty StringSchema`() {
     StringSchema {}.toString() shouldEqualJson """{"type": "string"}"""
   }
 
   @Test
-  fun shouldCreateArraySchema() {
+  fun `should create ArraySchema`() {
     ArraySchema {
       title = "Numbers"
       description = "An array of numbers"
@@ -188,13 +188,13 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateArraySchemaWithObjectItems() {
+  fun `should create ArraySchema with ObjectSchema items`() {
     ArraySchema {
       title = "Users"
       items = ObjectSchema {
         properties = mapOf(
-          "id" to IntegerSchema { },
-          "name" to StringSchema { }
+          "id" to IntegerSchema {},
+          "name" to StringSchema {}
         )
       }
     }.toString() shouldEqualJson """
@@ -217,7 +217,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateNumberSchemaWithInclusiveRange() {
+  fun `should create NumberSchema with inclusive range`() {
     NumberSchema {
       title = "Price"
       description = "A price value"
@@ -237,7 +237,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateNumberSchemaWithExclusiveRange() {
+  fun `should create NumberSchema with exclusive range`() {
     NumberSchema {
       title = "Price"
       description = "A price value"
@@ -255,12 +255,12 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateEmptyNumberSchema() {
+  fun `should create empty NumberSchema`() {
     NumberSchema {}.toString() shouldEqualJson """{"type": "number"}"""
   }
 
   @Test
-  fun shouldCreateIntegerSchemaWithInclusiveRange() {
+  fun `should create IntegerSchema with inclusive range`() {
     IntegerSchema {
       title = "Age"
       description = "A person's age"
@@ -280,7 +280,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateIntegerSchemaWithExclusiveRange() {
+  fun `should create IntegerSchema with exclusive range`() {
     IntegerSchema {
       title = "Age"
       description = "A person's age"
@@ -298,12 +298,12 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateEmptyIntegerSchema() {
+  fun `should create empty IntegerSchema`() {
     IntegerSchema {}.toString() shouldEqualJson """{"type": "integer"}"""
   }
 
   @Test
-  fun shouldCreateBooleanSchema() {
+  fun `should create BooleanSchema`() {
     BooleanSchema {
       title = "Is Active"
       description = "Whether the user is active"
@@ -317,12 +317,12 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldCreateEmptyBooleanSchema() {
+  fun `should create empty BooleanSchema`() {
     BooleanSchema {}.toString() shouldEqualJson """{"type": "boolean"}"""
   }
 
   @Test
-  fun shouldCreateJsonSchemaRef() {
+  fun `should create JsonSchemaRef`() {
     JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson $$"""
       {
         "$ref": "#/definitions/address"
@@ -331,7 +331,7 @@ class JsonSchemaTest {
   }
 
   @Test
-  fun shouldThrowExceptionForInvalidRef() {
+  fun `should throw Exception for invalid JSON Pointer passed to JsonSchemaRef`() {
     shouldThrowWithMessage<IllegalArgumentException>(
       "The 'ref' must start with '#/'"
     ) {
