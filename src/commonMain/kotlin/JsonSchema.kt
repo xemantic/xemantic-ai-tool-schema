@@ -7,9 +7,18 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+/**
+ * Represents a [JSON Schema](https://json-schema.org/) instance.
+ */
 @Serializable(with = JsonSchemaSerializer::class)
 public sealed interface JsonSchema {
 
+  /**
+   * Refers another [JsonSchema] through [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901).
+   *
+   * @param ref a string representing JSON Pointer. Note: in JSON it will be serialized as `$ref`.
+   * @throws IllegalArgumentException if the [ref] does not start with `#/`.
+   */
   public class Ref(
     @SerialName("\$ref")
     public val ref: String
@@ -122,6 +131,18 @@ public fun ArraySchema(
   block: ArraySchema.Builder.() -> Unit
 ): ArraySchema = ArraySchema.Builder().also(block).build()
 
+
+public enum class ContentEncoding {
+  @SerialName("quoted-printable")
+  QUOTED_PRINTABLE,
+  @SerialName("base16")
+  BASE16,
+  @SerialName("base32")
+  BASE32,
+  @SerialName("base64")
+  BASE64
+}
+
 /**
  * Schema for strings
  */
@@ -135,6 +156,8 @@ public class StringSchema private constructor(
   public val maxLength: Long? = null,
   public val pattern: String? = null,
   public val format: String? = null,
+  public val contentEncoding: ContentEncoding? = null,
+  public val contentMediaType: String? = null
 ) : BaseSchema() {
 
   public class Builder : BaseSchema.Builder() {
@@ -144,6 +167,8 @@ public class StringSchema private constructor(
     public var maxLength: Long? = null
     public var pattern: String? = null
     public var format: String? = null
+    public var contentMediaType: String? = null
+    public var contentEncoding: ContentEncoding? = null
 
     public fun format(format: StringFormat) {
       this.format = format.toString()
@@ -156,7 +181,9 @@ public class StringSchema private constructor(
       minLength,
       maxLength,
       pattern,
-      format
+      format,
+      contentEncoding,
+      contentMediaType
     )
 
   }
@@ -366,23 +393,148 @@ public enum class StringFormat {
   /**
    * A `uuid` format.
    *
-   * IPv6 address, as defined in
-   * [RFC 2373, section 2.2](http://tools.ietf.org/html/rfc2373#section-2.2)
+   * A Universally Unique Identifier as defined by [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122).
+   * Example: `3e4666bf-d5e5-4aa7-b8ce-cefe41c7568a`
    */
   UUID,
 
-
+  /**
+   * A `uri` format.
+   *
+   * A universal resource identifier (URI), according to [RFC3986](http://tools.ietf.org/html/rfc3986).
+   */
   URI,
+
+  /**
+   * A `uri-reference` format.
+   *
+   * A URI Reference (either a URI or a relative-reference), according to
+   * [RFC3986, section 4.1](http://tools.ietf.org/html/rfc3986#section-4.1).
+   */
   URI_REFERENCE,
+
+  /**
+   * An `iri` format.
+   *
+   * The internationalized equivalent of a "uri", according to [RFC3987](https://tools.ietf.org/html/rfc3987).
+   */
   IRI,
+
+  /**
+   * An `iri-reference` format.
+   *
+   * The internationalized equivalent of a "uri-reference", according to [RFC3987](https://tools.ietf.org/html/rfc3987).
+   */
   IRI_REFERENCE,
 
+  /**
+   * A `uri-template` format.
+   *
+   * A URI Template (of any level) according to [RFC6570](https://tools.ietf.org/html/rfc6570).
+   */
   URI_TEMPLATE,
 
+  /**
+   * A `json-pointer` format.
+   *
+   * A JSON Pointer, according to [RFC6901](https://tools.ietf.org/html/rfc6901).
+   * Should be used only when the entire string contains only JSON Pointer content, e.g. `/foo/bar`.
+   * JSON Pointer URI fragments, e.g. `#/foo/bar/` should use `URI_REFERENCE`.
+   */
   JSON_POINTER,
-  RELATIVE_JSON_POINTER,  // e.g., "2/foo"
 
-  REGEX;
+  /**
+   * A `relative-json-pointer` format.
+   *
+   * A [relative JSON pointer](https://tools.ietf.org/html/draft-handrews-relative-json-pointer-01).
+   */
+  RELATIVE_JSON_POINTER,
+
+  /**
+   * A `regex` format.
+   *
+   * A regular expression, which should be valid according to the
+   * [ECMA 262](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/) dialect.
+   */
+  REGEX,
+
+  // Unofficial formats
+  /**
+   * An unofficial `color` format.
+   *
+   * Represents a color in hexadecimal format (e.g., "#RRGGBB").
+   */
+  COLOR,
+
+  /**
+   * An unofficial `phone` format.
+   *
+   * Represents a phone number. The exact format may vary depending on the implementation.
+   */
+  PHONE,
+
+  /**
+   * An unofficial `credit-card` format.
+   *
+   * Represents a credit card number.
+   */
+  CREDIT_CARD,
+
+  /**
+   * An unofficial `isbn` format.
+   *
+   * Represents an International Standard Book Number.
+   */
+  ISBN,
+
+  /**
+   * An unofficial `currency` format.
+   *
+   * Represents a currency code (e.g., "USD", "EUR").
+   */
+  CURRENCY,
+
+  /**
+   * An unofficial `binary` format.
+   *
+   * Represents binary data, typically base64-encoded.
+   */
+  BINARY,
+
+  /**
+   * An unofficial `md5` format.
+   *
+   * Represents an MD5 hash.
+   */
+  MD5,
+
+  /**
+   * An unofficial `sha1` format.
+   *
+   * Represents a SHA-1 hash.
+   */
+  SHA1,
+
+  /**
+   * An unofficial `sha256` format.
+   *
+   * Represents a SHA-256 hash.
+   */
+  SHA256,
+
+  /**
+   * An unofficial `country-code` format.
+   *
+   * Represents a country code (e.g., "US", "GB").
+   */
+  COUNTRY_CODE,
+
+  /**
+   * An unofficial `language-code` format.
+   *
+   * Represents a language code (e.g., "en", "fr").
+   */
+  LANGUAGE_CODE;
 
   override fun toString(): String = name.lowercase().replace('_', '-')
 

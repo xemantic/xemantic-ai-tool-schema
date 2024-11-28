@@ -141,6 +141,24 @@ class JsonSchemaTest {
   }
 
   @Test
+  fun shouldCreateStringSchemaWithContentEncoding() {
+    StringSchema {
+      title = "Image"
+      description = "User's avatar image"
+      contentEncoding = ContentEncoding.BASE64
+      contentMediaType = "image/png"
+    }.toString() shouldEqualJson """
+      {
+        "type": "string",
+        "title": "Image",
+        "description": "User's avatar image",
+        "contentEncoding": "base64",
+        "contentMediaType": "image/png"
+      }      
+    """
+  }
+
+  @Test
   fun shouldCreateEmptyStringSchema() {
     StringSchema {}.toString() shouldEqualJson """{"type": "string"}"""
   }
