@@ -1,1 +1,1 @@
-rootProject.name = "xemantic-json-schema"
+rootProject.name = "xemantic-ai-tool-schema"
