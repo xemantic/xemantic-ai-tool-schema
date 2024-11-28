@@ -52,7 +52,7 @@ class JsonSchemaTest {
           )
         }
       )
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson $$"""
       {
         "type": "object",
         "title": "Person",
@@ -61,7 +61,7 @@ class JsonSchemaTest {
             "type": "string"
           },
           "address": {
-            "${'$'}ref": "#/definitions/address"
+            "$ref": "#/definitions/address"
           }
         },
         "definitions": {
@@ -323,9 +323,9 @@ class JsonSchemaTest {
 
   @Test
   fun shouldCreateJsonSchemaRef() {
-    JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson """
+    JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson $$"""
       {
-        "${'$'}ref": "#/definitions/address"
+        "$ref": "#/definitions/address"
       }
     """
   }

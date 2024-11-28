@@ -30,7 +30,7 @@ public sealed interface JsonSchema {
       }
     }
 
-    override fun toString(): String = """{"${'$'}ref": "$ref"}"""
+    override fun toString(): String = $$"""{"$ref": "$$ref"}"""
 
   }
 
