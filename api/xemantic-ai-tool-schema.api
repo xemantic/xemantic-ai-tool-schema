@@ -1,0 +1,520 @@
+public final class com/xemantic/ai/tool/schema/ArraySchema : com/xemantic/ai/tool/schema/BaseSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/ArraySchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/xemantic/ai/tool/schema/JsonSchema;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDescription ()Ljava/lang/String;
+	public final fun getItems ()Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public final fun getMaxItems ()Ljava/lang/Long;
+	public final fun getMinItems ()Ljava/lang/Long;
+	public fun getTitle ()Ljava/lang/String;
+	public final fun getUniqueItems ()Ljava/lang/Boolean;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/ArraySchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/ArraySchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/ArraySchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ArraySchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/ArraySchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/ArraySchema;
+	public final fun getItems ()Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public final fun getMaxItems ()Ljava/lang/Long;
+	public final fun getMinItems ()Ljava/lang/Long;
+	public final fun getUniqueItems ()Ljava/lang/Boolean;
+	public final fun setItems (Lcom/xemantic/ai/tool/schema/JsonSchema;)V
+	public final fun setMaxItems (Ljava/lang/Long;)V
+	public final fun setMinItems (Ljava/lang/Long;)V
+	public final fun setUniqueItems (Ljava/lang/Boolean;)V
+}
+
+public final class com/xemantic/ai/tool/schema/ArraySchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class com/xemantic/ai/tool/schema/BaseSchema : com/xemantic/ai/tool/schema/JsonSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/BaseSchema$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public abstract fun getDescription ()Ljava/lang/String;
+	public abstract fun getTitle ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+	public static final synthetic fun write$Self (Lcom/xemantic/ai/tool/schema/BaseSchema;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public class com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun setDescription (Ljava/lang/String;)V
+	public final fun setTitle (Ljava/lang/String;)V
+}
+
+public final class com/xemantic/ai/tool/schema/BaseSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/BooleanSchema : com/xemantic/ai/tool/schema/BaseSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/BooleanSchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/BooleanSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/BooleanSchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/BooleanSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/BooleanSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/BooleanSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/BooleanSchema;
+}
+
+public final class com/xemantic/ai/tool/schema/BooleanSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/ContentEncoding : java/lang/Enum {
+	public static final field BASE16 Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public static final field BASE32 Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public static final field BASE64 Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public static final field QUOTED_PRINTABLE Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public static fun values ()[Lcom/xemantic/ai/tool/schema/ContentEncoding;
+}
+
+public final class com/xemantic/ai/tool/schema/IntegerSchema : com/xemantic/ai/tool/schema/BaseSchema, com/xemantic/ai/tool/schema/NumericSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/IntegerSchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getExclusiveMaximum ()Ljava/lang/Long;
+	public synthetic fun getExclusiveMaximum ()Ljava/lang/Object;
+	public fun getExclusiveMinimum ()Ljava/lang/Long;
+	public synthetic fun getExclusiveMinimum ()Ljava/lang/Object;
+	public fun getMaximum ()Ljava/lang/Long;
+	public synthetic fun getMaximum ()Ljava/lang/Object;
+	public fun getMinimum ()Ljava/lang/Long;
+	public synthetic fun getMinimum ()Ljava/lang/Object;
+	public fun getMultipleOf ()Ljava/lang/Long;
+	public synthetic fun getMultipleOf ()Ljava/lang/Object;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/IntegerSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/IntegerSchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/IntegerSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/IntegerSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/IntegerSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/IntegerSchema;
+}
+
+public final class com/xemantic/ai/tool/schema/IntegerSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/xemantic/ai/tool/schema/JsonSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/JsonSchema$Companion;
+}
+
+public final class com/xemantic/ai/tool/schema/JsonSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/JsonSchema$Ref : com/xemantic/ai/tool/schema/JsonSchema {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getRef ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/xemantic/ai/tool/schema/JsonSchemaKt {
+	public static final fun ArraySchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/ArraySchema;
+	public static final fun BooleanSchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/BooleanSchema;
+	public static final fun IntegerSchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/IntegerSchema;
+	public static final fun NumberSchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/NumberSchema;
+	public static final fun ObjectSchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/ObjectSchema;
+	public static final fun StringSchema (Lkotlin/jvm/functions/Function1;)Lcom/xemantic/ai/tool/schema/StringSchema;
+}
+
+public final class com/xemantic/ai/tool/schema/NumberSchema : com/xemantic/ai/tool/schema/BaseSchema, com/xemantic/ai/tool/schema/NumericSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/NumberSchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Double;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getExclusiveMaximum ()Ljava/lang/Double;
+	public synthetic fun getExclusiveMaximum ()Ljava/lang/Object;
+	public fun getExclusiveMinimum ()Ljava/lang/Double;
+	public synthetic fun getExclusiveMinimum ()Ljava/lang/Object;
+	public fun getMaximum ()Ljava/lang/Double;
+	public synthetic fun getMaximum ()Ljava/lang/Object;
+	public fun getMinimum ()Ljava/lang/Double;
+	public synthetic fun getMinimum ()Ljava/lang/Object;
+	public fun getMultipleOf ()Ljava/lang/Double;
+	public synthetic fun getMultipleOf ()Ljava/lang/Object;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/NumberSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/NumberSchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/NumberSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/NumberSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/NumberSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/NumberSchema;
+}
+
+public final class com/xemantic/ai/tool/schema/NumberSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/xemantic/ai/tool/schema/NumericSchema {
+	public abstract fun getExclusiveMaximum ()Ljava/lang/Object;
+	public abstract fun getExclusiveMinimum ()Ljava/lang/Object;
+	public abstract fun getMaximum ()Ljava/lang/Object;
+	public abstract fun getMinimum ()Ljava/lang/Object;
+	public abstract fun getMultipleOf ()Ljava/lang/Object;
+}
+
+public class com/xemantic/ai/tool/schema/NumericSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun getExclusiveMaximum ()Ljava/lang/Object;
+	public final fun getExclusiveMinimum ()Ljava/lang/Object;
+	public final fun getMaximum ()Ljava/lang/Object;
+	public final fun getMinimum ()Ljava/lang/Object;
+	public final fun getMultipleOf ()Ljava/lang/Object;
+	public final fun setExclusiveMaximum (Ljava/lang/Object;)V
+	public final fun setExclusiveMinimum (Ljava/lang/Object;)V
+	public final fun setMaximum (Ljava/lang/Object;)V
+	public final fun setMinimum (Ljava/lang/Object;)V
+	public final fun setMultipleOf (Ljava/lang/Object;)V
+}
+
+public final class com/xemantic/ai/tool/schema/ObjectSchema : com/xemantic/ai/tool/schema/BaseSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/ObjectSchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ljava/util/Map;Ljava/lang/Boolean;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAdditionalProperties ()Ljava/lang/Boolean;
+	public final fun getDefinitions ()Ljava/util/Map;
+	public fun getDescription ()Ljava/lang/String;
+	public final fun getProperties ()Ljava/util/Map;
+	public final fun getRequired ()Ljava/util/List;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/ObjectSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/ObjectSchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/ObjectSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ObjectSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/ObjectSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/ObjectSchema;
+	public final fun getAdditionalProperties ()Ljava/lang/Boolean;
+	public final fun getDefinitions ()Ljava/util/Map;
+	public final fun getProperties ()Ljava/util/Map;
+	public final fun getRequired ()Ljava/util/List;
+	public final fun setAdditionalProperties (Ljava/lang/Boolean;)V
+	public final fun setDefinitions (Ljava/util/Map;)V
+	public final fun setProperties (Ljava/util/Map;)V
+	public final fun setRequired (Ljava/util/List;)V
+}
+
+public final class com/xemantic/ai/tool/schema/ObjectSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/StringFormat : java/lang/Enum {
+	public static final field BINARY Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field COLOR Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field COUNTRY_CODE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field CREDIT_CARD Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field CURRENCY Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field DATE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field DATE_TIME Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field DURATION Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field EMAIL Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field HOSTNAME Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IDN_EMAIL Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IDN_HOSTNAME Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IPV4 Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IPV6 Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IRI Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field IRI_REFERENCE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field ISBN Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field JSON_POINTER Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field LANGUAGE_CODE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field MD5 Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field PHONE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field REGEX Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field RELATIVE_JSON_POINTER Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field SHA1 Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field SHA256 Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field TIME Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field URI Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field URI_REFERENCE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field URI_TEMPLATE Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static final field UUID Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lcom/xemantic/ai/tool/schema/StringFormat;
+	public static fun values ()[Lcom/xemantic/ai/tool/schema/StringFormat;
+}
+
+public final class com/xemantic/ai/tool/schema/StringSchema : com/xemantic/ai/tool/schema/BaseSchema {
+	public static final field Companion Lcom/xemantic/ai/tool/schema/StringSchema$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Lcom/xemantic/ai/tool/schema/ContentEncoding;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getContentEncoding ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public final fun getContentMediaType ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public final fun getEnum ()Ljava/util/List;
+	public final fun getFormat ()Ljava/lang/String;
+	public final fun getMaxLength ()Ljava/lang/Long;
+	public final fun getMinLength ()Ljava/lang/Long;
+	public final fun getPattern ()Ljava/lang/String;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/StringSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/StringSchema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/StringSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/StringSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/StringSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
+	public fun <init> ()V
+	public final fun build ()Lcom/xemantic/ai/tool/schema/StringSchema;
+	public final fun format (Lcom/xemantic/ai/tool/schema/StringFormat;)V
+	public final fun getContentEncoding ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
+	public final fun getContentMediaType ()Ljava/lang/String;
+	public final fun getEnum ()Ljava/util/List;
+	public final fun getFormat ()Ljava/lang/String;
+	public final fun getMaxLength ()Ljava/lang/Long;
+	public final fun getMinLength ()Ljava/lang/Long;
+	public final fun getPattern ()Ljava/lang/String;
+	public final fun setContentEncoding (Lcom/xemantic/ai/tool/schema/ContentEncoding;)V
+	public final fun setContentMediaType (Ljava/lang/String;)V
+	public final fun setEnum (Ljava/util/List;)V
+	public final fun setFormat (Ljava/lang/String;)V
+	public final fun setMaxLength (Ljava/lang/Long;)V
+	public final fun setMinLength (Ljava/lang/Long;)V
+	public final fun setPattern (Ljava/lang/String;)V
+}
+
+public final class com/xemantic/ai/tool/schema/StringSchema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/xemantic/ai/tool/schema/generator/JsonSchemaGeneratorKt {
+	public static final fun generateSchema (Lkotlinx/serialization/descriptors/SerialDescriptor;Z)Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public static synthetic fun generateSchema$default (Lkotlinx/serialization/descriptors/SerialDescriptor;ZILjava/lang/Object;)Lcom/xemantic/ai/tool/schema/JsonSchema;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/ContentMediaType : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/ContentMediaType$Impl : com/xemantic/ai/tool/schema/meta/ContentMediaType {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Description : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Description$Impl : com/xemantic/ai/tool/schema/meta/Description {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Encoding : java/lang/annotation/Annotation {
+	public abstract fun value ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Encoding$Impl : com/xemantic/ai/tool/schema/meta/Encoding {
+	public fun <init> (Lcom/xemantic/ai/tool/schema/ContentEncoding;)V
+	public final synthetic fun value ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Format : java/lang/annotation/Annotation {
+	public abstract fun value ()Lcom/xemantic/ai/tool/schema/StringFormat;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Format$Impl : com/xemantic/ai/tool/schema/meta/Format {
+	public fun <init> (Lcom/xemantic/ai/tool/schema/StringFormat;)V
+	public final synthetic fun value ()Lcom/xemantic/ai/tool/schema/StringFormat;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Max : java/lang/annotation/Annotation {
+	public abstract fun exclusive ()Z
+	public abstract fun value ()D
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Max$Impl : com/xemantic/ai/tool/schema/meta/Max {
+	public fun <init> (DZ)V
+	public synthetic fun <init> (DZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final synthetic fun exclusive ()Z
+	public final synthetic fun value ()D
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxInt : java/lang/annotation/Annotation {
+	public abstract fun exclusive ()Z
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MaxInt$Impl : com/xemantic/ai/tool/schema/meta/MaxInt {
+	public fun <init> (JZ)V
+	public synthetic fun <init> (JZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final synthetic fun exclusive ()Z
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxItems : java/lang/annotation/Annotation {
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MaxItems$Impl : com/xemantic/ai/tool/schema/meta/MaxItems {
+	public fun <init> (J)V
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxLength : java/lang/annotation/Annotation {
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MaxLength$Impl : com/xemantic/ai/tool/schema/meta/MaxLength {
+	public fun <init> (J)V
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Min : java/lang/annotation/Annotation {
+	public abstract fun exclusive ()Z
+	public abstract fun value ()D
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Min$Impl : com/xemantic/ai/tool/schema/meta/Min {
+	public fun <init> (DZ)V
+	public synthetic fun <init> (DZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final synthetic fun exclusive ()Z
+	public final synthetic fun value ()D
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinInt : java/lang/annotation/Annotation {
+	public abstract fun exclusive ()Z
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MinInt$Impl : com/xemantic/ai/tool/schema/meta/MinInt {
+	public fun <init> (JZ)V
+	public synthetic fun <init> (JZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final synthetic fun exclusive ()Z
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinItems : java/lang/annotation/Annotation {
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MinItems$Impl : com/xemantic/ai/tool/schema/meta/MinItems {
+	public fun <init> (J)V
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinLength : java/lang/annotation/Annotation {
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MinLength$Impl : com/xemantic/ai/tool/schema/meta/MinLength {
+	public fun <init> (J)V
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MultipleOf : java/lang/annotation/Annotation {
+	public abstract fun value ()D
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MultipleOf$Impl : com/xemantic/ai/tool/schema/meta/MultipleOf {
+	public fun <init> (D)V
+	public final synthetic fun value ()D
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MultipleOfInt : java/lang/annotation/Annotation {
+	public abstract fun value ()J
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/MultipleOfInt$Impl : com/xemantic/ai/tool/schema/meta/MultipleOfInt {
+	public fun <init> (J)V
+	public final synthetic fun value ()J
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Pattern : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Pattern$Impl : com/xemantic/ai/tool/schema/meta/Pattern {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Title : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/Title$Impl : com/xemantic/ai/tool/schema/meta/Title {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/UniqueItems : java/lang/annotation/Annotation {
+	public abstract fun value ()Z
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/UniqueItems$Impl : com/xemantic/ai/tool/schema/meta/UniqueItems {
+	public fun <init> (Z)V
+	public final synthetic fun value ()Z
+}
+
+public final class com/xemantic/ai/tool/schema/serialization/JsonSchemaSerializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/serialization/JsonSchemaSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/JsonSchema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+}
+
