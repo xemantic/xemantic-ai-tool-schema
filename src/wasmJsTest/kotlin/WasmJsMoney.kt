@@ -3,7 +3,7 @@ package com.xemantic.ai.tool.schema.test
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 /**
- * The `WasmJs` flavor of test money.
+ * The `wasmJs` flavor of test money.
  */
 class WasmJsMoney(
   private val value: BigDecimal
