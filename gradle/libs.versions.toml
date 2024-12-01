@@ -29,7 +29,6 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-plugin-power-assert = { id = "org.jetbrains.kotlin.plugin.power-assert", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokkaPlugin" }
-dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokkaPlugin" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
 publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "publishPlugin" }
 kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref ="binaryCompatibilityValidatorPlugin" }

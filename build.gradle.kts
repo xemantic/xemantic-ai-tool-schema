@@ -12,7 +12,6 @@ plugins {
   alias(libs.plugins.kotlin.plugin.power.assert)
   alias(libs.plugins.kotlinx.binary.compatibility.validator)
   alias(libs.plugins.dokka)
-  alias(libs.plugins.dokka.javadoc)
   alias(libs.plugins.versions)
   `maven-publish`
   signing
