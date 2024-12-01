@@ -380,6 +380,33 @@ public synthetic class com/xemantic/ai/tool/schema/meta/Format$Impl : com/xemant
 	public final synthetic fun value ()Lcom/xemantic/ai/tool/schema/StringFormat;
 }
 
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/FormatString : java/lang/annotation/Annotation {
+	public abstract fun format ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/FormatString$Impl : com/xemantic/ai/tool/schema/meta/FormatString {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun format ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/ItemDescription : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/ItemDescription$Impl : com/xemantic/ai/tool/schema/meta/ItemDescription {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/xemantic/ai/tool/schema/meta/ItemTitle : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public synthetic class com/xemantic/ai/tool/schema/meta/ItemTitle$Impl : com/xemantic/ai/tool/schema/meta/ItemTitle {
+	public fun <init> (Ljava/lang/String;)V
+	public final synthetic fun value ()Ljava/lang/String;
+}
+
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Max : java/lang/annotation/Annotation {
 	public abstract fun exclusive ()Z
 	public abstract fun value ()D
@@ -483,12 +510,19 @@ public synthetic class com/xemantic/ai/tool/schema/meta/MultipleOfInt$Impl : com
 }
 
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Pattern : java/lang/annotation/Annotation {
-	public abstract fun value ()Ljava/lang/String;
+	public static final field Companion Lcom/xemantic/ai/tool/schema/meta/Pattern$Companion;
+	public static final field DECIMAL_REGEX Ljava/lang/String;
+	public abstract fun regex ()Ljava/lang/String;
+}
+
+public final class com/xemantic/ai/tool/schema/meta/Pattern$Companion {
+	public static final field DECIMAL_REGEX Ljava/lang/String;
+	public final fun getDECIMAL ()Lcom/xemantic/ai/tool/schema/meta/Pattern;
 }
 
 public synthetic class com/xemantic/ai/tool/schema/meta/Pattern$Impl : com/xemantic/ai/tool/schema/meta/Pattern {
 	public fun <init> (Ljava/lang/String;)V
-	public final synthetic fun value ()Ljava/lang/String;
+	public final synthetic fun regex ()Ljava/lang/String;
 }
 
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Title : java/lang/annotation/Annotation {
@@ -501,12 +535,19 @@ public synthetic class com/xemantic/ai/tool/schema/meta/Title$Impl : com/xemanti
 }
 
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/UniqueItems : java/lang/annotation/Annotation {
-	public abstract fun value ()Z
 }
 
 public synthetic class com/xemantic/ai/tool/schema/meta/UniqueItems$Impl : com/xemantic/ai/tool/schema/meta/UniqueItems {
-	public fun <init> (Z)V
-	public final synthetic fun value ()Z
+	public fun <init> ()V
+}
+
+public final class com/xemantic/ai/tool/schema/serialization/BigDecimalSerializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/serialization/BigDecimalSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/math/BigDecimal;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/math/BigDecimal;)V
 }
 
 public final class com/xemantic/ai/tool/schema/serialization/JsonSchemaSerializer : kotlinx/serialization/KSerializer {
