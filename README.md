@@ -70,13 +70,13 @@ data class Address(
 )
 ```
 
-And when `generateJsonSchema()` function is invoked:
+And when `jsonSchemaOf()` function is invoked:
 
 ```kotlin
-val schema = generateJsonSchema<Address>()
+val schema = jsonSchemaOf<Address>()
 ```
 
-, it will produce a [JsonSchema](src/commonMain/kotlin/JsonSchema.kt) instance, which
+It will produce a [JsonSchema](src/commonMain/kotlin/JsonSchema.kt) instance, which
 serializes to:
 
 ```json
@@ -127,6 +127,21 @@ More details and use cases in the [JsonSchemaTest](src/commonTest/kotlin/JsonSch
 > pretty printed `String` representation of a valid JSON schema,
 > which in turn describes the Kotlin class as a serialized JSON.
 > This functionality is useful for testing and debugging.
+
+### Serializing Java `BigDecimal`s
+
+For JVM-only projects, it is possible to specify `java.math.BigDecimal` serialization.
+It will serialize decimal numbers to strings, and add `description` and `pattern`
+properties to generated JSON Schema of a `BigDecimal` property.
+
+See [JavaBigDecimalToSchemaTest](src/jvmTest/kotlin/serialization/JavaBigDecimalToSchemaTest.kt)
+for details.
+
+### Serializing BigDecimal/monetary values in multiplatform way
+
+There is an interface called [Money](src/commonTest/kotlin/test/Money.kt)
+defined in the tests of this project. It explains how to define and serialize monetary
+amounts independently of the underlying decimal number and arithmetics provider.
 
 ## Development
 
