@@ -69,7 +69,7 @@ public annotation class Description(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinLength(
   val value: Long
@@ -89,7 +89,7 @@ public annotation class MinLength(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxLength(
   val value: Long
@@ -107,7 +107,7 @@ public annotation class MaxLength(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Pattern(
   val regex: String
@@ -144,10 +144,10 @@ public annotation class Pattern(
  * annotation.
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Format(
-  val format: StringFormat
+  val value: StringFormat
 )
 
 /**
@@ -165,7 +165,7 @@ public annotation class Format(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class FormatString(
   val format: String
@@ -179,7 +179,7 @@ public annotation class FormatString(
  * See [ContentEncoding] enum for possible types. It should be used together with [ContentMediaType].
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Encoding(
   val value: ContentEncoding
@@ -193,7 +193,7 @@ public annotation class Encoding(
  * It should be used together with [ContentEncoding].
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class ContentMediaType(
   val value: String
@@ -221,7 +221,7 @@ public annotation class ContentMediaType(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Min(
   val value: Double,
@@ -249,7 +249,7 @@ public annotation class Min(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Max(
   val value: Double,
@@ -262,7 +262,7 @@ public annotation class Max(
  * keyword to generated JSON schema of the `number` property.
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MultipleOf(
   val value: Double
@@ -292,7 +292,7 @@ public annotation class MultipleOf(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinInt(
   val value: Long,
@@ -308,7 +308,7 @@ public annotation class MinInt(
  * Usually it will be used together with [MinInt].
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxInt(
   val value: Long,
@@ -321,13 +321,62 @@ public annotation class MaxInt(
  * keyword to generated JSON schema of the `integer` property.
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MultipleOfInt(
   val value: Long
 )
 
 // Array annotations
+/**
+ * Adds [title](https://json-schema.org/understanding-json-schema/reference/annotations) keyword
+ * to generated JSON Schema of the array `items` property.
+ *
+ * A title will preferably be short, whereas a [Description] will provide a more lengthy explanation
+ * about the purpose of the data described by the schema.
+ *
+ * If the [Title] annotation is not found on the property, the JSON Schema generator will
+ * attempt to read it from the class of the property.
+ *
+ * Note: Quite often the property name is already self-explanatory and does not require a title.
+ * In practical use cases, the [Description] might be used much more often than [Title].
+ *
+ * Example usage:
+ * ```
+ * @ItemTitle("A user")
+ * val users: List<User>
+ * ```
+ */
+@OptIn(ExperimentalSerializationApi::class)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
+@MetaSerializable
+public annotation class ItemTitle(
+  val value: String
+)
+
+/**
+ * Adds [description](https://json-schema.org/understanding-json-schema/reference/annotations) keyword
+ * to generated JSON Schema of the array `items` property.
+ *
+ * The [Description] provides explanation about the purpose of the data described by the schema
+ * (Compare with [Title]).
+ *
+ * If the [Description] annotation is not found on the property, the JSON Schema generator will
+ * attempt to read it from the class of the property.
+ *
+ * Example usage:
+ * ```
+ * @ItemDescription("Describes a person or non-human agent who can access this system")
+ * val users: List<User>
+ * ```
+ */
+@OptIn(ExperimentalSerializationApi::class)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
+@MetaSerializable
+public annotation class ItemDescription(
+  val value: String
+)
+
 /**
  * The minimum number of items property of the array.
  * Will add [minItems](https://json-schema.org/understanding-json-schema/reference/array#length)
@@ -342,7 +391,7 @@ public annotation class MultipleOfInt(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinItems(
   val value: Long
@@ -362,7 +411,7 @@ public annotation class MinItems(
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxItems(
   val value: Long
@@ -373,18 +422,16 @@ public annotation class MaxItems(
  * Will add [uniqueItems](https://json-schema.org/understanding-json-schema/reference/array#uniqueItems)
  * keyword to generated JSON schema of the `array` property.
  *
- * When set to true, all items in the array must be unique.
+ * If annotated, all items in the list must be unique.
  * Uniqueness is determined by comparing the JSON representation of each item.
  *
  * Example usage:
  * ```
- * @UniqueItems(true)
+ * @UniqueItems
  * val tags: List<String>
  * ```
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
-public annotation class UniqueItems(
-  val value: Boolean
-)
+public annotation class UniqueItems
