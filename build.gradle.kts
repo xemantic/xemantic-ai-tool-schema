@@ -79,24 +79,26 @@ kotlin {
     }
   }
 
-
   js {
     browser()
     nodejs()
+    binaries.library()
   }
+
 
   wasmJs {
     browser()
     nodejs()
     //d8()
+    binaries.library()
   }
 
   wasmWasi {
     nodejs()
+    binaries.library()
   }
 
   // native, see https://kotlinlang.org/docs/native-target-support.html
-
   // tier 1
   macosX64()
   macosArm64()
