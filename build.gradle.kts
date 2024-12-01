@@ -16,6 +16,8 @@
 
 @file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -65,6 +67,8 @@ kotlin {
   explicitApi()
 
   compilerOptions {
+    apiVersion = kotlinTarget
+    languageVersion = kotlinTarget
     freeCompilerArgs.add("-Xmulti-dollar-interpolation")
     extraWarnings.set(true)
   }
@@ -162,10 +166,93 @@ tasks.named("compileTestKotlinAndroidNativeX64") { enabled = false }
 tasks.named("tvosSimulatorArm64Test") { enabled = false }
 tasks.named("watchosSimulatorArm64Test") { enabled = false }
 
+tasks.withType<Test> {
+  testLogging {
+    events(
+      TestLogEvent.SKIPPED,
+      TestLogEvent.FAILED
+    )
+    showStackTraces = true
+    exceptionFormat = TestExceptionFormat.FULL
+  }
+}
+
+powerAssert {
+  functions = listOf(
+    "io.kotest.matchers.shouldBe"
+  )
+  includedSourceSets = listOf("commonTest", "jvmTest", "jsTest", "nativeTest", "wasmJsTest", "wasmWasiTest")
+}
+
 // https://kotlinlang.org/docs/dokka-migration.html#adjust-configuration-options
 dokka {
   pluginsConfiguration.html {
     footerMessage.set("© Xemantic 2024")
+  }
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+  archiveClassifier.set("javadoc")
+  from(tasks.dokkaGeneratePublicationHtml)
+}
+
+publishing {
+  repositories {
+    if (!isReleaseBuild) {
+      maven {
+        name = "GitHubPackages"
+        setUrl("https://maven.pkg.github.com/$githubAccount/${rootProject.name}")
+        credentials {
+          username = githubActor
+          password = githubToken
+        }
+      }
+    }
+  }
+  publications {
+    withType<MavenPublication> {
+      artifact(javadocJar)
+//      from(components["kotlin"])
+//      artifact(javadocJar)
+//      artifact(sourcesJar)
+      pom {
+        name = "xemantic-ai-tool-schema"
+        description = "A Kotlin multiplatform AI/LLM tool use (function calling) JSON Schema generator"
+        url = "https://github.com/$githubAccount/${rootProject.name}"
+        inceptionYear = "2024"
+        organization {
+          name = "Xemantic"
+          url = "https://xemantic.com"
+        }
+        licenses {
+          license {
+            name = "The Apache Software License, Version 2.0"
+            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution = "repo"
+          }
+        }
+        scm {
+          url = "https://github.com/$githubAccount/${rootProject.name}"
+          connection = "scm:git:git:github.com/$githubAccount/${rootProject.name}.git"
+          developerConnection = "scm:git:https://github.com/$githubAccount/${rootProject.name}.git"
+        }
+        ciManagement {
+          system = "GitHub"
+          url = "https://github.com/$githubAccount/${rootProject.name}/actions"
+        }
+        issueManagement {
+          system = "GitHub"
+          url = "https://github.com/$githubAccount/${rootProject.name}/issues"
+        }
+        developers {
+          developer {
+            id = "morisil"
+            name = "Kazik Pogoda"
+            email = "morisil@xemantic.com"
+          }
+        }
+      }
+    }
   }
 }
 
