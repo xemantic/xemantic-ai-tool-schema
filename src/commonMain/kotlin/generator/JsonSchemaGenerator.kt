@@ -46,17 +46,49 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlin.collections.set
 
+/**
+ * Generates a JSON schema for the specified type [T].
+ *
+ * This function creates a detailed JSON schema by analyzing the structure and metadata
+ * of the [SerialDescriptor] extracted from the type [T],
+ * therefore [T] must be [Serializable].
+ *
+ * @param T The type for which to generate the JSON schema.
+ * @param outputAdditionalPropertiesFalse If `true`, adds `additionalProperties: false` keywords in
+ *   generated [JsonSchema] tree, if a node represents an [ObjectSchema].
+ * @param suppressDescription If `true`, suppresses the output of the `description` keyword in
+ *   the root of generated [JsonSchema] for the specified type [T], even if it was annotated with the [Description].
+ * @return A [JsonSchema] representing the structure of type [T].
+ * @see generateSchema
+ */
 public inline fun <reified T> jsonSchemaOf(
-  outputAdditionalPropertiesFalse: Boolean = false
+  outputAdditionalPropertiesFalse: Boolean = false,
+  suppressDescription: Boolean = false
 ): JsonSchema = generateSchema(
   descriptor = serializer<T>().descriptor,
-  outputAdditionalPropertiesFalse = outputAdditionalPropertiesFalse
+  outputAdditionalPropertiesFalse = outputAdditionalPropertiesFalse,
+  suppressDescription = suppressDescription
 )
 
+/**
+ * Generates a JSON schema from a given [SerialDescriptor].
+ *
+ * This function creates a detailed JSON schema by analyzing the structure and metadata
+ * of the provided [SerialDescriptor]. It handles nested objects, arrays, and various
+ * primitive types, incorporating annotations for additional schema properties.
+ *
+ * @param descriptor The serial descriptor of the type for which to generate the JSON schema.
+ * @param outputAdditionalPropertiesFalse If `true`, adds `additionalProperties: false` keywords in
+ *   generated [JsonSchema] tree, if a node represents an [ObjectSchema].
+ * @param suppressDescription If `true`, suppresses the output of the `description` keyword in
+ *   the root of generated [JsonSchema], even if it was annotated with the [Description].
+ * @return A [JsonSchema] representing the structure of type described by the [descriptor].
+ */
 @OptIn(ExperimentalSerializationApi::class)
 public fun generateSchema(
   descriptor: SerialDescriptor,
-  outputAdditionalPropertiesFalse: Boolean = false
+  outputAdditionalPropertiesFalse: Boolean = false,
+  suppressDescription: Boolean = false
 ): JsonSchema {
 
   val props = mutableMapOf<String, JsonSchema>()
@@ -81,7 +113,7 @@ public fun generateSchema(
 
   return ObjectSchema {
     title = descriptor.annotations.find<Title>()?.value
-    description = descriptor.annotations.find<Description>()?.value
+    description = if (!suppressDescription) descriptor.annotations.find<Description>()?.value else null
     properties = props
     definitions = if (defs.isNotEmpty()) defs else null
     required = req
