@@ -139,7 +139,7 @@ And this is the input accepted by Large Language Model APIs like
 [OpenAI API](https://platform.openai.com/docs/api-reference/introduction)
 and [Anthropic API](https://docs.anthropic.com/en/api/getting-started).
 
-More details and use cases in the [JsonSchemaTest](src/commonTest/kotlin/JsonSchemaTest.kt).
+More details and use cases in the [JsonSchemaGeneratorTest](src/commonTest/kotlin/generator/JsonSchemaGeneratorTest.kt).
 
 > [!NOTE]
 > When calling `toString()` function on any instance of `JsonSchema`, it will also produce a
