@@ -178,10 +178,10 @@ tasks.withType<Test> {
 }
 
 powerAssert {
-  functions = listOf(
-    "io.kotest.matchers.shouldBe"
-  )
-  includedSourceSets = listOf("commonTest", "jvmTest", "jsTest", "nativeTest", "wasmJsTest", "wasmWasiTest")
+  // power assert temporarily switched off for kotest, since it stopped working with kotlin 2.1
+//  functions = listOf(
+//    "io.kotest.matchers.shouldBe"
+//  )
 }
 
 // https://kotlinlang.org/docs/dokka-migration.html#adjust-configuration-options

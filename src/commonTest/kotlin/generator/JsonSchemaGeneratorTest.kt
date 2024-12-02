@@ -332,6 +332,8 @@ class JsonSchemaGeneratorTest {
    * so we want to test if we can override it.
    */
   @Serializable
+  @SerialName("foo")
+  @Description("A container of monetary amounts")
   @Suppress("unused") // it is used to generate schema
   class Foo(
     @Title("Money 1, without property description")
@@ -344,6 +346,37 @@ class JsonSchemaGeneratorTest {
   @Test
   fun `should prioritize title and description set on property over the one set for the whole class`() {
     val schema = jsonSchemaOf<Foo>()
+    testJson.encodeToString(schema) shouldEqualJson $$"""
+      {
+        "type": "object",
+        "description": "A container of monetary amounts",
+        "properties": {
+          "money1": {
+            "type": "string",
+            "title": "Money 1, without property description",
+            "description": "A monetary amount",
+            "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+          },
+          "money2": {
+            "type": "string",
+            "title": "Money 2, with property description",
+            "description": "A monetary amount with property description",
+            "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+          }
+        },
+        "required": [
+          "money1",
+          "money2"
+        ]
+      }
+    """
+  }
+
+  @Test
+  fun `should suppress description of the top level object JSON Schema`() {
+    val schema = jsonSchemaOf<Foo>(
+      suppressDescription = true
+    )
     testJson.encodeToString(schema) shouldEqualJson $$"""
       {
         "type": "object",
@@ -365,6 +398,61 @@ class JsonSchemaGeneratorTest {
           "money1",
           "money2"
         ]
+      }
+    """
+  }
+
+  @Serializable
+  @Suppress("unused") // it is used to generate schema
+  class Bar(
+    val foo: Foo
+  )
+
+  /**
+   * It seems that `additionalProperties: false` is preferred in the Open AI API documentation.
+   */
+  @Test
+  fun `should output additionalProperties keyword`() {
+    val schema = jsonSchemaOf<Bar>(
+      outputAdditionalPropertiesFalse = true
+    )
+    testJson.encodeToString(schema) shouldEqualJson $$"""
+      {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "$ref": "#/definitions/foo"
+          }
+        },
+        "required": [
+          "foo"
+        ],
+        "definitions": {
+          "foo": {
+            "type": "object",
+            "description": "A container of monetary amounts",
+            "properties": {
+              "money1": {
+                "type": "string",
+                "title": "Money 1, without property description",
+                "description": "A monetary amount",
+                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+              },
+              "money2": {
+                "type": "string",
+                "title": "Money 2, with property description",
+                "description": "A monetary amount with property description",
+                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+              }
+            },
+            "required": [
+              "money1",
+              "money2"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
       }
     """
   }

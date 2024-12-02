@@ -340,8 +340,8 @@ public final class com/xemantic/ai/tool/schema/StringSchema$Companion {
 }
 
 public final class com/xemantic/ai/tool/schema/generator/JsonSchemaGeneratorKt {
-	public static final fun generateSchema (Lkotlinx/serialization/descriptors/SerialDescriptor;Z)Lcom/xemantic/ai/tool/schema/JsonSchema;
-	public static synthetic fun generateSchema$default (Lkotlinx/serialization/descriptors/SerialDescriptor;ZILjava/lang/Object;)Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public static final fun generateSchema (Lkotlinx/serialization/descriptors/SerialDescriptor;ZZ)Lcom/xemantic/ai/tool/schema/JsonSchema;
+	public static synthetic fun generateSchema$default (Lkotlinx/serialization/descriptors/SerialDescriptor;ZZILjava/lang/Object;)Lcom/xemantic/ai/tool/schema/JsonSchema;
 }
 
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/ContentMediaType : java/lang/annotation/Annotation {
