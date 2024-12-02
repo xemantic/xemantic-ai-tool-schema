@@ -64,7 +64,7 @@ plugins {
 
 // ...
 dependencies {
-  implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.1-SNAPSHOT")
+  implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.1.1")
 }
 ```
 
@@ -137,7 +137,7 @@ serializes to:
 
 And this is the input accepted by Large Language Model APIs like
 [OpenAI API](https://platform.openai.com/docs/api-reference/introduction)
-and [Anthropic API](https://docs.anthropic.com/en/api/getting-started)
+and [Anthropic API](https://docs.anthropic.com/en/api/getting-started).
 
 More details and use cases in the [JsonSchemaTest](src/commonTest/kotlin/JsonSchemaTest.kt).
 
