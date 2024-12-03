@@ -85,7 +85,7 @@ data class Address(
   @Pattern("[a-z]{2}")
   val countryCode: String,
   @Format(StringFormat.EMAIL)
-  val email: String?
+  val email: String? = null
 )
 ```
 
@@ -129,15 +129,16 @@ serializes to:
     "street",
     "city",
     "postalCode",
-    "countryCode",
-    "email"
+    "countryCode"
   ]
 }
 ```
 
 And this is the input accepted by Large Language Model APIs like
 [OpenAI API](https://platform.openai.com/docs/api-reference/introduction)
-and [Anthropic API](https://docs.anthropic.com/en/api/getting-started).
+and [Anthropic API](https://docs.anthropic.com/en/api/getting-started). When requesting a tool use, these LLMs
+will send a JSON payload like adhering to this schema, therefore
+immediately deserializable as the original `@Serializable` Kotlin class. 
 
 More details and use cases in the [JsonSchemaGeneratorTest](src/commonTest/kotlin/generator/JsonSchemaGeneratorTest.kt).
 
