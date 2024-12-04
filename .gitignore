@@ -6,6 +6,7 @@ build/
 
 ### IntelliJ IDEA ###
 /.idea/
+!/.idea/copyright/
 *.iws
 *.iml
 *.ipr
@@ -42,6 +43,3 @@ bin/
 .DS_Store
 
 /*.hprof
-
-### project conventions
-/dev.properties
