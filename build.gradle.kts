@@ -55,7 +55,7 @@ println("""
 | Version: ${project.version}
 | Release build: $isReleaseBuild
 +--------------------------------------------
-""".trimIndent()
+"""
 )
 
 repositories {
@@ -71,9 +71,11 @@ kotlin {
     languageVersion = kotlinTarget
     freeCompilerArgs.add("-Xmulti-dollar-interpolation")
     extraWarnings.set(true)
+    progressiveMode = true
   }
 
   jvm {
+    // set up according to https://jakewharton.com/gradle-toolchains-are-rarely-a-good-idea/
     compilerOptions {
       apiVersion = kotlinTarget
       languageVersion = kotlinTarget
@@ -88,7 +90,6 @@ kotlin {
     nodejs()
     binaries.library()
   }
-
 
   wasmJs {
     browser()
@@ -212,9 +213,6 @@ publishing {
   publications {
     withType<MavenPublication> {
       artifact(javadocJar)
-//      from(components["kotlin"])
-//      artifact(javadocJar)
-//      artifact(sourcesJar)
       pom {
         name = "xemantic-ai-tool-schema"
         description = "A Kotlin multiplatform AI/LLM tool use (function calling) JSON Schema generator"
