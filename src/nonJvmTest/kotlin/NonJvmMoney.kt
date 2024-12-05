@@ -19,24 +19,29 @@ package com.xemantic.ai.tool.schema.test
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 /**
- * The `native` flavor of test money.
+ * The `nonJvm` flavor of test money.
  */
-class NativeMoney(
+class NonJvmMoney(
   private val value: BigDecimal
 ) : Money {
 
   override fun plus(
     amount: Money
-  ) = NativeMoney(value + (amount as NativeMoney).value)
+  ) = NonJvmMoney(value + (amount as NonJvmMoney).value)
 
   override fun compareTo(
     other: Money
   ) = value.compareTo(
-    (other as NativeMoney).value
+    (other as NonJvmMoney).value
   )
+
+  override fun toString(): String {
+    return value.toString(10)
+  }
 
 }
 
+@Suppress("TestFunctionName")
 actual fun Money(
   amount: String
-): Money = NativeMoney(BigDecimal.parseString(amount))
+): Money = NonJvmMoney(BigDecimal.parseString(amount))

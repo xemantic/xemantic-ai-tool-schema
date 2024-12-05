@@ -64,6 +64,8 @@ repositories {
 
 kotlin {
 
+  applyDefaultHierarchyTemplate()
+
   explicitApi()
 
   compilerOptions {
@@ -151,6 +153,26 @@ kotlin {
       }
     }
 
+    val nonJvmTest by creating {
+      dependsOn(commonTest.get())
+    }
+
+    nativeTest {
+      dependsOn(nonJvmTest)
+    }
+
+    jsTest {
+      dependsOn(nonJvmTest)
+    }
+
+    wasmJsTest {
+      dependsOn(nonJvmTest)
+    }
+
+    wasmWasiTest {
+      dependsOn(nonJvmTest)
+    }
+
   }
 
 }
@@ -188,7 +210,7 @@ powerAssert {
 // https://kotlinlang.org/docs/dokka-migration.html#adjust-configuration-options
 dokka {
   pluginsConfiguration.html {
-    footerMessage.set("© Xemantic 2024")
+    footerMessage.set("(c) 2024 Xemantic")
   }
 }
 
@@ -215,7 +237,7 @@ publishing {
       artifact(javadocJar)
       pom {
         name = "xemantic-ai-tool-schema"
-        description = "A Kotlin multiplatform AI/LLM tool use (function calling) JSON Schema generator"
+        description = "Kotlin multiplatform AI/LLM tool use (function calling) JSON Schema generator"
         url = "https://github.com/$githubAccount/${rootProject.name}"
         inceptionYear = "2024"
         organization {

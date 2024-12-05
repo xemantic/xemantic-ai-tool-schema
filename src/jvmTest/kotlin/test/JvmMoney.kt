@@ -41,6 +41,7 @@ class JvmMoney(
 
 }
 
+@Suppress("TestFunctionName")
 actual fun Money(
   amount: String
 ): Money = JvmMoney(BigDecimal(amount))
