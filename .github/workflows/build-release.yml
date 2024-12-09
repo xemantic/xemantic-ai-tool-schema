@@ -42,22 +42,6 @@ jobs:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: ./gradlew -Pversion=$VERSION build sourcesJar dokkaGeneratePublicationHtml publishToSonatype closeAndReleaseSonatypeStagingRepository
 
-    - name: Find branch from tag
-      id: find-branch
-      env:
-        TAG_NAME: ${{ github.event.release.tag_name }}
-      run: |
-        BRANCH=$(git branch -r --contains $TAG_NAME | grep -v '\->' | sed 's/origin\///' | head -n 1)
-        if [ -z "$BRANCH" ]; then
-          echo "Branch not found for tag $TAG"
-          exit 1
-        fi
-        echo Branch: $BRANCH
-        echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-
-    - name: Checkout branch HEAD
-      run: git checkout ${BRANCH}
-
     - name: Update README
       run: sh .github/scripts/update-readme-version.sh
 
