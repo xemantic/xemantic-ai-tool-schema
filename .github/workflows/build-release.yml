@@ -19,6 +19,7 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v4.2.2
       with:
+        ref: ${{ github.head_ref }}
         fetch-depth: 0
 
     - name: Setup Java
@@ -57,12 +58,11 @@ jobs:
     - name: Checkout branch HEAD
       run: git checkout ${BRANCH}
 
-#    - name: Update README
-#      run: sed -i "s/com\.xemantic\.anthropic:anthropic-sdk-kotlin:[0-9]\+\(\.[0-9]\+\)*\>/com.xemantic.anthropic:anthropic-sdk-kotlin:$VERSION/g" README.md
+    - name: Update README
+      run: sh .github/scripts/update-readme-version.sh
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v7.0.5
+      uses: stefanzweifel/git-auto-commit-action@v5.0.1
       with:
-        token: ${{ secrets.WORKFLOW_SECRET }}
-        commit-message: README.md gradle dependencies update to ${{ env.VERSION }}
-        title: PR Action - README.md gradle dependencies update to ${{ env.VERSION }}
+        commit_message: Dependency version in README.md updated to ${{ env.VERSION }}
+        file_pattern: 'README.md'
