@@ -42,6 +42,12 @@ jobs:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: ./gradlew -Pversion=$VERSION build sourcesJar dokkaGeneratePublicationHtml publishToSonatype closeAndReleaseSonatypeStagingRepository
 
+    - name: Checkout main branch
+      uses: actions/checkout@v4.2.2
+      with:
+        ref: main
+        fetch-depth: 0
+
     - name: Update README
       run: sh .github/scripts/update-readme-version.sh
 
