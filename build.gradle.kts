@@ -146,7 +146,7 @@ kotlin {
     commonTest {
       dependencies {
         implementation(libs.kotlin.test)
-        implementation(libs.kotest.assertions.core)
+        implementation(libs.xemantic.kotlin.test)
         implementation(libs.kotest.assertions.json)
         implementation(libs.kotlinx.datetime)
         implementation(libs.bignum)
@@ -201,10 +201,9 @@ tasks.withType<Test> {
 }
 
 powerAssert {
-  // power assert temporarily switched off for kotest, since it stopped working with kotlin 2.1
-//  functions = listOf(
-//    "io.kotest.matchers.shouldBe"
-//  )
+  functions = listOf(
+    "com.xemantic.kotlin.test.have"
+  )
 }
 
 // https://kotlinlang.org/docs/dokka-migration.html#adjust-configuration-options
