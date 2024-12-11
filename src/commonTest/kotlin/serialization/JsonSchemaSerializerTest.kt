@@ -18,27 +18,31 @@ package com.xemantic.ai.tool.schema.serialization
 
 import com.xemantic.ai.tool.schema.JsonSchema
 import com.xemantic.ai.tool.schema.test.testJson
+import com.xemantic.kotlin.test.be
+import com.xemantic.kotlin.test.have
+import com.xemantic.kotlin.test.should
 import io.kotest.assertions.json.shouldEqualJson
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.instanceOf
 import kotlin.test.Test
 
 class JsonSchemaSerializerTest {
 
   @Test
   fun `should decode JsonSchema reference`() {
+    /* language=json */
     val json = $$"""
       {
         "$ref": "#/definitions/foo"
       }
-    """.trimIndent()
-    val ref = testJson.decodeFromString<JsonSchema>(json)
-    ref shouldBe instanceOf<JsonSchema.Ref>()
-    (ref as JsonSchema.Ref).ref shouldBe "#/definitions/foo"
+    """
+    testJson.decodeFromString<JsonSchema>(json) should {
+      be<JsonSchema.Ref>()
+      have(ref == "#/definitions/foo")
+    }
   }
 
   @Test
   fun `decode JSON Schema from JSON`() {
+    /* language=json */
     val json = $$"""
       {
         "type": "object",
@@ -181,7 +185,11 @@ class JsonSchemaSerializerTest {
         }
       }
     """
+
+    // when
     val schema = testJson.decodeFromString<JsonSchema>(json)
+
+    // then
     schema.toString() shouldEqualJson json
   }
 

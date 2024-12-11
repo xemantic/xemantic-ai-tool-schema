@@ -76,7 +76,7 @@ class JsonSchemaGeneratorTest {
   @Test
   fun `generate JSON Schema for Address`() {
     val schema = jsonSchemaOf<Address>()
-    testJson.encodeToString(schema) shouldEqualJson """
+    testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
       {
         "type": "object",
         "title": "The full address",
@@ -181,7 +181,7 @@ class JsonSchemaGeneratorTest {
     val schemaJson = testJson.encodeToString(schema)
 
     // then
-    schemaJson shouldEqualJson $$"""
+    schemaJson shouldEqualJson /* language=json */ $$"""
       {
         "type": "object",
         "description": "Personal data",
@@ -346,7 +346,7 @@ class JsonSchemaGeneratorTest {
   @Test
   fun `should prioritize title and description set on property over the one set for the whole class`() {
     val schema = jsonSchemaOf<Foo>()
-    testJson.encodeToString(schema) shouldEqualJson $$"""
+    testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
       {
         "type": "object",
         "description": "A container of monetary amounts",
@@ -377,7 +377,7 @@ class JsonSchemaGeneratorTest {
     val schema = jsonSchemaOf<Foo>(
       suppressDescription = true
     )
-    testJson.encodeToString(schema) shouldEqualJson $$"""
+    testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
       {
         "type": "object",
         "properties": {
@@ -416,7 +416,7 @@ class JsonSchemaGeneratorTest {
     val schema = jsonSchemaOf<Bar>(
       outputAdditionalPropertiesFalse = true
     )
-    testJson.encodeToString(schema) shouldEqualJson $$"""
+    testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
       {
         "type": "object",
         "properties": {

@@ -17,8 +17,10 @@
 package com.xemantic.ai.tool.schema
 
 import io.kotest.assertions.json.shouldEqualJson
-import io.kotest.assertions.throwables.shouldThrowWithMessage
+import com.xemantic.kotlin.test.should
+import com.xemantic.kotlin.test.have
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 
 class JsonSchemaTest {
 
@@ -33,7 +35,7 @@ class JsonSchemaTest {
       )
       required = listOf("name")
       additionalProperties = false
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "object",
         "title": "Person",
@@ -68,7 +70,7 @@ class JsonSchemaTest {
           )
         }
       )
-    }.toString() shouldEqualJson $$"""
+    }.toString() shouldEqualJson /* language=json */ $$"""
       {
         "type": "object",
         "title": "Person",
@@ -99,7 +101,7 @@ class JsonSchemaTest {
 
   @Test
   fun `should create empty ObjectSchema`() {
-    ObjectSchema {}.toString() shouldEqualJson """{"type": "object"}"""
+    ObjectSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "object"}"""
   }
 
   @Test
@@ -110,7 +112,7 @@ class JsonSchemaTest {
       minLength = 3
       maxLength = 20
       pattern = "^[a-zA-Z0-9_]+$"
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "string",
         "title": "Username",
@@ -130,7 +132,7 @@ class JsonSchemaTest {
       minLength = 3
       maxLength = 100
       format(StringFormat.EMAIL)
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "string",
         "title": "Email",
@@ -147,7 +149,7 @@ class JsonSchemaTest {
     StringSchema {
       title = "Color"
       enum = listOf("red", "green", "blue")
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "string",
         "title": "Color",
@@ -163,20 +165,20 @@ class JsonSchemaTest {
       description = "User's avatar image"
       contentEncoding = ContentEncoding.BASE64
       contentMediaType = "image/png"
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "string",
         "title": "Image",
         "description": "User's avatar image",
         "contentEncoding": "base64",
         "contentMediaType": "image/png"
-      }      
+      }            
     """
   }
 
   @Test
   fun `should create empty StringSchema`() {
-    StringSchema {}.toString() shouldEqualJson """{"type": "string"}"""
+    StringSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "string"}"""
   }
 
   @Test
@@ -188,7 +190,7 @@ class JsonSchemaTest {
       minItems = 1
       maxItems = 10
       uniqueItems = true
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "array",
         "title": "Numbers",
@@ -213,7 +215,7 @@ class JsonSchemaTest {
           "name" to StringSchema {}
         )
       }
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "array",
         "title": "Users",
@@ -240,7 +242,7 @@ class JsonSchemaTest {
       minimum = 0.0
       maximum = 1000.0
       multipleOf = 0.01
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "number",
         "title": "Price",
@@ -259,7 +261,7 @@ class JsonSchemaTest {
       description = "A price value"
       exclusiveMinimum = 0.0
       exclusiveMaximum = 1000.0
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "number",
         "title": "Price",
@@ -272,7 +274,7 @@ class JsonSchemaTest {
 
   @Test
   fun `should create empty NumberSchema`() {
-    NumberSchema {}.toString() shouldEqualJson """{"type": "number"}"""
+    NumberSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "number"}"""
   }
 
   @Test
@@ -283,7 +285,7 @@ class JsonSchemaTest {
       minimum = 0
       maximum = 120
       multipleOf = 1
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "integer",
         "title": "Age",
@@ -302,7 +304,7 @@ class JsonSchemaTest {
       description = "A person's age"
       exclusiveMinimum = 0
       exclusiveMaximum = 120
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "integer",
         "title": "Age",
@@ -315,7 +317,7 @@ class JsonSchemaTest {
 
   @Test
   fun `should create empty IntegerSchema`() {
-    IntegerSchema {}.toString() shouldEqualJson """{"type": "integer"}"""
+    IntegerSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "integer"}"""
   }
 
   @Test
@@ -323,7 +325,7 @@ class JsonSchemaTest {
     BooleanSchema {
       title = "Is Active"
       description = "Whether the user is active"
-    }.toString() shouldEqualJson """
+    }.toString() shouldEqualJson /* language=json */ """
       {
         "type": "boolean",
         "title": "Is Active",
@@ -334,12 +336,12 @@ class JsonSchemaTest {
 
   @Test
   fun `should create empty BooleanSchema`() {
-    BooleanSchema {}.toString() shouldEqualJson """{"type": "boolean"}"""
+    BooleanSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "boolean"}"""
   }
 
   @Test
   fun `should create JsonSchemaRef`() {
-    JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson $$"""
+    JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson /* language=json */ $$"""
       {
         "$ref": "#/definitions/address"
       }
@@ -348,10 +350,10 @@ class JsonSchemaTest {
 
   @Test
   fun `should throw Exception for invalid JSON Pointer passed to JsonSchemaRef`() {
-    shouldThrowWithMessage<IllegalArgumentException>(
-      "The 'ref' must start with '#/'"
-    ) {
+    assertFailsWith<IllegalArgumentException> {
       JsonSchema.Ref("invalid_ref")
+    } should {
+      have(message == "The 'ref' must start with '#/'")
     }
   }
 
