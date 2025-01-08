@@ -16,35 +16,15 @@
 
 package com.xemantic.ai.tool.schema.generator
 
-import com.xemantic.ai.tool.schema.ArraySchema
-import com.xemantic.ai.tool.schema.BooleanSchema
-import com.xemantic.ai.tool.schema.IntegerSchema
-import com.xemantic.ai.tool.schema.JsonSchema
-import com.xemantic.ai.tool.schema.NumberSchema
-import com.xemantic.ai.tool.schema.ObjectSchema
-import com.xemantic.ai.tool.schema.StringFormat
-import com.xemantic.ai.tool.schema.StringSchema
-import com.xemantic.ai.tool.schema.meta.ContentMediaType
-import com.xemantic.ai.tool.schema.meta.Description
-import com.xemantic.ai.tool.schema.meta.Encoding
-import com.xemantic.ai.tool.schema.meta.Format
-import com.xemantic.ai.tool.schema.meta.FormatString
-import com.xemantic.ai.tool.schema.meta.ItemDescription
-import com.xemantic.ai.tool.schema.meta.ItemTitle
-import com.xemantic.ai.tool.schema.meta.Max
-import com.xemantic.ai.tool.schema.meta.MaxInt
-import com.xemantic.ai.tool.schema.meta.MaxItems
-import com.xemantic.ai.tool.schema.meta.MaxLength
-import com.xemantic.ai.tool.schema.meta.Min
-import com.xemantic.ai.tool.schema.meta.MinInt
-import com.xemantic.ai.tool.schema.meta.MinItems
-import com.xemantic.ai.tool.schema.meta.MinLength
-import com.xemantic.ai.tool.schema.meta.Pattern
-import com.xemantic.ai.tool.schema.meta.Title
-import com.xemantic.ai.tool.schema.meta.UniqueItems
-import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlin.collections.set
+import com.xemantic.ai.tool.schema.*
+import com.xemantic.ai.tool.schema.meta.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.SerialKind
+import kotlinx.serialization.descriptors.StructureKind
+import kotlinx.serialization.serializer
 
 /**
  * Generates a JSON schema for the specified type [T].

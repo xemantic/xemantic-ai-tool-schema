@@ -18,25 +18,7 @@ package com.xemantic.ai.tool.schema.generator
 
 import com.xemantic.ai.tool.schema.ContentEncoding
 import com.xemantic.ai.tool.schema.StringFormat
-import com.xemantic.ai.tool.schema.meta.ContentMediaType
-import com.xemantic.ai.tool.schema.meta.Description
-import com.xemantic.ai.tool.schema.meta.Encoding
-import com.xemantic.ai.tool.schema.meta.Format
-import com.xemantic.ai.tool.schema.meta.ItemDescription
-import com.xemantic.ai.tool.schema.meta.ItemTitle
-import com.xemantic.ai.tool.schema.meta.Max
-import com.xemantic.ai.tool.schema.meta.MaxInt
-import com.xemantic.ai.tool.schema.meta.MaxItems
-import com.xemantic.ai.tool.schema.meta.MaxLength
-import com.xemantic.ai.tool.schema.meta.Min
-import com.xemantic.ai.tool.schema.meta.MinInt
-import com.xemantic.ai.tool.schema.meta.MinItems
-import com.xemantic.ai.tool.schema.meta.MinLength
-import com.xemantic.ai.tool.schema.meta.MultipleOf
-import com.xemantic.ai.tool.schema.meta.MultipleOfInt
-import com.xemantic.ai.tool.schema.meta.Pattern
-import com.xemantic.ai.tool.schema.meta.Title
-import com.xemantic.ai.tool.schema.meta.UniqueItems
+import com.xemantic.ai.tool.schema.meta.*
 import com.xemantic.ai.tool.schema.test.BigDecimal
 import com.xemantic.ai.tool.schema.test.Money
 import com.xemantic.ai.tool.schema.test.testJson

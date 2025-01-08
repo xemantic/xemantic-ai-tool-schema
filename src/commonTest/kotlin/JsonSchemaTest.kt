@@ -16,9 +16,9 @@
 
 package com.xemantic.ai.tool.schema
 
-import io.kotest.assertions.json.shouldEqualJson
-import com.xemantic.kotlin.test.should
 import com.xemantic.kotlin.test.have
+import com.xemantic.kotlin.test.should
+import io.kotest.assertions.json.shouldEqualJson
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 

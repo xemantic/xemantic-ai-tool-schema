@@ -18,11 +18,7 @@ package com.xemantic.ai.tool.schema.test
 
 import com.xemantic.ai.tool.schema.meta.Description
 import com.xemantic.ai.tool.schema.meta.Pattern
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
+import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
