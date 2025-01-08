@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ import kotlinx.serialization.MetaSerializable
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Title(
-  val value: String
+    val value: String
 )
 
 /**
@@ -67,7 +67,7 @@ public annotation class Title(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Description(
-  val value: String
+    val value: String
 )
 
 // String annotations
@@ -88,7 +88,7 @@ public annotation class Description(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinLength(
-  val value: Long
+    val value: Long
 )
 
 /**
@@ -108,7 +108,7 @@ public annotation class MinLength(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxLength(
-  val value: Long
+    val value: Long
 )
 
 /**
@@ -126,26 +126,26 @@ public annotation class MaxLength(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Pattern(
-  val regex: String
+    val regex: String
 ) {
 
-  public companion object {
+    public companion object {
 
-    /**
-     * The regular expression pattern of a decimal number.
-     *
-     * @see DECIMAL
-     */
-    public const val DECIMAL_REGEX: String = "^-?\\d+(\\.\\d+)?$"
+        /**
+         * The regular expression pattern of a decimal number.
+         *
+         * @see DECIMAL
+         */
+        public const val DECIMAL_REGEX: String = "^-?\\d+(\\.\\d+)?$"
 
-    /**
-     * The default instance of the Pattern annotation for decimal number.
-     *
-     * @see DECIMAL_REGEX
-     */
-    public val DECIMAL: Pattern = Pattern(DECIMAL_REGEX)
+        /**
+         * The default instance of the Pattern annotation for decimal number.
+         *
+         * @see DECIMAL_REGEX
+         */
+        public val DECIMAL: Pattern = Pattern(DECIMAL_REGEX)
 
-  }
+    }
 
 }
 
@@ -163,7 +163,7 @@ public annotation class Pattern(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Format(
-  val value: StringFormat
+    val value: StringFormat
 )
 
 /**
@@ -184,7 +184,7 @@ public annotation class Format(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class FormatString(
-  val format: String
+    val format: String
 )
 
 /**
@@ -198,7 +198,7 @@ public annotation class FormatString(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Encoding(
-  val value: ContentEncoding
+    val value: ContentEncoding
 )
 
 /**
@@ -212,7 +212,7 @@ public annotation class Encoding(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class ContentMediaType(
-  val value: String
+    val value: String
 )
 
 // number annotations
@@ -240,8 +240,8 @@ public annotation class ContentMediaType(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Min(
-  val value: Double,
-  val exclusive: Boolean = false
+    val value: Double,
+    val exclusive: Boolean = false
 )
 
 /**
@@ -268,8 +268,8 @@ public annotation class Min(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class Max(
-  val value: Double,
-  val exclusive: Boolean = false
+    val value: Double,
+    val exclusive: Boolean = false
 )
 
 /**
@@ -281,7 +281,7 @@ public annotation class Max(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MultipleOf(
-  val value: Double
+    val value: Double
 )
 
 // integer annotations
@@ -311,8 +311,8 @@ public annotation class MultipleOf(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinInt(
-  val value: Long,
-  val exclusive: Boolean = false
+    val value: Long,
+    val exclusive: Boolean = false
 )
 
 /**
@@ -327,8 +327,8 @@ public annotation class MinInt(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxInt(
-  val value: Long,
-  val exclusive: Boolean = false
+    val value: Long,
+    val exclusive: Boolean = false
 )
 
 /**
@@ -340,7 +340,7 @@ public annotation class MaxInt(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MultipleOfInt(
-  val value: Long
+    val value: Long
 )
 
 // Array annotations
@@ -367,7 +367,7 @@ public annotation class MultipleOfInt(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class ItemTitle(
-  val value: String
+    val value: String
 )
 
 /**
@@ -390,7 +390,7 @@ public annotation class ItemTitle(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class ItemDescription(
-  val value: String
+    val value: String
 )
 
 /**
@@ -410,7 +410,7 @@ public annotation class ItemDescription(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MinItems(
-  val value: Long
+    val value: Long
 )
 
 /**
@@ -430,7 +430,7 @@ public annotation class MinItems(
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @MetaSerializable
 public annotation class MaxItems(
-  val value: Long
+    val value: Long
 )
 
 /**

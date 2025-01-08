@@ -30,7 +30,7 @@ This library was created to fulfill the need of agentic AI projects created by
 [xemantic](https://xemantic.com/). In particular:
 
 * [anthropic-sdk-kotlin](https://github.com/xemantic/anthropic-sdk-kotlin) - an unofficial Kotlin multiplatform variant
- of [Anthropic SDK](https://docs.anthropic.com/en/api/client-sdks).
+  of [Anthropic SDK](https://docs.anthropic.com/en/api/client-sdks).
 * [claudine](https://github.com/xemantic/claudine) - AI Agent build on top of this SDK.
 
 These projects are heavily dependent on
@@ -58,13 +58,13 @@ In `build.gradle.kts` add:
 
 ```kotlin
 plugins {
-  kotlin("multiplatform") version "2.1.0" // (or jvm for jvm-only project)
-  kotlin("plugin.serialization") version "2.1.0"
+    kotlin("multiplatform") version "2.1.0" // (or jvm for jvm-only project)
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 // ...
 dependencies {
-  implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.1.4")
+    implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.1.4")
 }
 ```
 
@@ -76,16 +76,16 @@ Then in your code you can define entities like this:
 @Title("The full address")
 @Description("An address of a person or an organization")
 data class Address(
-  val street: String,
-  val city: String,
-  @Description("A postal code not limited to particular country")
-  @MinLength(3)
-  @MaxLength(10)
-  val postalCode: String,
-  @Pattern("[a-z]{2}")
-  val countryCode: String,
-  @Format(StringFormat.EMAIL)
-  val email: String? = null
+    val street: String,
+    val city: String,
+    @Description("A postal code not limited to particular country")
+    @MinLength(3)
+    @MaxLength(10)
+    val postalCode: String,
+    @Pattern("[a-z]{2}")
+    val countryCode: String,
+    @Format(StringFormat.EMAIL)
+    val email: String? = null
 )
 ```
 
@@ -138,7 +138,7 @@ And this is the input accepted by Large Language Model APIs like
 [OpenAI API](https://platform.openai.com/docs/api-reference/introduction)
 and [Anthropic API](https://docs.anthropic.com/en/api/getting-started). When requesting a tool use, these LLMs
 will send a JSON payload adhering to this schema, therefore
-immediately deserializable as the original `@Serializable` Kotlin class. 
+immediately deserializable as the original `@Serializable` Kotlin class.
 
 More details and use cases in the [JsonSchemaGeneratorTest](src/commonTest/kotlin/generator/JsonSchemaGeneratorTest.kt).
 
@@ -171,7 +171,7 @@ Clone this repo and then in the project dir:
 ./gradlew build
 ```
 
-## Non-recommended usage  
+## Non-recommended usage
 
 > [!WARNING]
 > Even though this library provides basic serializable representation of a JSON Schema, it is not

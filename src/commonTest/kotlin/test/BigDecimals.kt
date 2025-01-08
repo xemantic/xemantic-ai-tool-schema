@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,25 +31,25 @@ import kotlinx.serialization.encoding.Encoder
  * version of it, and add our own serializer, so we can add our own custom annotations.
  */
 typealias BigDecimal =
-    @Serializable(BigDecimalSerializer::class)
-    com.ionspin.kotlin.bignum.decimal.BigDecimal
+        @Serializable(BigDecimalSerializer::class)
+        com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 object BigDecimalSerializer : KSerializer<BigDecimal> {
 
-  @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
-  override val descriptor = buildSerialDescriptor(
-    serialName = "BigDecimal",
-    kind = PrimitiveKind.STRING
-  ) {
-    annotations = listOf(Pattern.DECIMAL)
-  }
+    @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
+    override val descriptor = buildSerialDescriptor(
+        serialName = "BigDecimal",
+        kind = PrimitiveKind.STRING
+    ) {
+        annotations = listOf(Pattern.DECIMAL)
+    }
 
-  override fun serialize(encoder: Encoder, value: BigDecimal) {
-    encoder.encodeString(value.toString(10))
-  }
+    override fun serialize(encoder: Encoder, value: BigDecimal) {
+        encoder.encodeString(value.toString(10))
+    }
 
-  override fun deserialize(decoder: Decoder): BigDecimal {
-    return BigDecimal.parseString(decoder.decodeString(), 10)
-  }
+    override fun deserialize(decoder: Decoder): BigDecimal {
+        return BigDecimal.parseString(decoder.decodeString(), 10)
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,33 +37,33 @@ import kotlinx.serialization.encoding.Encoder
 @Description("A monetary amount")
 @Serializable(MoneySerializer::class)
 interface Money {
-  operator fun plus(amount: Money): Money
-  operator fun compareTo(other: Money): Int
+    operator fun plus(amount: Money): Money
+    operator fun compareTo(other: Money): Int
 }
 
 expect fun Money(amount: String): Money
 
 object MoneySerializer : KSerializer<Money> {
 
-  // It's a hack to autogenerate a serializer which will retain annotations of serialized class
-  @OptIn(ExperimentalSerializationApi::class)
-  @Serializer(forClass = Money::class)
-  private object AutoSerializer
+    // It's a hack to autogenerate a serializer which will retain annotations of serialized class
+    @OptIn(ExperimentalSerializationApi::class)
+    @Serializer(forClass = Money::class)
+    private object AutoSerializer
 
-  @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
-  override val descriptor = buildSerialDescriptor(
-    serialName = AutoSerializer.descriptor.serialName,
-    kind = PrimitiveKind.STRING
-  ) {
-    annotations = AutoSerializer.descriptor.annotations
-  }
+    @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
+    override val descriptor = buildSerialDescriptor(
+        serialName = AutoSerializer.descriptor.serialName,
+        kind = PrimitiveKind.STRING
+    ) {
+        annotations = AutoSerializer.descriptor.annotations
+    }
 
-  override fun serialize(encoder: Encoder, value: Money) {
-    encoder.encodeString(value.toString())
-  }
+    override fun serialize(encoder: Encoder, value: Money) {
+        encoder.encodeString(value.toString())
+    }
 
-  override fun deserialize(
-    decoder: Decoder
-  ) = Money(decoder.decodeString())
+    override fun deserialize(
+        decoder: Decoder
+    ) = Money(decoder.decodeString())
 
 }

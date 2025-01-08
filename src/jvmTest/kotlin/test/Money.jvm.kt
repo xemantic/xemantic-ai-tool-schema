@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,22 +26,22 @@ import java.math.BigDecimal
  * performance/stability advantage for calculation-heavy tasks.
  */
 class JvmMoney(
-  private val value: BigDecimal
+    private val value: BigDecimal
 ) : Money {
 
-  override fun plus(
-    amount: Money
-  ) = JvmMoney(value + (amount as JvmMoney).value)
+    override fun plus(
+        amount: Money
+    ) = JvmMoney(value + (amount as JvmMoney).value)
 
-  override fun compareTo(
-    other: Money
-  ) = value.compareTo(
-    (other as JvmMoney).value
-  )
+    override fun compareTo(
+        other: Money
+    ) = value.compareTo(
+        (other as JvmMoney).value
+    )
 
 }
 
 @Suppress("TestFunctionName")
 actual fun Money(
-  amount: String
+    amount: String
 ): Money = JvmMoney(BigDecimal(amount))

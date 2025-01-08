@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,23 +49,23 @@ import java.math.BigDecimal
  */
 public object BigDecimalSerializer : KSerializer<BigDecimal> {
 
-  @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
-  public override val descriptor: SerialDescriptor = buildSerialDescriptor(
-    serialName = "BigDecimal",
-    kind = PrimitiveKind.STRING
-  ) {
-    annotations = listOf(
-      Description("A decimal number"),
-      Pattern.DECIMAL
-    )
-  }
+    @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
+    public override val descriptor: SerialDescriptor = buildSerialDescriptor(
+        serialName = "BigDecimal",
+        kind = PrimitiveKind.STRING
+    ) {
+        annotations = listOf(
+            Description("A decimal number"),
+            Pattern.DECIMAL
+        )
+    }
 
-  override fun serialize(encoder: Encoder, value: BigDecimal) {
-    encoder.encodeString(value.stripTrailingZeros().toPlainString())
-  }
+    override fun serialize(encoder: Encoder, value: BigDecimal) {
+        encoder.encodeString(value.stripTrailingZeros().toPlainString())
+    }
 
-  override fun deserialize(
-    decoder: Decoder
-  ): BigDecimal = BigDecimal(decoder.decodeString())
+    override fun deserialize(
+        decoder: Decoder
+    ): BigDecimal = BigDecimal(decoder.decodeString())
 
 }
