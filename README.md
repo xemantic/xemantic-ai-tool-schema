@@ -133,6 +133,7 @@ See [JavaBigDecimalToSchemaTest](src/jvmTest/kotlin/serialization/JavaBigDecimal
 ### Serializing BigDecimal/monetary values in multiplatform way
 
 There is an interface called [Money](src/commonTest/kotlin/test/Money.kt) defined in the tests of this project. It explains how to define and serialize monetary amounts independently of the underlying decimal number and arithmetics provider.
+
 See also [xemantic-ai-money](https://github.com/xemantic/xemantic-ai-money]) project for a ready solution packaged as a library.
 
 ## Development
