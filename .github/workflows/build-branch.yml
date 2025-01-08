@@ -11,17 +11,17 @@ jobs:
   build_branch:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout sources
-      uses: actions/checkout@v4.2.2
+      - name: Checkout sources
+        uses: actions/checkout@v4.2.2
 
-    - name: Setup Java
-      uses: actions/setup-java@v4.6.0
-      with:
-        distribution: 'temurin'
-        java-version: 23
+      - name: Setup Java
+        uses: actions/setup-java@v4.6.0
+        with:
+          distribution: 'temurin'
+          java-version: 23
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4.2.2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4.2.2
 
-    - name: Build
-      run: ./gradlew build
+      - name: Build
+        run: ./gradlew build

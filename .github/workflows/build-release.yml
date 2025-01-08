@@ -1,7 +1,7 @@
 name: Build release
 on:
   release:
-    types: [published]
+    types: [ published ]
 jobs:
   build_release:
     runs-on: ubuntu-latest
@@ -10,49 +10,49 @@ jobs:
       # added or changed files to the repository.
       contents: write
     steps:
-    - name: Write release version
-      run: |
-        VERSION=${GITHUB_REF_NAME#v}
-        echo Version: $VERSION
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Write release version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-    - name: Checkout sources
-      uses: actions/checkout@v4.2.2
-      with:
-        ref: ${{ github.head_ref }}
-        fetch-depth: 0
+      - name: Checkout sources
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
-    - name: Setup Java
-      uses: actions/setup-java@v4.6.0
-      with:
-        distribution: 'temurin'
-        java-version: 23
+      - name: Setup Java
+        uses: actions/setup-java@v4.6.0
+        with:
+          distribution: 'temurin'
+          java-version: 23
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4.2.2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4.2.2
 
-    - name: Build
-      env:
-        ORG_GRADLE_PROJECT_githubActor: ${{ secrets.GITHUBACTOR }}
-        ORG_GRADLE_PROJECT_githubToken: ${{ secrets.GITHUBTOKEN }}
-        ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-        ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
-        ORG_GRADLE_PROJECT_sonatypeUser: ${{ secrets.SONATYPE_USER }}
-        ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      run: ./gradlew -Pversion=$VERSION build sourcesJar dokkaGeneratePublicationHtml publishToSonatype closeAndReleaseSonatypeStagingRepository
+      - name: Build
+        env:
+          ORG_GRADLE_PROJECT_githubActor: ${{ secrets.GITHUBACTOR }}
+          ORG_GRADLE_PROJECT_githubToken: ${{ secrets.GITHUBTOKEN }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUser: ${{ secrets.SONATYPE_USER }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: ./gradlew -Pversion=$VERSION build sourcesJar dokkaGeneratePublicationHtml publishToSonatype closeAndReleaseSonatypeStagingRepository
 
-    - name: Checkout main branch
-      uses: actions/checkout@v4.2.2
-      with:
-        ref: main
-        fetch-depth: 0
+      - name: Checkout main branch
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: main
+          fetch-depth: 0
 
-    - name: Update README
-      run: sh .github/scripts/update-readme-version.sh
+      - name: Update README
+        run: sh .github/scripts/update-readme-version.sh
 
-    - name: Commit README
-      uses: stefanzweifel/git-auto-commit-action@v5.0.1
-      with:
-        commit_message: Dependency version in README.md updated to ${{ env.VERSION }}
-        file_pattern: 'README.md'
+      - name: Commit README
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
+        with:
+          commit_message: Dependency version in README.md updated to ${{ env.VERSION }}
+          file_pattern: 'README.md'

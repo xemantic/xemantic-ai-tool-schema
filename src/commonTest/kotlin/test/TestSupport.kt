@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import kotlinx.serialization.json.Json
  * A pretty printing [Json] for tests.
  */
 val testJson = Json {
-  prettyPrint = true
-  @OptIn(ExperimentalSerializationApi::class)
-  prettyPrintIndent = "  "
+    prettyPrint = true
+    @OptIn(ExperimentalSerializationApi::class)
+    prettyPrintIndent = "  "
 }

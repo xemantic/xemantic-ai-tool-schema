@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,54 +25,53 @@ import com.xemantic.ai.tool.schema.test.testJson
 import io.kotest.assertions.json.shouldEqualJson
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import kotlinx.serialization.encodeToString
 import java.math.BigDecimal
 import kotlin.test.Test
 
 class JavaBigDecimalToSchemaTest {
 
-  @Serializable
-  data class FinancialReport(
-    val netSalesRevenue: BigDecimal,
-    // here we are adding title
-    @Title("Cost of Goods Sold (COGS)")
-    val costOfGoodsSold: BigDecimal,
-    // here the description is altered from the default declared for BigDecimal
-    @Description("A decimal number of gross profit calculated as Net Sales Revenue - Cost of Goods Sold")
-    val grossProfit: BigDecimal
-  )
+    @Serializable
+    data class FinancialReport(
+        val netSalesRevenue: BigDecimal,
+        // here we are adding title
+        @Title("Cost of Goods Sold (COGS)")
+        val costOfGoodsSold: BigDecimal,
+        // here the description is altered from the default declared for BigDecimal
+        @Description("A decimal number of gross profit calculated as Net Sales Revenue - Cost of Goods Sold")
+        val grossProfit: BigDecimal
+    )
 
-  @Test
-  fun `should represent Java BigDecimal as String with pattern and description JSON Schema`() {
-    val schema = jsonSchemaOf<FinancialReport>()
-    testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-      {
-        "type": "object",
-        "properties": {
-          "netSalesRevenue": {
-            "type": "string",
-            "description": "A decimal number",
-            "pattern": "^-?\\d+(\\.\\d+)?$"
-          },
-          "costOfGoodsSold": {
-            "type": "string",
-            "title": "Cost of Goods Sold (COGS)",
-            "description": "A decimal number",
-            "pattern": "^-?\\d+(\\.\\d+)?$"
-          },
-          "grossProfit": {
-            "type": "string",
-            "description": "A decimal number of gross profit calculated as Net Sales Revenue - Cost of Goods Sold",
-            "pattern": "^-?\\d+(\\.\\d+)?$"
+    @Test
+    fun `should represent Java BigDecimal as String with pattern and description JSON Schema`() {
+        val schema = jsonSchemaOf<FinancialReport>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+          {
+            "type": "object",
+            "properties": {
+              "netSalesRevenue": {
+                "type": "string",
+                "description": "A decimal number",
+                "pattern": "^-?\\d+(\\.\\d+)?$"
+              },
+              "costOfGoodsSold": {
+                "type": "string",
+                "title": "Cost of Goods Sold (COGS)",
+                "description": "A decimal number",
+                "pattern": "^-?\\d+(\\.\\d+)?$"
+              },
+              "grossProfit": {
+                "type": "string",
+                "description": "A decimal number of gross profit calculated as Net Sales Revenue - Cost of Goods Sold",
+                "pattern": "^-?\\d+(\\.\\d+)?$"
+              }
+            },
+            "required": [
+              "netSalesRevenue",
+              "costOfGoodsSold",
+              "grossProfit"
+            ]
           }
-        },
-        "required": [
-          "netSalesRevenue",
-          "costOfGoodsSold",
-          "grossProfit"
-        ]
-      }
-    """
-  }
+        """
+    }
 
 }

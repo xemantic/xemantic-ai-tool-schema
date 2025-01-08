@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Kazimierz Pogoda / Xemantic
+ * Copyright 2024-2025 Kazimierz Pogoda / Xemantic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,26 +22,26 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
  * The `nonJvm` flavor of test money.
  */
 class NonJvmMoney(
-  private val value: BigDecimal
+    private val value: BigDecimal
 ) : Money {
 
-  override fun plus(
-    amount: Money
-  ) = NonJvmMoney(value + (amount as NonJvmMoney).value)
+    override fun plus(
+        amount: Money
+    ) = NonJvmMoney(value + (amount as NonJvmMoney).value)
 
-  override fun compareTo(
-    other: Money
-  ) = value.compareTo(
-    (other as NonJvmMoney).value
-  )
+    override fun compareTo(
+        other: Money
+    ) = value.compareTo(
+        (other as NonJvmMoney).value
+    )
 
-  override fun toString(): String {
-    return value.toString(10)
-  }
+    override fun toString(): String {
+        return value.toString(10)
+    }
 
 }
 
 @Suppress("TestFunctionName")
 actual fun Money(
-  amount: String
+    amount: String
 ): Money = NonJvmMoney(BigDecimal.parseString(amount))

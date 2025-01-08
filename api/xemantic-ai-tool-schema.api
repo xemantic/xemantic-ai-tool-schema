@@ -17,7 +17,6 @@ public synthetic class com/xemantic/ai/tool/schema/ArraySchema$$serializer : kot
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ArraySchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/ArraySchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
@@ -73,7 +72,6 @@ public synthetic class com/xemantic/ai/tool/schema/BooleanSchema$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/BooleanSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/BooleanSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
@@ -120,7 +118,6 @@ public synthetic class com/xemantic/ai/tool/schema/IntegerSchema$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/IntegerSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/IntegerSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
@@ -180,7 +177,6 @@ public synthetic class com/xemantic/ai/tool/schema/NumberSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/NumberSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/NumberSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
@@ -233,7 +229,6 @@ public synthetic class com/xemantic/ai/tool/schema/ObjectSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ObjectSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/ObjectSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {
@@ -312,7 +307,6 @@ public synthetic class com/xemantic/ai/tool/schema/StringSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/StringSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/StringSchema$Builder : com/xemantic/ai/tool/schema/BaseSchema$Builder {

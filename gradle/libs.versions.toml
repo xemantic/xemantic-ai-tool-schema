@@ -3,27 +3,27 @@ kotlinTarget = "2.1"
 javaTarget = "17"
 
 kotlin = "2.1.0"
-kotlinxSerialization = "1.7.3"
+kotlinxSerialization = "1.8.0"
 kotlinxDatetime = "0.6.1"
 
-xemanticKotlinTest = "1.0"
+xemanticKotlinTest = "1.2"
 
 kotest = "6.0.0.M1"
 
 bignum = "0.3.10"
 
 versionsPlugin = "0.51.0"
-dokkaPlugin = "2.0.0-Beta"
+dokkaPlugin = "2.0.0"
 publishPlugin = "2.0.0"
 
-binaryCompatibilityValidatorPlugin = "0.16.3"
+binaryCompatibilityValidatorPlugin = "0.17.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-kotlinx-datetime = { module="org.jetbrains.kotlinx:kotlinx-datetime", version.ref="kotlinxDatetime" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
-xemantic-kotlin-test = { module="com.xemantic.kotlin:xemantic-kotlin-test", version.ref="xemanticKotlinTest" }
+xemantic-kotlin-test = { module = "com.xemantic.kotlin:xemantic-kotlin-test", version.ref = "xemanticKotlinTest" }
 
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 bignum = { module = "com.ionspin.kotlin:bignum", version.ref = "bignum" }
@@ -35,4 +35,4 @@ kotlin-plugin-power-assert = { id = "org.jetbrains.kotlin.plugin.power-assert", 
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokkaPlugin" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
 publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "publishPlugin" }
-kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref ="binaryCompatibilityValidatorPlugin" }
+kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidatorPlugin" }
