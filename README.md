@@ -46,7 +46,7 @@ plugins {
 
 // ...
 dependencies {
-    implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.1.4")
+    implementation("com.xemantic.ai:xemantic-ai-tool-schema:0.2.1")
 }
 ```
 
