@@ -37,6 +37,26 @@ class JsonSchemaSerializerTest {
         testJson.decodeFromString<JsonSchema>(json) should {
             be<JsonSchema.Ref>()
             have(ref == "#/definitions/foo")
+            have(title == null)
+            have(description == null)
+        }
+    }
+
+    @Test
+    fun `should decode JsonSchema reference with title and description`() {
+        /* language=json */
+        val json = $$"""
+          {
+            "$ref": "#/definitions/foo",
+            "title": "foo",
+            "description": "bar"
+          }
+        """
+        testJson.decodeFromString<JsonSchema>(json) should {
+            be<JsonSchema.Ref>()
+            have(ref == "#/definitions/foo")
+            have(title == "foo")
+            have(description == "bar")
         }
     }
 

@@ -58,7 +58,7 @@ public object JsonSchemaSerializer : KSerializer<JsonSchema> {
         val json = tree.jsonObject
         val ref = json[$$"$ref"]
         return if (ref != null) {
-            JsonSchema.Ref(ref.jsonPrimitive.content)
+            input.json.decodeFromJsonElement(JsonSchema.Ref.serializer(), tree)
         } else {
             input.json.decodeFromJsonElement(BaseSchema.serializer(), tree)
         }
