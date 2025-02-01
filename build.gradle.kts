@@ -23,7 +23,7 @@ plugins {
     alias(libs.plugins.xemantic.conventions)
 }
 
-group = "com.xemantic.template"
+group = "com.xemantic.ai"
 
 xemantic {
     description = "AI/LLM tool use (function calling) JSON Schema generator - a Kotlin multiplatform library"
