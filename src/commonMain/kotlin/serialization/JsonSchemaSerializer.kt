@@ -39,15 +39,10 @@ public object JsonSchemaSerializer : KSerializer<JsonSchema> {
 
     override fun serialize(encoder: Encoder, value: JsonSchema) {
         when (value) {
-            is JsonSchema.Ref -> {
-                encoder.encodeSerializableValue(
-                    serializer = JsonObject.serializer(),
-                    value = buildJsonObject {
-                        put("\$ref", JsonPrimitive(value.ref))
-                    }
-                )
-            }
-
+            is JsonSchema.Ref -> encoder.encodeSerializableValue(
+                serializer = JsonSchema.Ref.serializer(),
+                value = value
+            )
             is BaseSchema -> encoder.encodeSerializableValue(
                 serializer = BaseSchema.serializer(),
                 value = value
@@ -61,9 +56,9 @@ public object JsonSchemaSerializer : KSerializer<JsonSchema> {
         )
         val tree = input.decodeJsonElement()
         val json = tree.jsonObject
-        val ref = json["\$ref"]
+        val ref = json[$$"$ref"]
         return if (ref != null) {
-            JsonSchema.Ref(ref.jsonPrimitive.content)
+            input.json.decodeFromJsonElement(JsonSchema.Ref.serializer(), tree)
         } else {
             input.json.decodeFromJsonElement(BaseSchema.serializer(), tree)
         }

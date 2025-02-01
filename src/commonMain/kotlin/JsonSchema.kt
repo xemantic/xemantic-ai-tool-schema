@@ -22,11 +22,23 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
+public interface WithDefinitions {
+    public val definitions: Map<String, JsonSchema>?
+}
+
 /**
  * Represents a [JSON Schema](https://json-schema.org/) instance.
  */
 @Serializable(with = JsonSchemaSerializer::class)
 public sealed interface JsonSchema {
+
+    public val title: String?
+    public val description: String?
+
+    public open class Builder {
+        public var title: String? = null
+        public var description: String? = null
+    }
 
     /**
      * Refers another [JsonSchema] through [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901).
@@ -34,34 +46,46 @@ public sealed interface JsonSchema {
      * @param ref a string representing JSON Pointer. Note: in JSON it will be serialized as `$ref`.
      * @throws IllegalArgumentException if the [ref] does not start with `#/`.
      */
-    public class Ref(
-        @SerialName("\$ref")
-        public val ref: String
+    @Serializable
+    public class Ref private constructor(
+        @SerialName($$"$ref")
+        public val ref: String,
+        override val title: String? = null,
+        override val description: String? = null
     ) : JsonSchema {
 
         init {
-            require(ref.startsWith("#/")) {
-                "The 'ref' must start with '#/'"
+            require(ref.startsWith("#")) {
+                "The 'ref' must start with '#', was: '$ref'"
             }
         }
 
-        override fun toString(): String = $$"""{"$ref": "$$ref"}"""
+        override fun toString(): String =
+            jsonSchemaToStringJson.encodeToString(this)
 
+        public class Builder(
+            private val ref: String
+        ) : JsonSchema.Builder() {
+            public fun build(): Ref = Ref(
+                ref,
+                title,
+                description
+            )
+        }
+
+    }
+
+    public companion object {
+        public fun Ref(
+            ref: String,
+            block: Ref.Builder.() -> Unit = {}
+        ): Ref = Ref.Builder(ref).also(block).build()
     }
 
 }
 
 @Serializable
-public sealed class BaseSchema(
-) : JsonSchema {
-
-    public abstract val title: String?
-    public abstract val description: String?
-
-    public open class Builder {
-        public var title: String? = null
-        public var description: String? = null
-    }
+public sealed class BaseSchema : JsonSchema {
 
     override fun toString(): String =
         jsonSchemaToStringJson.encodeToString(this)
@@ -78,11 +102,11 @@ public class ObjectSchema private constructor(
     override val description: String? = null,
     public val properties: Map<String, JsonSchema>? = null,
     public val required: List<String>? = null,
-    public val definitions: Map<String, JsonSchema>? = null,
+    public override val definitions: Map<String, JsonSchema>? = null,
     public val additionalProperties: Boolean? = null
-) : BaseSchema() {
+) : BaseSchema(), WithDefinitions {
 
-    public class Builder : BaseSchema.Builder() {
+    public class Builder : JsonSchema.Builder() {
 
         public var properties: Map<String, JsonSchema>? = null
         public var required: List<String>? = null
@@ -103,7 +127,7 @@ public class ObjectSchema private constructor(
 }
 
 public fun ObjectSchema(
-    block: ObjectSchema.Builder.() -> Unit
+    block: ObjectSchema.Builder.() -> Unit = {}
 ): ObjectSchema = ObjectSchema.Builder().also(block).build()
 
 /**
@@ -118,24 +142,27 @@ public class ArraySchema private constructor(
     public val minItems: Long? = null,
     public val maxItems: Long? = null,
     public val uniqueItems: Boolean? = null,
-) : BaseSchema() {
+    public override val definitions: Map<String, JsonSchema>? = null
+) : BaseSchema(), WithDefinitions {
 
-    public class Builder : BaseSchema.Builder() {
+    public class Builder : JsonSchema.Builder() {
 
         public var items: JsonSchema? = null
         public var minItems: Long? = null
         public var maxItems: Long? = null
         public var uniqueItems: Boolean? = null
+        public var definitions: Map<String, JsonSchema>? = null
 
         public fun build(): ArraySchema = ArraySchema(
             title,
             description,
             requireNotNull(items) {
-                "cannot build ArraySchema without 'items' property"
+                "Cannot build ArraySchema without 'items' property"
             },
             minItems,
             maxItems,
-            uniqueItems
+            uniqueItems,
+            definitions
         )
 
     }
@@ -143,9 +170,8 @@ public class ArraySchema private constructor(
 }
 
 public fun ArraySchema(
-    block: ArraySchema.Builder.() -> Unit
+    block: ArraySchema.Builder.() -> Unit = {}
 ): ArraySchema = ArraySchema.Builder().also(block).build()
-
 
 public enum class ContentEncoding {
     @SerialName("quoted-printable")
@@ -178,7 +204,7 @@ public class StringSchema private constructor(
     public val contentMediaType: String? = null
 ) : BaseSchema() {
 
-    public class Builder : BaseSchema.Builder() {
+    public class Builder : JsonSchema.Builder() {
 
         public var enum: List<String>? = null
         public var minLength: Long? = null
@@ -209,7 +235,7 @@ public class StringSchema private constructor(
 }
 
 public fun StringSchema(
-    block: StringSchema.Builder.() -> Unit
+    block: StringSchema.Builder.() -> Unit = {}
 ): StringSchema = StringSchema.Builder().also(block).build()
 
 public interface NumericSchema<T> {
@@ -220,7 +246,7 @@ public interface NumericSchema<T> {
     public val exclusiveMaximum: T?
     public val multipleOf: T?
 
-    public open class Builder<T> : BaseSchema.Builder() {
+    public open class Builder<T> : JsonSchema.Builder() {
         public var minimum: T? = null
         public var maximum: T? = null
         public var exclusiveMinimum: T? = null
@@ -262,7 +288,7 @@ public class NumberSchema private constructor(
 }
 
 public fun NumberSchema(
-    block: NumberSchema.Builder.() -> Unit
+    block: NumberSchema.Builder.() -> Unit = {}
 ): NumberSchema = NumberSchema.Builder().also(block).build()
 
 /**
@@ -282,6 +308,17 @@ public class IntegerSchema private constructor(
 
     public class Builder : NumericSchema.Builder<Long>() {
 
+        public var range: LongRange?
+            get() = if (minimum != null && maximum != null) {
+                minimum!!..maximum!!
+            } else null
+            set(value) {
+                if (value != null) {
+                    minimum = value.first
+                    maximum = value.last
+                }
+            }
+
         public fun build(): IntegerSchema = IntegerSchema(
             title,
             description,
@@ -297,7 +334,7 @@ public class IntegerSchema private constructor(
 }
 
 public fun IntegerSchema(
-    block: IntegerSchema.Builder.() -> Unit
+    block: IntegerSchema.Builder.() -> Unit = {}
 ): IntegerSchema = IntegerSchema.Builder().also(block).build()
 
 /**
@@ -310,7 +347,7 @@ public class BooleanSchema private constructor(
     override val description: String? = null,
 ) : BaseSchema() {
 
-    public class Builder : BaseSchema.Builder() {
+    public class Builder : JsonSchema.Builder() {
 
         public fun build(): BooleanSchema = BooleanSchema(
             title,
@@ -322,7 +359,7 @@ public class BooleanSchema private constructor(
 }
 
 public fun BooleanSchema(
-    block: BooleanSchema.Builder.() -> Unit
+    block: BooleanSchema.Builder.() -> Unit = {}
 ): BooleanSchema = BooleanSchema.Builder().also(block).build()
 
 /**
