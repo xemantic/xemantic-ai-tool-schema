@@ -277,35 +277,35 @@ class JsonSchemaGeneratorTest {
     fun `should generate Address schema`() {
         val schema = jsonSchemaOf<Address>()
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
-          {
-            "type": "object",
-            "title": "The full address",
-            "description": "An address of a person or an organization",            
-            "properties": {
-              "street": {
-                "type": "string"
+            {
+              "type": "object",
+              "title": "The full address",
+              "description": "An address of a person or an organization",            
+              "properties": {
+                "street": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "postalCode": {
+                  "type": "string",
+                  "description": "A postal code not limited to particular country",
+                  "minLength": 3,
+                  "maxLength": 10          
+                },
+                "countryCode": {
+                  "type": "string",
+                  "pattern": "[a-z]{2}"
+                }
               },
-              "city": {
-                "type": "string"
-              },
-              "postalCode": {
-                "type": "string",
-                "description": "A postal code not limited to particular country",
-                "minLength": 3,
-                "maxLength": 10          
-              },
-              "countryCode": {
-                "type": "string",
-                "pattern": "[a-z]{2}"
-              }
-            },
-            "required": [
-              "street",
-              "city",
-              "postalCode",
-              "countryCode"
-            ]
-          }
+              "required": [
+                "street",
+                "city",
+                "postalCode",
+                "countryCode"
+              ]
+            }
         """
     }
 
@@ -327,6 +327,7 @@ class JsonSchemaGeneratorTest {
         @MinLength(6)
         @MaxLength(100)
         val email: String? = null,
+        @Description("Main address")
         val address: Address?,
         @Description("A list of hobbies of the person")
         @MinItems(0)
@@ -383,146 +384,147 @@ class JsonSchemaGeneratorTest {
 
         // then
         schemaJson shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "description": "Personal data",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "The official name"
-              },
-              "birthDate": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "email": {
-                "type": "string",
-                "minLength": 6,
-                "maxLength": 100,
-                "format": "email"
-              },
-              "address": {
-                "$ref": "#/definitions/address"
-              },
-              "hobbies": {
-                "type": "array",
-                "description": "A list of hobbies of the person",
-                "items": {
+            {
+              "type": "object",
+              "description": "Personal data",
+              "properties": {
+                "name": {
                   "type": "string",
-                  "title": "A hobby item",
-                  "description": "A hobby must be a unique identifier consisting out of lower case letters and underscores",
-                  "pattern": "[a-z_]"
+                  "description": "The official name"
                 },
-                "minItems": 0,
-                "maxItems": 10,
-                "uniqueItems": true
-              },
-              "mentors": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/mentor"
+                "birthDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "email": {
+                  "type": "string",
+                  "minLength": 6,
+                  "maxLength": 100,
+                  "format": "email"
+                },
+                "address": {
+                  "$ref": "#/definitions/address",
+                  "description": "Main address"
+                },
+                "hobbies": {
+                  "type": "array",
+                  "description": "A list of hobbies of the person",
+                  "items": {
+                    "type": "string",
+                    "title": "A hobby item",
+                    "description": "A hobby must be a unique identifier consisting out of lower case letters and underscores",
+                    "pattern": "[a-z_]"
+                  },
+                  "minItems": 0,
+                  "maxItems": 10,
+                  "uniqueItems": true
+                },
+                "mentors": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/mentor"
+                  }
+                },
+                "salary": {
+                  "type": "string",
+                  "description": "A monetary amount",
+                  "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                },
+                "tax": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(\\.\\d+)?$"
+                },
+                "status": {
+                  "type": "string",
+                  "title": "Entry status",
+                  "description": "The enumeration of possible entry status states, e.g. 'verification-pending', 'verified'",
+                  "enum": [
+                    "verification-pending",
+                    "verified"
+                  ]
+                },
+                "avatar": {
+                  "type": "string",
+                  "contentEncoding": "base64",
+                  "contentMediaType": "image/png"
+                },
+                "tokens": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000
+                },
+                "karma": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "exclusiveMaximum": 100
+                },
+                "experience": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 100.0
+                },
+                "factor": {
+                  "type": "number",
+                  "exclusiveMinimum": 0.0,
+                  "exclusiveMaximum": 1.0
                 }
               },
-              "salary": {
-                "type": "string",
-                "description": "A monetary amount",
-                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
-              },
-              "tax": {
-                "type": "string",
-                "pattern": "^-?\\d+(\\.\\d+)?$"
-              },
-              "status": {
-                "type": "string",
-                "title": "Entry status",
-                "description": "The enumeration of possible entry status states, e.g. 'verification-pending', 'verified'",
-                "enum": [
-                  "verification-pending",
-                  "verified"
-                ]
-              },
-              "avatar": {
-                "type": "string",
-                "contentEncoding": "base64",
-                "contentMediaType": "image/png"
-              },
-              "tokens": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 1000
-              },
-              "karma": {
-                "type": "integer",
-                "exclusiveMinimum": 0,
-                "exclusiveMaximum": 100
-              },
-              "experience": {
-                "type": "number",
-                "minimum": 0.0,
-                "maximum": 100.0
-              },
-              "factor": {
-                "type": "number",
-                "exclusiveMinimum": 0.0,
-                "exclusiveMaximum": 1.0
-              }
-            },
-            "required": [
-              "name",
-              "birthDate",
-              "address",
-              "salary",
-              "tax",
-              "status",
-              "avatar",
-              "tokens",
-              "karma",
-              "experience",
-              "factor"
-            ],
-            "definitions": {
-              "address": {
-                "type": "object",
-                "title": "The full address",
-                "description": "An address of a person or an organization",
-                "properties": {
-                  "street": {
-                    "type": "string"
+              "required": [
+                "name",
+                "birthDate",
+                "address",
+                "salary",
+                "tax",
+                "status",
+                "avatar",
+                "tokens",
+                "karma",
+                "experience",
+                "factor"
+              ],
+              "definitions": {
+                "address": {
+                  "type": "object",
+                  "title": "The full address",
+                  "description": "An address of a person or an organization",
+                  "properties": {
+                    "street": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string"
+                    },
+                    "postalCode": {
+                      "type": "string",
+                      "description": "A postal code not limited to particular country",
+                      "minLength": 3,
+                      "maxLength": 10
+                    },
+                    "countryCode": {
+                      "type": "string",
+                      "pattern": "[a-z]{2}"
+                    }
                   },
-                  "city": {
-                    "type": "string"
-                  },
-                  "postalCode": {
-                    "type": "string",
-                    "description": "A postal code not limited to particular country",
-                    "minLength": 3,
-                    "maxLength": 10
-                  },
-                  "countryCode": {
-                    "type": "string",
-                    "pattern": "[a-z]{2}"
-                  }
+                  "required": [
+                    "street",
+                    "city",
+                    "postalCode",
+                    "countryCode"
+                  ]
                 },
-                "required": [
-                  "street",
-                  "city",
-                  "postalCode",
-                  "countryCode"
-                ]
-              },
-              "mentor": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "id"
-                ]
+                "mentor": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
               }
             }
-          }
         """
     }
 
@@ -548,28 +550,28 @@ class JsonSchemaGeneratorTest {
     fun `should prioritize title and description set on property over the one set for the whole class`() {
         val schema = jsonSchemaOf<Foo>()
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "description": "A container of monetary amounts",
-            "properties": {
-              "money1": {
-                "type": "string",
-                "title": "Money 1, without property description",
-                "description": "A monetary amount",
-                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+            {
+              "type": "object",
+              "description": "A container of monetary amounts",
+              "properties": {
+                "money1": {
+                  "type": "string",
+                  "title": "Money 1, without property description",
+                  "description": "A monetary amount",
+                  "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                },
+                "money2": {
+                  "type": "string",
+                  "title": "Money 2, with property description",
+                  "description": "A monetary amount with property description",
+                  "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                }
               },
-              "money2": {
-                "type": "string",
-                "title": "Money 2, with property description",
-                "description": "A monetary amount with property description",
-                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
-              }
-            },
-            "required": [
-              "money1",
-              "money2"
-            ]
-          }
+              "required": [
+                "money1",
+                "money2"
+              ]
+            }
         """
     }
 
@@ -588,43 +590,43 @@ class JsonSchemaGeneratorTest {
             additionalProperties = false
         )
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "properties": {
-              "foo": {
-                "$ref": "#/definitions/foo"
-              }
-            },
-            "required": [
-              "foo"
-            ],
-            "definitions": {
-              "foo": {
-                "type": "object",
-                "description": "A container of monetary amounts",
-                "properties": {
-                  "money1": {
-                    "type": "string",
-                    "title": "Money 1, without property description",
-                    "description": "A monetary amount",
-                    "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+            {
+              "type": "object",
+              "properties": {
+                "foo": {
+                  "$ref": "#/definitions/foo"
+                }
+              },
+              "required": [
+                "foo"
+              ],
+              "definitions": {
+                "foo": {
+                  "type": "object",
+                  "description": "A container of monetary amounts",
+                  "properties": {
+                    "money1": {
+                      "type": "string",
+                      "title": "Money 1, without property description",
+                      "description": "A monetary amount",
+                      "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                    },
+                    "money2": {
+                      "type": "string",
+                      "title": "Money 2, with property description",
+                      "description": "A monetary amount with property description",
+                      "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                    }
                   },
-                  "money2": {
-                    "type": "string",
-                    "title": "Money 2, with property description",
-                    "description": "A monetary amount with property description",
-                    "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
-                  }
-                },
-                "required": [
-                  "money1",
-                  "money2"
-                ],
-                "additionalProperties": false
-              }
-            },
-            "additionalProperties": false
-          }
+                  "required": [
+                    "money1",
+                    "money2"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
         """
     }
 
@@ -633,7 +635,7 @@ class JsonSchemaGeneratorTest {
     @Suppress("unused") // used in serialization
     class Node(
         @Description("Value stored in the node")
-        val value: String,
+        val value: Int,
         @Description("Left child node")
         val left: Node? = null,
         @Description("Right child node")
@@ -644,30 +646,24 @@ class JsonSchemaGeneratorTest {
     fun `should generate schema of recursive structure`() {
         val schema = jsonSchemaOf<Node>()
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "properties": {
-              "node": {
-                "type": "object",
-                "properties": {
-                    "value": {
-                        "type": "string",
-                        "description": "Value stored in the node"
-                    },
-                    "left": {
-                        "${'$'}ref": "#/properties/node",
-                        "description": "Left child node"
-                    },
-                    "right": {
-                        "${'$'}ref": "#/properties/node",
-                        "description": "Right child node"
-                    }
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "integer",
+                  "description": "Value stored in the node"
                 },
-                "required": ["value"]
-              }
-            },
-            "required": ["node"]
-          }
+                "left": {
+                   "$ref": "#",
+                   "description": "Left child node"
+                 },
+                 "right": {
+                   "$ref": "#",
+                   "description": "Right child node"
+                 }
+              },
+              "required": ["value"]
+            }
         """
     }
 
@@ -675,31 +671,67 @@ class JsonSchemaGeneratorTest {
     fun `should create schema of list of recursive structures`() {
         val schema = jsonSchemaOf<List<Node>>()
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/node"
-            },
-            "definitions": {
-              "node": {
-                "type": "object",
-                "properties": {
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/node"
+              },
+              "definitions": {
+                "node": {
+                  "type": "object",
+                  "properties": {
                     "value": {
-                      "type": "string"
+                      "type": "integer",
+                      "description": "Value stored in the node"
                     },
                     "left": {
-                      "$ref": "#/definitions/node"
+                      "$ref": "#/definitions/node",
+                      "description": "Left child node"
                     },
                     "right": {
-                      "$ref": "#/definitions/node"
+                      "$ref": "#/definitions/node",
+                      "description": "Right child node"
                     }
-                },
-                "required": [
-                  "value"
-                ]
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
               }
             }
-          }
+        """
+    }
+
+    @Test
+    fun `should override title and description of the class`() {
+        val schema = jsonSchemaOf<Foo>(
+            title = "New title",
+            description = "New description"
+        )
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+            {
+              "type": "object",
+              "title": "New title",
+              "description": "New description",
+              "properties": {
+                "money1": {
+                  "type": "string",
+                  "title": "Money 1, without property description",
+                  "description": "A monetary amount",
+                  "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                },
+                "money2": {
+                  "type": "string",
+                  "title": "Money 2, with property description",
+                  "description": "A monetary amount with property description",
+                  "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
+                }
+              },
+              "required": [
+                "money1",
+                "money2"
+              ]
+            }
         """
     }
 
