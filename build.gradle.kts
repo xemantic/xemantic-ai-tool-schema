@@ -26,7 +26,7 @@ plugins {
 group = "com.xemantic.template"
 
 xemantic {
-    description = "A Kotlin multiplatform JSON Schema library. Useful for AI and LLMs' tool use (function calling), as it generates JSON Schema for Kotlin @Serializable classes."
+    description = "AI/LLM tool use (function calling) JSON Schema generator - a Kotlin multiplatform library"
     inceptionYear = 2024
     license = License.APACHE
     developer(
