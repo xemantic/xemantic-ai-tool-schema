@@ -30,14 +30,14 @@ class IntegerSchemaTest {
             maximum = 120
             multipleOf = 1
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "integer",
-            "title": "Age",
-            "description": "A person's age",
-            "minimum": 0,
-            "maximum": 120,
-            "multipleOf": 1
-          }      
+            {
+              "type": "integer",
+              "title": "Age",
+              "description": "A person's age",
+              "minimum": 0,
+              "maximum": 120,
+              "multipleOf": 1
+            }      
         """
     }
 
@@ -47,12 +47,12 @@ class IntegerSchemaTest {
             title = "Dozen"
             range = 1L..12
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "integer",
-            "title": "Dozen",
-            "minimum": 1,
-            "maximum": 12
-          }
+            {
+              "type": "integer",
+              "title": "Dozen",
+              "minimum": 1,
+              "maximum": 12
+            }
         """
     }
 
@@ -64,13 +64,13 @@ class IntegerSchemaTest {
             exclusiveMinimum = 0
             exclusiveMaximum = 120
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "integer",
-            "title": "Age",
-            "description": "A person's age",
-            "exclusiveMinimum": 0,
-            "exclusiveMaximum": 120
-          }      
+            {
+              "type": "integer",
+              "title": "Age",
+              "description": "A person's age",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 120
+            }      
         """
     }
 
@@ -80,11 +80,11 @@ class IntegerSchemaTest {
             minimum = -100
             maximum = -1
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "integer",
-            "minimum": -100,
-            "maximum": -1
-          }
+            {
+              "type": "integer",
+              "minimum": -100,
+              "maximum": -1
+            }
         """
     }
 

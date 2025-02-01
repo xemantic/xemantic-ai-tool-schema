@@ -30,14 +30,14 @@ class NumberSchemaTest {
             maximum = 1000.0
             multipleOf = 0.01
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "number",
-            "title": "Price",
-            "description": "A price value",
-            "minimum": 0.0,
-            "maximum": 1000.0,
-            "multipleOf": 0.01
-          }      
+            {
+              "type": "number",
+              "title": "Price",
+              "description": "A price value",
+              "minimum": 0.0,
+              "maximum": 1000.0,
+              "multipleOf": 0.01
+            }      
         """
     }
 
@@ -49,13 +49,13 @@ class NumberSchemaTest {
             exclusiveMinimum = 0.0
             exclusiveMaximum = 1000.0
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "number",
-            "title": "Price",
-            "description": "A price value",
-            "exclusiveMinimum": 0.0,
-            "exclusiveMaximum": 1000.0
-          }      
+            {
+              "type": "number",
+              "title": "Price",
+              "description": "A price value",
+              "exclusiveMinimum": 0.0,
+              "exclusiveMaximum": 1000.0
+            }      
         """
     }
 
@@ -66,12 +66,12 @@ class NumberSchemaTest {
             maximum = 0.0
             multipleOf = 0.0
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "number",
-            "minimum": 0.0,
-            "maximum": 0.0,
-            "multipleOf": 0.0
-          }
+            {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 0.0,
+              "multipleOf": 0.0
+            }
         """
     }
 

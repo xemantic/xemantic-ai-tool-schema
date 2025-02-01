@@ -33,21 +33,21 @@ class ObjectSchemaTest {
             required = listOf("name")
             additionalProperties = false
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "object",
-            "title": "Person",
-            "description": "A person schema",
-            "properties": {
-              "name": {
-                "type": "string"
+            {
+              "type": "object",
+              "title": "Person",
+              "description": "A person schema",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                }
               },
-              "age": {
-                "type": "integer"
-              }
-            },
-            "required": ["name"],
-            "additionalProperties": false
-          }      
+              "required": ["name"],
+              "additionalProperties": false
+            }      
         """
     }
 
@@ -68,31 +68,31 @@ class ObjectSchemaTest {
                 }
             )
         }.toString() shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "title": "Person",
-            "properties": {
-              "name": {
-                "type": "string"
+            {
+              "type": "object",
+              "title": "Person",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "$ref": "#/definitions/address"
+                }
               },
-              "address": {
-                "$ref": "#/definitions/address"
-              }
-            },
-            "definitions": {
-              "address": {
-                "type": "object",
-                "properties": {
-                  "street": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
+              "definitions": {
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "street": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string"
+                    }
                   }
                 }
               }
-            }
-          }      
+            }      
         """
     }
 

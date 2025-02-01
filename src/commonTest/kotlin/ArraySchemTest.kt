@@ -34,17 +34,17 @@ class ArraySchemTest {
             maxItems = 10
             uniqueItems = true
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "array",
-            "title": "Numbers",
-            "description": "An array of numbers",
-            "items": {
-              "type": "number"
-            },
-            "minItems": 1,
-            "maxItems": 10,
-            "uniqueItems": true
-          }      
+            {
+              "type": "array",
+              "title": "Numbers",
+              "description": "An array of numbers",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1,
+              "maxItems": 10,
+              "uniqueItems": true
+            }      
         """
     }
 
@@ -59,21 +59,21 @@ class ArraySchemTest {
                 )
             }
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "array",
-            "title": "Users",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
-                  "type": "string"
+            {
+              "type": "array",
+              "title": "Users",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
                 }
               }
-            }
-          }      
+            }      
         """
     }
 
@@ -89,22 +89,22 @@ class ArraySchemTest {
                 }
             )
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "array",
-            "items": {
-              "type": "object"
-            },
-            "definitions": {
-              "item": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer"
+            {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "definitions": {
+                "item": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
                   }
                 }
               }
             }
-          }
         """
     }
 

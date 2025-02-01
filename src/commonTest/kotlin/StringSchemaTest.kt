@@ -30,14 +30,14 @@ class StringSchemaTest {
             maxLength = 20
             pattern = "^[a-zA-Z0-9_]+$"
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "string",
-            "title": "Username",
-            "description": "A username",
-            "minLength": 3,
-            "maxLength": 20,
-            "pattern": "^[a-zA-Z0-9_]+$"
-          }      
+            {
+              "type": "string",
+              "title": "Username",
+              "description": "A username",
+              "minLength": 3,
+              "maxLength": 20,
+              "pattern": "^[a-zA-Z0-9_]+$"
+            }      
         """
     }
 
@@ -50,14 +50,14 @@ class StringSchemaTest {
             maxLength = 100
             format(StringFormat.EMAIL)
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "string",
-            "title": "Email",
-            "description": "An email",
-            "minLength": 3,
-            "maxLength": 100,
-            "format": "email"
-          }      
+            {
+              "type": "string",
+              "title": "Email",
+              "description": "An email",
+              "minLength": 3,
+              "maxLength": 100,
+              "format": "email"
+            }      
         """
     }
 
@@ -67,11 +67,11 @@ class StringSchemaTest {
             title = "Color"
             enum = listOf("red", "green", "blue")
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "string",
-            "title": "Color",
-            "enum": ["red", "green", "blue"]
-          }      
+            {
+              "type": "string",
+              "title": "Color",
+              "enum": ["red", "green", "blue"]
+            }      
         """
     }
 
@@ -83,13 +83,13 @@ class StringSchemaTest {
             contentEncoding = ContentEncoding.BASE64
             contentMediaType = "image/png"
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "string",
-            "title": "Image",
-            "description": "User's avatar image",
-            "contentEncoding": "base64",
-            "contentMediaType": "image/png"
-          }            
+            {
+              "type": "string",
+              "title": "Image",
+              "description": "User's avatar image",
+              "contentEncoding": "base64",
+              "contentMediaType": "image/png"
+            }            
         """
     }
 

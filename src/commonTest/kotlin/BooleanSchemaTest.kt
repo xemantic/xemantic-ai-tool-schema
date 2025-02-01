@@ -27,11 +27,11 @@ class BooleanSchemaTest {
             title = "Is Active"
             description = "Whether the user is active"
         }.toString() shouldEqualJson /* language=json */ """
-          {
-            "type": "boolean",
-            "title": "Is Active",
-            "description": "Whether the user is active"
-          }      
+            {
+              "type": "boolean",
+              "title": "Is Active",
+              "description": "Whether the user is active"
+            }      
         """
     }
 
