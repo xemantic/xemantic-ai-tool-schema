@@ -1,12 +1,14 @@
 @file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
 
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
+import com.xemantic.gradle.conventions.License
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jreleaser.model.Active
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -17,31 +19,35 @@ plugins {
     alias(libs.plugins.versions)
     `maven-publish`
     signing
-    alias(libs.plugins.publish)
+    alias(libs.plugins.jreleaser)
+    alias(libs.plugins.xemantic.conventions)
 }
 
-val githubAccount = "xemantic"
+group = "com.xemantic.template"
+
+xemantic {
+    description = "A Kotlin multiplatform JSON Schema library. Useful for AI and LLMs' tool use (function calling), as it generates JSON Schema for Kotlin @Serializable classes."
+    inceptionYear = 2024
+    license = License.APACHE
+    developer(
+        id = "morisil",
+        name = "Kazik Pogoda",
+        email = "morisil@xemantic.com"
+    )
+}
+
+val releaseAnnouncementSubject = """🚀 ${rootProject.name} $version has been released!"""
+
+val releaseAnnouncement = """
+$releaseAnnouncementSubject
+
+${xemantic.description}
+
+${xemantic.releasePageUrl}
+"""
 
 val javaTarget = libs.versions.javaTarget.get()
 val kotlinTarget = KotlinVersion.fromVersion(libs.versions.kotlinTarget.get())
-
-val isReleaseBuild = !project.version.toString().endsWith("-SNAPSHOT")
-val githubActor: String? by project
-val githubToken: String? by project
-val signingKey: String? by project
-val signingPassword: String? by project
-val sonatypeUser: String? by project
-val sonatypePassword: String? by project
-
-println(
-"""
-+--------------------------------------------  
-| Project: ${project.name}
-| Version: ${project.version}
-| Release build: $isReleaseBuild
-+--------------------------------------------
-"""
-)
 
 repositories {
     mavenCentral()
@@ -57,7 +63,7 @@ kotlin {
         apiVersion = kotlinTarget
         languageVersion = kotlinTarget
         freeCompilerArgs.add("-Xmulti-dollar-interpolation")
-        extraWarnings.set(true)
+        extraWarnings = true
         progressiveMode = true
     }
 
@@ -163,30 +169,24 @@ kotlin {
 }
 
 // skip test for certain targets which are not fully supported by kotest
-tasks.named("compileTestKotlinWasmWasi") { enabled = false }
-tasks.named("compileTestKotlinAndroidNativeArm32") { enabled = false }
-tasks.named("compileTestKotlinAndroidNativeArm64") { enabled = false }
-tasks.named("compileTestKotlinAndroidNativeX86") { enabled = false }
-tasks.named("compileTestKotlinWatchosDeviceArm64") { enabled = false }
-tasks.named("compileTestKotlinAndroidNativeX64") { enabled = false }
+tasks {
 
-// skip tests which require XCode components to be installed
-tasks.named("tvosSimulatorArm64Test") { enabled = false }
-tasks.named("watchosSimulatorArm64Test") { enabled = false }
+    named("compileTestKotlinWasmWasi") { enabled = false }
+    named("compileTestKotlinAndroidNativeArm32") { enabled = false }
+    named("compileTestKotlinAndroidNativeArm64") { enabled = false }
+    named("compileTestKotlinAndroidNativeX86") { enabled = false }
+    named("compileTestKotlinWatchosDeviceArm64") { enabled = false }
+    named("compileTestKotlinAndroidNativeX64") { enabled = false }
 
-tasks.withType<Test> {
-    testLogging {
-        events(
-            TestLogEvent.SKIPPED,
-            TestLogEvent.FAILED
-        )
-        showStackTraces = true
-        exceptionFormat = TestExceptionFormat.FULL
-    }
+    // skip tests which require XCode components to be installed
+    named("tvosSimulatorArm64Test") { enabled = false }
+    named("watchosSimulatorArm64Test") { enabled = false }
+
 }
 
 powerAssert {
     functions = listOf(
+        "com.xemantic.kotlin.test.assert",
         "com.xemantic.kotlin.test.have"
     )
 }
@@ -194,7 +194,7 @@ powerAssert {
 // https://kotlinlang.org/docs/dokka-migration.html#adjust-configuration-options
 dokka {
     pluginsConfiguration.html {
-        footerMessage.set("(c) 2024 Xemantic")
+        footerMessage.set(xemantic.copyright)
     }
 }
 
@@ -204,107 +204,87 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 publishing {
-    repositories {
-        if (!isReleaseBuild) {
-            maven {
-                name = "GitHubPackages"
-                setUrl("https://maven.pkg.github.com/$githubAccount/${rootProject.name}")
-                credentials {
-                    username = githubActor
-                    password = githubToken
-                }
-            }
-        }
-    }
     publications {
         withType<MavenPublication> {
             artifact(javadocJar)
-            pom {
-                name = "xemantic-ai-tool-schema"
-                description = "Kotlin multiplatform AI/LLM tool use (function calling) JSON Schema generator"
-                url = "https://github.com/$githubAccount/${rootProject.name}"
-                inceptionYear = "2024"
-                organization {
-                    name = "Xemantic"
-                    url = "https://xemantic.com"
-                }
-                licenses {
-                    license {
-                        name = "The Apache Software License, Version 2.0"
-                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                        distribution = "repo"
-                    }
-                }
-                scm {
-                    url = "https://github.com/$githubAccount/${rootProject.name}"
-                    connection = "scm:git:git:github.com/$githubAccount/${rootProject.name}.git"
-                    developerConnection = "scm:git:https://github.com/$githubAccount/${rootProject.name}.git"
-                }
-                ciManagement {
-                    system = "GitHub"
-                    url = "https://github.com/$githubAccount/${rootProject.name}/actions"
-                }
-                issueManagement {
-                    system = "GitHub"
-                    url = "https://github.com/$githubAccount/${rootProject.name}/issues"
-                }
-                developers {
-                    developer {
-                        id = "morisil"
-                        name = "Kazik Pogoda"
-                        email = "morisil@xemantic.com"
-                    }
-                }
-            }
+            xemantic.configurePom(this)
         }
     }
 }
 
-if (isReleaseBuild) {
-
-    // workaround for KMP/gradle signing issue
-    // https://github.com/gradle/gradle/issues/26091
-    tasks {
-        withType<PublishToMavenRepository> {
-            dependsOn(withType<Sign>())
+jreleaser {
+    project {
+        description = xemantic.description
+        copyright = xemantic.copyright
+        license = xemantic.license!!.spxdx
+        links {
+            homepage = xemantic.homepageUrl
+            documentation = xemantic.documentationUrl
         }
+        authors = xemantic.authorIds
     }
-
-    // Resolves issues with .asc task output of the sign task of native targets.
-    // See: https://github.com/gradle/gradle/issues/26132
-    // And: https://youtrack.jetbrains.com/issue/KT-46466
-    tasks.withType<Sign>().configureEach {
-        val pubName = name.removePrefix("sign").removeSuffix("Publication")
-
-        // These tasks only exist for native targets, hence findByName() to avoid trying to find them for other targets
-
-        // Task ':linkDebugTest<platform>' uses this output of task ':sign<platform>Publication' without declaring an explicit or implicit dependency
-        tasks.findByName("linkDebugTest$pubName")?.let {
-            mustRunAfter(it)
-        }
-        // Task ':compileTestKotlin<platform>' uses this output of task ':sign<platform>Publication' without declaring an explicit or implicit dependency
-        tasks.findByName("compileTestKotlin$pubName")?.let {
-            mustRunAfter(it)
-        }
-    }
-
-    signing {
-        useInMemoryPgpKeys(
-            signingKey,
-            signingPassword
-        )
-        sign(publishing.publications)
-    }
-
-    nexusPublishing {
-        repositories {
-            sonatype {  //only for users registered in Sonatype after 24 Feb 2021
-                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-                snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-                username.set(sonatypeUser)
-                password.set(sonatypePassword)
+    deploy {
+        maven {
+            mavenCentral {
+                create("maven-central") {
+                    active = Active.ALWAYS
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    applyMavenCentralRules = false
+                    maxRetries = 240
+                    stagingRepository(xemantic.stagingDeployDir.path)
+                    // workaround: https://github.com/jreleaser/jreleaser/issues/1784
+                    kotlin.targets.forEach { target ->
+                        if (target !is KotlinJvmTarget) {
+                            val nonJarArtifactId = if (target.platformType == KotlinPlatformType.wasm) {
+                                "${name}-wasm-${target.name.lowercase().substringAfter("wasm")}"
+                            } else {
+                                "${name}-${target.name.lowercase()}"
+                            }
+                            artifactOverride {
+                                artifactId = nonJarArtifactId
+                                jar = false
+                                verifyPom = false
+                                sourceJar = false
+                                javadocJar = false
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-
+    release {
+        github {
+            skipRelease = true // we are releasing through GitHub UI
+            skipTag = true
+            token = "empty"
+            changelog {
+                enabled = false
+            }
+        }
+    }
+    checksum {
+        individual = false
+        artifacts = false
+        files = false
+    }
+    announce {
+        webhooks {
+            create("discord") {
+                active = Active.ALWAYS
+                message = releaseAnnouncement
+                messageProperty = "content"
+                structuredMessage = true
+            }
+        }
+        linkedin {
+            active = Active.ALWAYS
+            subject = releaseAnnouncementSubject
+            message = releaseAnnouncement
+        }
+        bluesky {
+            active = Active.ALWAYS
+            status = releaseAnnouncement
+        }
+    }
 }
