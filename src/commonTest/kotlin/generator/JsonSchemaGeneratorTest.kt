@@ -30,6 +30,225 @@ import kotlin.test.Test
 
 class JsonSchemaGeneratorTest {
 
+    @Test
+    fun `should generate Int schema`() {
+        val schema = jsonSchemaOf<Int>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "integer"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Byte schema`() {
+        val schema = jsonSchemaOf<Byte>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "integer"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Short schema`() {
+        val schema = jsonSchemaOf<Short>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "integer"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Double schema`() {
+        val schema = jsonSchemaOf<Double>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "number"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Float schema`() {
+        val schema = jsonSchemaOf<Float>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "number"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Boolean schema`() {
+        val schema = jsonSchemaOf<Boolean>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "boolean"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate Char schema`() {
+        val schema = jsonSchemaOf<Char>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1
+            }
+        """
+    }
+
+    @Test
+    fun `should generate String schema`() {
+        val schema = jsonSchemaOf<String>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "string"
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Ints schema`() {
+        val schema = jsonSchemaOf<List<Int>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Bytes schema`() {
+        val schema = jsonSchemaOf<List<Byte>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Shorts schema`() {
+        val schema = jsonSchemaOf<List<Short>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Doubles schema`() {
+        val schema = jsonSchemaOf<List<Double>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Floats schema`() {
+        val schema = jsonSchemaOf<List<Float>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Booleans schema`() {
+        val schema = jsonSchemaOf<List<Boolean>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Chars schema`() {
+        val schema = jsonSchemaOf<List<Char>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Strings schema`() {
+        val schema = jsonSchemaOf<List<String>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate List of Lists of Strings schema`() {
+        val schema = jsonSchemaOf<List<List<String>>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate schema for a primitive type with title and description`() {
+        val schema = jsonSchemaOf<String>(
+            title = "foo",
+            description = "bar",
+        )
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+            {
+              "type": "string",
+              "title": "foo",
+              "description": "bar"
+            }
+        """
+    }
+
     /**
      * Address is our first class to test generation of JSON schema.
      *
@@ -55,7 +274,7 @@ class JsonSchemaGeneratorTest {
     )
 
     @Test
-    fun `generate JSON Schema for Address`() {
+    fun `should generate Address schema`() {
         val schema = jsonSchemaOf<Address>()
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
           {
@@ -158,7 +377,7 @@ class JsonSchemaGeneratorTest {
     )
 
     @Test
-    fun `generate JSON Schema for Person`() {
+    fun `should generate schema for Person`() {
         val schema = jsonSchemaOf<Person>()
         val schemaJson = testJson.encodeToString(schema)
 
@@ -354,36 +573,6 @@ class JsonSchemaGeneratorTest {
         """
     }
 
-    @Test
-    fun `should suppress description of the top level object JSON Schema`() {
-        val schema = jsonSchemaOf<Foo>(
-            suppressDescription = true
-        )
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
-          {
-            "type": "object",
-            "properties": {
-              "money1": {
-                "type": "string",
-                "title": "Money 1, without property description",
-                "description": "A monetary amount",
-                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
-              },
-              "money2": {
-                "type": "string",
-                "title": "Money 2, with property description",
-                "description": "A monetary amount with property description",
-                "pattern": "^-?[0-9]+\\.[0-9]{2}?$"
-              }
-            },
-            "required": [
-              "money1",
-              "money2"
-            ]
-          }
-        """
-    }
-
     @Serializable
     @Suppress("unused") // it is used to generate schema
     class Bar(
@@ -396,7 +585,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should output additionalProperties keyword`() {
         val schema = jsonSchemaOf<Bar>(
-            outputAdditionalPropertiesFalse = true
+            additionalProperties = false
         )
         testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
           {
@@ -435,6 +624,81 @@ class JsonSchemaGeneratorTest {
               }
             },
             "additionalProperties": false
+          }
+        """
+    }
+
+    @Serializable
+    @SerialName("node")
+    @Suppress("unused") // used in serialization
+    class Node(
+        @Description("Value stored in the node")
+        val value: String,
+        @Description("Left child node")
+        val left: Node? = null,
+        @Description("Right child node")
+        val right: Node? = null
+    )
+
+    @Test
+    fun `should generate schema of recursive structure`() {
+        val schema = jsonSchemaOf<Node>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+          {
+            "type": "object",
+            "properties": {
+              "node": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "description": "Value stored in the node"
+                    },
+                    "left": {
+                        "${'$'}ref": "#/properties/node",
+                        "description": "Left child node"
+                    },
+                    "right": {
+                        "${'$'}ref": "#/properties/node",
+                        "description": "Right child node"
+                    }
+                },
+                "required": ["value"]
+              }
+            },
+            "required": ["node"]
+          }
+        """
+    }
+
+    @Test
+    fun `should create schema of list of recursive structures`() {
+        val schema = jsonSchemaOf<List<Node>>()
+        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/node"
+            },
+            "definitions": {
+              "node": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "left": {
+                      "$ref": "#/definitions/node"
+                    },
+                    "right": {
+                      "$ref": "#/definitions/node"
+                    }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
           }
         """
     }
