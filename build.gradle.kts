@@ -168,9 +168,9 @@ kotlin {
 
 }
 
-// skip test for certain targets which are not fully supported by kotest
 tasks {
 
+    // skip test for certain targets which are not fully supported by kotest
     named("compileTestKotlinWasmWasi") { enabled = false }
     named("compileTestKotlinAndroidNativeArm32") { enabled = false }
     named("compileTestKotlinAndroidNativeArm64") { enabled = false }

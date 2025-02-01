@@ -16,7 +16,7 @@ versionsPlugin = "0.52.0"
 dokkaPlugin = "2.0.0"
 binaryCompatibilityValidatorPlugin = "0.17.0"
 jreleaserPlugin = "1.16.0"
-xemanticConventionsPlugin = "0.3.0"
+xemanticConventionsPlugin = "0.3.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
