@@ -22,6 +22,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
+public interface WithDefinitions {
+    public val definitions: Map<String, JsonSchema>?
+}
+
 /**
  * Represents a [JSON Schema](https://json-schema.org/) instance.
  */
@@ -34,14 +38,15 @@ public sealed interface JsonSchema {
      * @param ref a string representing JSON Pointer. Note: in JSON it will be serialized as `$ref`.
      * @throws IllegalArgumentException if the [ref] does not start with `#/`.
      */
+    @Serializable
     public class Ref(
-        @SerialName("\$ref")
+        @SerialName($$"$ref")
         public val ref: String
     ) : JsonSchema {
 
         init {
             require(ref.startsWith("#/")) {
-                "The 'ref' must start with '#/'"
+                "The 'ref' must start with '#/', was: '$ref'"
             }
         }
 
@@ -52,8 +57,7 @@ public sealed interface JsonSchema {
 }
 
 @Serializable
-public sealed class BaseSchema(
-) : JsonSchema {
+public sealed class BaseSchema : JsonSchema {
 
     public abstract val title: String?
     public abstract val description: String?
@@ -78,9 +82,9 @@ public class ObjectSchema private constructor(
     override val description: String? = null,
     public val properties: Map<String, JsonSchema>? = null,
     public val required: List<String>? = null,
-    public val definitions: Map<String, JsonSchema>? = null,
+    public override val definitions: Map<String, JsonSchema>? = null,
     public val additionalProperties: Boolean? = null
-) : BaseSchema() {
+) : BaseSchema(), WithDefinitions {
 
     public class Builder : BaseSchema.Builder() {
 
@@ -118,7 +122,8 @@ public class ArraySchema private constructor(
     public val minItems: Long? = null,
     public val maxItems: Long? = null,
     public val uniqueItems: Boolean? = null,
-) : BaseSchema() {
+    public override val definitions: Map<String, JsonSchema>? = null
+) : BaseSchema(), WithDefinitions {
 
     public class Builder : BaseSchema.Builder() {
 
@@ -126,6 +131,7 @@ public class ArraySchema private constructor(
         public var minItems: Long? = null
         public var maxItems: Long? = null
         public var uniqueItems: Boolean? = null
+        public var definitions: Map<String, JsonSchema>? = null
 
         public fun build(): ArraySchema = ArraySchema(
             title,
@@ -135,7 +141,8 @@ public class ArraySchema private constructor(
             },
             minItems,
             maxItems,
-            uniqueItems
+            uniqueItems,
+            definitions
         )
 
     }
@@ -209,7 +216,7 @@ public class StringSchema private constructor(
 }
 
 public fun StringSchema(
-    block: StringSchema.Builder.() -> Unit
+    block: StringSchema.Builder.() -> Unit = {}
 ): StringSchema = StringSchema.Builder().also(block).build()
 
 public interface NumericSchema<T> {
@@ -262,7 +269,7 @@ public class NumberSchema private constructor(
 }
 
 public fun NumberSchema(
-    block: NumberSchema.Builder.() -> Unit
+    block: NumberSchema.Builder.() -> Unit = {}
 ): NumberSchema = NumberSchema.Builder().also(block).build()
 
 /**
@@ -297,7 +304,7 @@ public class IntegerSchema private constructor(
 }
 
 public fun IntegerSchema(
-    block: IntegerSchema.Builder.() -> Unit
+    block: IntegerSchema.Builder.() -> Unit = {}
 ): IntegerSchema = IntegerSchema.Builder().also(block).build()
 
 /**
@@ -322,7 +329,7 @@ public class BooleanSchema private constructor(
 }
 
 public fun BooleanSchema(
-    block: BooleanSchema.Builder.() -> Unit
+    block: BooleanSchema.Builder.() -> Unit = {}
 ): BooleanSchema = BooleanSchema.Builder().also(block).build()
 
 /**

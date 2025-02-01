@@ -24,6 +24,36 @@ import kotlin.test.assertFailsWith
 
 class JsonSchemaTest {
 
+//    @Test
+//    fun `should create ObjectSchema`() {
+//        ObjectSchema {
+//            title = "Person"
+//            description = "A person schema"
+//            properties = mapOf(
+//                "name" to StringSchema { },
+//                "age" to IntegerSchema { }
+//            )
+//            required = listOf("name")
+//            additionalProperties = false
+//        }.toString() shouldEqualJson /* language=json */ """
+//          {
+//            "type": "object",
+//            "title": "Person",
+//            "description": "A person schema",
+//            "properties": {
+//              "name": {
+//                "type": "string"
+//              },
+//              "age": {
+//                "type": "integer"
+//              }
+//            },
+//            "required": ["name"],
+//            "additionalProperties": false
+//          }
+//        """
+//    }
+
     @Test
     fun `should create ObjectSchema`() {
         ObjectSchema {
@@ -60,7 +90,7 @@ class JsonSchemaTest {
             title = "Person"
             properties = mapOf(
                 "name" to StringSchema { },
-                "address" to JsonSchema.Ref("#/definitions/address")
+                "address" to JsonSchema.Ref(ref = "#/definitions/address")
             )
             definitions = mapOf(
                 "address" to ObjectSchema {
@@ -178,7 +208,7 @@ class JsonSchemaTest {
 
     @Test
     fun `should create empty StringSchema`() {
-        StringSchema {}.toString() shouldEqualJson /* language=json */ """{"type": "string"}"""
+        StringSchema().toString() shouldEqualJson /* language=json */ """{"type": "string"}"""
     }
 
     @Test
@@ -341,7 +371,7 @@ class JsonSchemaTest {
 
     @Test
     fun `should create JsonSchemaRef`() {
-        JsonSchema.Ref("#/definitions/address").toString() shouldEqualJson /* language=json */ $$"""
+        JsonSchema.Ref(ref = "#/definitions/address").toString() shouldEqualJson /* language=json */ $$"""
           {
             "$ref": "#/definitions/address"
           }
@@ -351,7 +381,7 @@ class JsonSchemaTest {
     @Test
     fun `should throw Exception for invalid JSON Pointer passed to JsonSchemaRef`() {
         assertFailsWith<IllegalArgumentException> {
-            JsonSchema.Ref("invalid_ref")
+            JsonSchema.Ref(ref = "invalid_ref")
         } should {
             have(message == "The 'ref' must start with '#/'")
         }

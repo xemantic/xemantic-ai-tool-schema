@@ -30,24 +30,27 @@ import kotlinx.serialization.serializer
  * Generates a JSON schema for the specified type [T].
  *
  * This function creates a detailed JSON schema by analyzing the structure and metadata
- * of the [SerialDescriptor] extracted from the type [T],
- * therefore [T] must be [Serializable].
+ * of the [SerialDescriptor] extracted from the type [T]. The type [T] must be [Serializable].
+ * It handles nested objects, arrays, and various primitive types, incorporating annotations
+ * for additional schema properties.
  *
  * @param T The type for which to generate the JSON schema.
- * @param outputAdditionalPropertiesFalse If `true`, adds `additionalProperties: false` keywords in
- *   generated [JsonSchema] tree, if a node represents an [ObjectSchema].
- * @param suppressDescription If `true`, suppresses the output of the `description` keyword in
- *   the root of generated [JsonSchema] for the specified type [T], even if it was annotated with the [Description].
+ * @param title An optional title for the schema.
+ * @param description An optional description for the schema.
+ * @param additionalProperties Determines whether additional properties are allowed in objects.
+ *        If null, the schema will not specify this constraint.
  * @return A [JsonSchema] representing the structure of type [T].
  * @see generateSchema
  */
 public inline fun <reified T> jsonSchemaOf(
-    outputAdditionalPropertiesFalse: Boolean = false,
-    suppressDescription: Boolean = false
+    title: String? = null,
+    description: String? = null,
+    additionalProperties: Boolean? = null
 ): JsonSchema = generateSchema(
     descriptor = serializer<T>().descriptor,
-    outputAdditionalPropertiesFalse = outputAdditionalPropertiesFalse,
-    suppressDescription = suppressDescription
+    title,
+    description,
+    additionalProperties
 )
 
 /**
@@ -58,83 +61,208 @@ public inline fun <reified T> jsonSchemaOf(
  * primitive types, incorporating annotations for additional schema properties.
  *
  * @param descriptor The serial descriptor of the type for which to generate the JSON schema.
- * @param outputAdditionalPropertiesFalse If `true`, adds `additionalProperties: false` keywords in
- *   generated [JsonSchema] tree, if a node represents an [ObjectSchema].
- * @param suppressDescription If `true`, suppresses the output of the `description` keyword in
- *   the root of generated [JsonSchema], even if it was annotated with the [Description].
+ * @param title An optional title for the schema.
+ * @param description An optional description for the schema.
+ * @param additionalProperties Determines whether additional properties are allowed in objects.
+ *        If null, the schema will not specify this constraint.
  * @return A [JsonSchema] representing the structure of type described by the [descriptor].
  */
 @OptIn(ExperimentalSerializationApi::class)
 public fun generateSchema(
     descriptor: SerialDescriptor,
-    outputAdditionalPropertiesFalse: Boolean = false,
-    suppressDescription: Boolean = false
-): JsonSchema {
+    title: String? = null,
+    description: String? = null,
+    additionalProperties: Boolean? = null
+): JsonSchema = JsonSchemaGenerator(
+    additionalProperties
+).generate(
+    descriptor,
+    title,
+    description
+)
 
-    val props = mutableMapOf<String, JsonSchema>()
-    val req = mutableListOf<String>()
-    val defs = mutableMapOf<String, JsonSchema>()
+private class JsonSchemaGenerator(
+    private val additionalProperties: Boolean? = null
+) {
 
-    for (i in 0 until descriptor.elementsCount) {
-        val elementDescriptor = descriptor.getElementDescriptor(i)
-        val name = descriptor.getElementName(i)
-        val meta = descriptor.getElementAnnotations(i) + elementDescriptor.annotations
-        val property = generatePropertySchema(
-            descriptor = elementDescriptor,
-            meta = meta,
-            defs = defs,
-            outputAdditionalPropertiesFalse = outputAdditionalPropertiesFalse
+    private lateinit var rootRef: String
+
+    private var recursiveRoot: Boolean = false
+
+    private var trackedRefs = mutableSetOf<String>()
+
+    private val defs: MutableMap<String, ObjectSchema> = mutableMapOf()
+
+    fun generate(
+        descriptor: SerialDescriptor,
+        title: String? = null,
+        description: String? = null,
+    ): JsonSchema {
+
+        rootRef = descriptor.refName
+
+        return generatePropertySchema(
+            descriptor,
+            title,
+            description,
+            meta = descriptor.annotations, // TODO do we need this meta?
+            isRoot = true
         )
-        props[name] = property
-        if (!descriptor.isElementOptional(i)) {
-            req.add(name)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun generatePropertySchema(
+        descriptor: SerialDescriptor,
+        title: String? = null,
+        description: String? = null,
+        meta: List<Annotation>,
+        isRoot: Boolean
+    ): JsonSchema {
+        val baseSetter: BaseSchema.Builder.() -> Unit = {
+            this.title = if (isRoot) title else null ?: meta.find<Title>()?.value
+            this.description = if (isRoot) description else null ?: meta.find<Description>()?.value
+        }
+        return when (descriptor.kind) {
+            PrimitiveKind.STRING -> stringSchema(baseSetter, meta, descriptor)
+            PrimitiveKind.INT,
+            PrimitiveKind.LONG,
+            PrimitiveKind.SHORT,
+            PrimitiveKind.BYTE -> integerSchema(baseSetter, meta)
+            PrimitiveKind.FLOAT,
+            PrimitiveKind.DOUBLE -> numberSchema(baseSetter, meta)
+            PrimitiveKind.BOOLEAN -> booleanSchema(baseSetter)
+            PrimitiveKind.CHAR -> charSchema(baseSetter, meta)
+            SerialKind.ENUM -> enumProperty(baseSetter, meta, descriptor)
+            StructureKind.LIST -> arraySchema(baseSetter, meta, descriptor, isRoot) // TODO this isRoot doesn't make much sense for the array
+            StructureKind.MAP -> mapSchema(baseSetter)
+            StructureKind.CLASS -> objectOrRootRefSchema(baseSetter, descriptor, isRoot)
+            else -> mapSchema(baseSetter) // Default case
         }
     }
 
-    return ObjectSchema {
-        title = descriptor.annotations.find<Title>()?.value
-        description = if (!suppressDescription) descriptor.annotations.find<Description>()?.value else null
-        properties = props
-        definitions = if (defs.isNotEmpty()) defs else null
-        required = req
-        additionalProperties = if (outputAdditionalPropertiesFalse) false else null
-    }
-}
+    private fun objectOrRootRefSchema(
+        baseSetter: BaseSchema.Builder.() -> Unit,
+        descriptor: SerialDescriptor,
+        isRoot: Boolean
+    ): JsonSchema {
 
-@OptIn(ExperimentalSerializationApi::class)
-private fun generatePropertySchema(
-    descriptor: SerialDescriptor,
-    meta: List<Annotation>,
-    defs: MutableMap<String, JsonSchema>,
-    outputAdditionalPropertiesFalse: Boolean
-): JsonSchema {
-    return when (descriptor.kind) {
-        PrimitiveKind.STRING -> stringSchema(meta, descriptor)
-        PrimitiveKind.INT, PrimitiveKind.LONG -> integerSchema(meta)
-        PrimitiveKind.FLOAT, PrimitiveKind.DOUBLE -> numberSchema(meta)
-        PrimitiveKind.BOOLEAN -> booleanSchema(meta)
-        SerialKind.ENUM -> enumProperty(meta, descriptor)
-        StructureKind.LIST -> arraySchema(meta, descriptor, defs, outputAdditionalPropertiesFalse)
-        StructureKind.MAP -> objectSchema(meta)
-        StructureKind.CLASS -> {
-            // Workaround: dots are not allowed in JSON Schema name,
-            // if the @SerialName was not specified for the class, then fully qualified class name will be used,
-            // and we need to transform it into schema acceptable identifier
-            val refName = descriptor.serialName.replace('.', '_').trimEnd('?')
-            defs[refName] = generateSchema(descriptor, outputAdditionalPropertiesFalse)
-            JsonSchema.Ref("#/definitions/$refName")
+        val ref = descriptor.refName
+
+        if (!isRoot && ref == rootRef) {
+            recursiveRoot = true
         }
 
-        else -> objectSchema(meta) // Default case
+        if (ref !in trackedRefs) {
+            trackedRefs += ref
+            defs[ref] = generateObjectSchema(baseSetter, descriptor, isRoot)
+        }
+
+        if (isRoot) {
+            if (recursiveRoot) {
+                JsonSchema.Ref(
+                    ref = "#/definitions/$ref",
+                    definitions = defs
+                )
+            } else {
+                defs[ref]!!
+            }
+        } else {
+            JsonSchema.Ref(
+                ref = "#/definitions/$ref"
+            )
+        }
+
+        val props = mutableMapOf<String, JsonSchema>()
+        val req = mutableListOf<String>()
+
+        for (i in 0 until descriptor.elementsCount) {
+            val elementDescriptor = descriptor.getElementDescriptor(i)
+            val name = descriptor.getElementName(i)
+            val meta = descriptor.getElementAnnotations(i) + elementDescriptor.annotations
+            val property = generatePropertySchema(
+                descriptor = elementDescriptor,
+                meta = meta,
+                isRoot = false
+            )
+            props[name] = property
+            if (!descriptor.isElementOptional(i)) {
+                req.add(name)
+            }
+        }
+
+        return ObjectSchema {
+            baseSetter(this)
+            properties = props
+            definitions = if (isRoot && defs.isNotEmpty()) defs else null
+            required = req
+            additionalProperties = this@JsonSchemaGenerator.additionalProperties
+        }
     }
+
+    private fun objectSchema(
+        baseSetter: BaseSchema.Builder.() -> Unit,
+        descriptor: SerialDescriptor,
+        isRoot: Boolean
+    ): JsonSchema {
+
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun arraySchema(
+        baseSetter: BaseSchema.Builder.() -> Unit,
+        meta: List<Annotation>,
+        descriptor: SerialDescriptor,
+        isRoot: Boolean
+    ): JsonSchema {
+
+        val elementDescriptor = descriptor.getElementDescriptor(0)
+        val elementMeta = descriptor.getElementAnnotations(0) +
+                elementDescriptor.annotations +
+                meta
+                    .filter { it !is Description && it !is Title }
+                    .map {
+                        when (it) {
+                            is ItemDescription -> Description(it.value)
+                            is ItemTitle -> Title(it.value)
+                            else -> it
+                        }
+                    }
+
+        val itemSchema = generatePropertySchema(
+            descriptor = elementDescriptor,
+            meta = elementMeta,
+            isRoot = false
+        )
+
+        return ArraySchema {
+            baseSetter(this)
+            items = itemSchema
+            minItems = meta.find<MinItems>()?.value
+            maxItems = meta.find<MaxItems>()?.value
+            uniqueItems = if (meta.find<UniqueItems>() != null) true else null
+            if (isRoot && defs.isNotEmpty()) {
+                // TODO the recursive root should be checked here?
+                definitions = defs
+            }
+        }
+
+    }
+
 }
+
+// Workaround: dots are not allowed in JSON Schema name,
+// if the @SerialName was not specified for the class, then fully qualified class name will be used,
+// and we need to transform it into schema acceptable identifier
+private val SerialDescriptor.refName get() = serialName.replace('.', '_').trimEnd('?')
 
 private fun enumProperty(
+    baseSetter: BaseSchema.Builder.() -> Unit,
     meta: List<Annotation>,
     descriptor: SerialDescriptor
 ) = StringSchema {
-    title = meta.find<Title>()?.value
-    description = meta.find<Description>()?.value
+    baseSetter(this)
+    this.title = title ?: meta.find<Title>()?.value
+    this.description = description ?: meta.find<Description>()?.value
     enum = descriptor.elementNames().map { it }
 }
 
@@ -147,13 +275,13 @@ private fun SerialDescriptor.elementNames(): List<String> = buildList {
 }
 
 private fun integerSchema(
+    baseSetter: BaseSchema.Builder.() -> Unit,
     meta: List<Annotation>
 ): JsonSchema {
     val min = meta.find<MinInt>()
     val max = meta.find<MaxInt>()
     return IntegerSchema {
-        title = meta.find<Title>()?.value
-        description = meta.find<Description>()?.value
+        baseSetter(this)
         minimum = if (min != null && !min.exclusive) min.value else null
         maximum = if (max != null && !max.exclusive) max.value else null
         exclusiveMinimum = if (min != null && min.exclusive) min.value else null
@@ -162,13 +290,13 @@ private fun integerSchema(
 }
 
 private fun numberSchema(
+    baseSetter: BaseSchema.Builder.() -> Unit,
     meta: List<Annotation>
 ): JsonSchema {
     val min = meta.find<Min>()
     val max = meta.find<Max>()
     return NumberSchema {
-        title = meta.find<Title>()?.value
-        description = meta.find<Description>()?.value
+        baseSetter(this)
         minimum = if (min != null && !min.exclusive) min.value else null
         maximum = if (max != null && !max.exclusive) max.value else null
         exclusiveMinimum = if (min != null && min.exclusive) min.value else null
@@ -177,19 +305,17 @@ private fun numberSchema(
 }
 
 private fun booleanSchema(
-    meta: List<Annotation>
+    baseSetter: BaseSchema.Builder.() -> Unit,
 ) = BooleanSchema {
-    title = meta.find<Title>()?.value
-    description = meta.find<Description>()?.value
+    baseSetter(this)
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 private fun stringSchema(
+    baseSetter: BaseSchema.Builder.() -> Unit,
     meta: List<Annotation>,
-    descriptor: SerialDescriptor
+    descriptor: SerialDescriptor,
 ) = StringSchema {
-    title = meta.find<Title>()?.value
-    description = meta.find<Description>()?.value
+    baseSetter(this)
     minLength = meta.find<MinLength>()?.value
     maxLength = meta.find<MaxLength>()?.value
     pattern = meta.find<Pattern>()?.regex
@@ -202,50 +328,25 @@ private fun stringSchema(
     contentMediaType = meta.find<ContentMediaType>()?.value
 }
 
-private fun objectSchema(
-    meta: List<Annotation>
-) = ObjectSchema {
-    title = meta.find<Title>()?.value
-    description = meta.find<Description>()?.value
+private fun charSchema(
+    baseSetter: BaseSchema.Builder.() -> Unit,
+    meta: List<Annotation>,
+) = StringSchema {
+    baseSetter(this)
+    minLength = 1
+    maxLength = 1
+    pattern = meta.find<Pattern>()?.regex
+    format = meta.find<Format>()?.value?.toString()
+        ?: meta.find<FormatString>()?.format
+    contentEncoding = meta.find<Encoding>()?.value
+    contentMediaType = meta.find<ContentMediaType>()?.value
 }
 
-@OptIn(ExperimentalSerializationApi::class)
-private fun arraySchema(
-    meta: List<Annotation>,
-    descriptor: SerialDescriptor,
-    defs: MutableMap<String, JsonSchema>,
-    outputAdditionalPropertiesFalse: Boolean
-): JsonSchema {
-
-    val elementDescriptor = descriptor.getElementDescriptor(0)
-    val elementMeta = descriptor.getElementAnnotations(0) +
-            elementDescriptor.annotations +
-            meta
-                .filter { it !is Description && it !is Title }
-                .map {
-                    when (it) {
-                        is ItemDescription -> Description(it.value)
-                        is ItemTitle -> Title(it.value)
-                        else -> it
-                    }
-                }
-
-    val itemSchema = generatePropertySchema(
-        descriptor = elementDescriptor,
-        meta = elementMeta,
-        defs = defs,
-        outputAdditionalPropertiesFalse = outputAdditionalPropertiesFalse
-    )
-
-    return ArraySchema {
-        title = meta.find<Title>()?.value
-        description = meta.find<Description>()?.value
-        items = itemSchema
-        minItems = meta.find<MinItems>()?.value
-        maxItems = meta.find<MaxItems>()?.value
-        uniqueItems = if (meta.find<UniqueItems>() != null) true else null
-    }
-
+// TODO when is it used?
+private fun mapSchema(
+    baseSetter: BaseSchema.Builder.() -> Unit
+) = ObjectSchema {
+    baseSetter(this)
 }
 
 private inline fun <reified T : Annotation> List<Annotation>.find(): T? =
