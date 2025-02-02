@@ -56,14 +56,14 @@ class ObjectSchemaTest {
         ObjectSchema {
             title = "Person"
             properties = mapOf(
-                "name" to StringSchema { },
-                "address" to JsonSchema.Ref(ref = "#/definitions/address")
+                "name" to StringSchema(),
+                "address" to JsonSchema.Ref("#/definitions/address")
             )
             definitions = mapOf(
                 "address" to ObjectSchema {
                     properties = mapOf(
-                        "street" to StringSchema { },
-                        "city" to StringSchema { }
+                        "street" to StringSchema(),
+                        "city" to StringSchema()
                     )
                 }
             )
@@ -99,6 +99,65 @@ class ObjectSchemaTest {
     @Test
     fun `should create empty ObjectSchema`() {
         ObjectSchema().toString() shouldEqualJson /* language=json */ """{"type": "object"}"""
+    }
+
+    @Test
+    fun `should copy ObjectSchema while allowing to modify properties`() {
+        // given
+        val schema = ObjectSchema {
+            title = "Person"
+            description = "Obtains personal data"
+            properties = mapOf(
+                "name" to StringSchema(),
+                "address" to JsonSchema.Ref("#/definitions/address")
+            )
+            definitions = mapOf(
+                "address" to ObjectSchema {
+                    properties = mapOf(
+                        "street" to StringSchema(),
+                        "city" to StringSchema()
+                    )
+                }
+            )
+        }
+
+        // when
+        val copiedSchema = schema.copy {
+            description = null
+            properties = properties!! + ("profession" to StringSchema {})
+        }
+
+        // then
+        copiedSchema.toString() shouldEqualJson /* language=json */ $$"""
+            {
+              "type": "object",
+              "title": "Person",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "$ref": "#/definitions/address"
+                },
+                "profession": {
+                  "type": "string"
+                }
+              },
+              "definitions": {
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "street": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }      
+        """
     }
 
 }

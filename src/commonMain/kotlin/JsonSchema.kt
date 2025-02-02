@@ -124,6 +124,20 @@ public class ObjectSchema private constructor(
 
     }
 
+    public fun copy(
+        block: Builder.() -> Unit = {}
+    ): ObjectSchema {
+        val b = Builder()
+        b.title = title
+        b.description = description
+        b.properties = properties
+        b.required = required
+        b.definitions = definitions
+        b.additionalProperties = additionalProperties
+        block(b)
+        return b.build()
+    }
+
 }
 
 public fun ObjectSchema(
