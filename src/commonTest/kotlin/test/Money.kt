@@ -41,6 +41,7 @@ interface Money {
     operator fun compareTo(other: Money): Int
 }
 
+@Suppress("TestFunctionName") // some false warning, probably can be removed in the future
 expect fun Money(amount: String): Money
 
 object MoneySerializer : KSerializer<Money> {
