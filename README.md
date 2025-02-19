@@ -1,7 +1,7 @@
 # xemantic-ai-tool-schema
 
 AI/LLM [tool use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use) ([function calling](https://platform.openai.com/docs/guides/function-calling)) JSON Schema generator - a Kotlin multiplatform library
-it generates JSON Schema for Kotlin `@Serializable` classes.
+which generates JSON Schema for Kotlin `@Serializable` classes.
 
 [<img alt="Maven Central Version" src="https://img.shields.io/maven-central/v/com.xemantic.ai/xemantic-ai-tool-schema">](https://central.sonatype.com/artifact/com.xemantic.ai/xemantic-ai-tool-schema)
 [<img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/xemantic/xemantic-ai-tool-schema">](https://github.com/xemantic/xemantic-ai-tool-schema/releases)
