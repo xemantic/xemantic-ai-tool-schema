@@ -51,7 +51,7 @@ public object BigDecimalSerializer : KSerializer<BigDecimal> {
 
     @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
     public override val descriptor: SerialDescriptor = buildSerialDescriptor(
-        serialName = "BigDecimal",
+        serialName = "java.math.BigDecimal",
         kind = PrimitiveKind.STRING
     ) {
         annotations = listOf(
