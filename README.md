@@ -20,6 +20,9 @@ which generates JSON Schema for Kotlin `@Serializable` classes.
 [<img alt="discord users online" src="https://img.shields.io/discord/811561179280965673">](https://discord.gg/vQktqqN2Vn)
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/xemantic.com)
 
+> [!IMPORTANT]
+> 🤖 **Build Your Own AI Agents** - Join our one-day Agentic AI & Creative Coding Workshop in Berlin (Spring 2025), led by AI hack Berlin 2024 winner Kazik Pogoda. Learn to create autonomous AI agents using Anthropic's API, engineer advanced prompts, and give your agents tools to control machines. Workshops run Tuesdays (Feb 25 - Mar 25) at Prachtsaal Berlin, limited to 15 participants. 150 EUR contribution supports open source development. All examples use Kotlin (crash course included) but focus on meta-principles of AI agent development. Details: <https://xemantic.com/ai/workshops>
+
 ## Why?
 
 This library was created to fulfill the need of agentic AI projects created by [xemantic](https://xemantic.com/). In particular:
