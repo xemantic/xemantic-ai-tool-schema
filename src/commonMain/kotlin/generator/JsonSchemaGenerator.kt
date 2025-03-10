@@ -45,12 +45,14 @@ import kotlinx.serialization.serializer
 public inline fun <reified T> jsonSchemaOf(
     title: String? = null,
     description: String? = null,
-    additionalProperties: Boolean? = null
+    additionalProperties: Boolean? = null,
+    inlineRefs: Boolean? = null
 ): JsonSchema = generateSchema(
-    descriptor = serializer<T>().descriptor,
+    serializer<T>().descriptor,
     title,
     description,
-    additionalProperties
+    additionalProperties,
+    inlineRefs,
 )
 
 /**
@@ -72,9 +74,11 @@ public fun generateSchema(
     descriptor: SerialDescriptor,
     title: String? = null,
     description: String? = null,
-    additionalProperties: Boolean? = null
+    additionalProperties: Boolean? = null,
+    inlineRefs: Boolean? = null
 ): JsonSchema = JsonSchemaGenerator(
-    additionalProperties
+    additionalProperties,
+    inlineRefs
 ).generatePropertySchema(
     descriptor,
     title,
@@ -82,7 +86,8 @@ public fun generateSchema(
 )
 
 private class JsonSchemaGenerator(
-    private val additionalProperties: Boolean? = null
+    private val additionalProperties: Boolean? = null,
+    private val inlineRefs: Boolean? = null
 ) {
 
     private var rootRef: String? = null
@@ -167,16 +172,18 @@ private class JsonSchemaGenerator(
                 }
             }
 
+            val combinedMeta = if (inlineRefs == true) propertyMeta + typeMeta else typeMeta
+
             val schema = ObjectSchema {
-                this.title = title ?: typeMeta.find<Title>()?.value
-                this.description = description ?: typeMeta.find<Description>()?.value
+                this.title = title ?: combinedMeta.find<Title>()?.value
+                this.description = description ?: combinedMeta.find<Description>()?.value
                 properties = props
                 definitions = if (isRoot && defs.isNotEmpty()) defs else null
                 required = req
                 additionalProperties = this@JsonSchemaGenerator.additionalProperties
             }
 
-            return if (isRoot) {
+            return if (isRoot || inlineRefs == true) {
                 schema
             } else {
                 defs[ref] = schema
