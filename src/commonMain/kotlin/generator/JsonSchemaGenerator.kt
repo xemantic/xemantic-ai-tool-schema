@@ -304,9 +304,7 @@ private fun stringSchema(
     pattern = meta.find<Pattern>()?.regex
     format = meta.find<Format>()?.value?.toString()
         ?: meta.find<FormatString>()?.format
-                ?: if (descriptor.serialName == "kotlinx.datetime.Instant") {
-            StringFormat.DATE_TIME.toString()
-        } else null
+        ?: getFallbackFormat(descriptor.serialName)?.toString()
     contentEncoding = meta.find<Encoding>()?.value
     contentMediaType = meta.find<ContentMediaType>()?.value
 }
@@ -334,3 +332,14 @@ private fun mapSchema(
 private inline fun <reified T : Annotation> List<Annotation>.find(): T? =
     filterIsInstance<T>()
         .firstOrNull()
+
+private fun getFallbackFormat(serialName: String): StringFormat? {
+    return when (serialName) {
+        "kotlin.uuid.Uuid" -> StringFormat.UUID
+        "kotlin.time.Duration" -> StringFormat.DURATION
+        "kotlin.time.Instant", "kotlinx.datetime.Instant" -> StringFormat.DATE_TIME
+        "kotlinx.datetime.LocalDate" -> StringFormat.DATE
+        "kotlinx.datetime.LocalTime" -> StringFormat.TIME
+        else -> null
+    }
+}
