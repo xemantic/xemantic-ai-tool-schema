@@ -22,7 +22,7 @@ import io.kotest.assertions.json.shouldEqualJson
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class ArraySchemTest {
+class ArraySchemaTest {
 
     @Test
     fun `should create ArraySchema`() {
