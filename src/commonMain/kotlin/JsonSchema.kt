@@ -75,11 +75,43 @@ public sealed interface JsonSchema {
 
     }
 
+    /**
+     * Represents a constant value. It is also used as discriminator for sealed hierarchies.
+     *
+     * @param const The constant value that this schema enforces.
+     */
+    @Serializable
+    public class Const private constructor(
+        public val const: String,
+        override val title: String? = null,
+        override val description: String? = null
+    ) : JsonSchema {
+
+        override fun toString(): String =
+            jsonSchemaToStringJson.encodeToString(this)
+
+        public class Builder(
+            private val const: String,
+        ) : JsonSchema.Builder() {
+            public fun build(): Const = Const(
+                const,
+                title,
+                description
+            )
+        }
+
+    }
+
     public companion object {
         public fun Ref(
             ref: String,
             block: Ref.Builder.() -> Unit = {}
         ): Ref = Ref.Builder(ref).also(block).build()
+
+        public fun Const(
+            const: String,
+            block: Const.Builder.() -> Unit = {}
+        ): Const = Const.Builder(const).also(block).build()
     }
 
 }
@@ -102,6 +134,8 @@ public class ObjectSchema private constructor(
     override val description: String? = null,
     public val properties: Map<String, JsonSchema>? = null,
     public val required: List<String>? = null,
+    public val oneOf: List<JsonSchema>? = null,
+    public val allOf: List<JsonSchema>? = null,
     public override val definitions: Map<String, JsonSchema>? = null,
     public val additionalProperties: Boolean? = null
 ) : BaseSchema(), WithDefinitions {
@@ -110,6 +144,8 @@ public class ObjectSchema private constructor(
 
         public var properties: Map<String, JsonSchema>? = null
         public var required: List<String>? = null
+        public var oneOf: List<JsonSchema>? = null
+        public var allOf: List<JsonSchema>? = null
         public var definitions: Map<String, JsonSchema>? = null
         public var additionalProperties: Boolean? = null
 
@@ -118,6 +154,8 @@ public class ObjectSchema private constructor(
             description,
             properties,
             required,
+            oneOf,
+            allOf,
             definitions,
             additionalProperties
         )
@@ -132,6 +170,8 @@ public class ObjectSchema private constructor(
         b.description = description
         b.properties = properties
         b.required = required
+        b.oneOf = oneOf
+        b.allOf = oneOf
         b.definitions = definitions
         b.additionalProperties = additionalProperties
         block(b)

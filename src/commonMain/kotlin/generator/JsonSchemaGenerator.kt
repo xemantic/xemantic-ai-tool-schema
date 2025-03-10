@@ -20,6 +20,7 @@ import com.xemantic.ai.tool.schema.*
 import com.xemantic.ai.tool.schema.meta.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PolymorphicKind
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.SerialKind
@@ -121,7 +122,8 @@ private class JsonSchemaGenerator(
             SerialKind.ENUM -> enumProperty(base, descriptor)
             StructureKind.LIST -> arraySchema(base, combinedMeta, descriptor)
             StructureKind.MAP -> mapSchema(base)
-            StructureKind.CLASS -> objectSchemaOrRef(title, description, typeMeta, propertyMeta, descriptor)
+            StructureKind.CLASS, @OptIn(ExperimentalSerializationApi::class) PolymorphicKind.SEALED ->
+                objectSchemaOrRef(title, description, typeMeta, propertyMeta, descriptor)
             else -> mapSchema(base) // Default case
         }
     }
@@ -158,17 +160,41 @@ private class JsonSchemaGenerator(
 
             val props = mutableMapOf<String, JsonSchema>()
             val req = mutableListOf<String>()
+            val oneOf = mutableListOf<JsonSchema>()
 
-            for (i in 0 until descriptor.elementsCount) {
-                val elementDescriptor = descriptor.getElementDescriptor(i)
-                val name = descriptor.getElementName(i)
-                val property = generatePropertySchema(
-                    descriptor = elementDescriptor,
-                    propertyMeta = descriptor.getElementAnnotations(i)
-                )
-                props[name] = property
-                if (!descriptor.isElementOptional(i)) {
-                    req.add(name)
+            @OptIn(ExperimentalSerializationApi::class)
+            if (descriptor.kind == PolymorphicKind.SEALED) {
+                val sealedDescriptor = descriptor.getElementDescriptor(1)
+                val discriminatorName = descriptor.getElementName(0)
+
+                for (i in 0 until sealedDescriptor.elementsCount) {
+                    val classDescriptor = sealedDescriptor.getElementDescriptor(i)
+                    val discriminatorValue = sealedDescriptor.getElementName(i)
+
+                    val discriminatorProperty = mapOf(discriminatorName to JsonSchema.Const(discriminatorValue))
+                    val schema = objectSchemaOrRef(title, description, classDescriptor.annotations, emptyList(), classDescriptor)
+
+                    oneOf += if (inlineRefs == true) {
+                        (schema as ObjectSchema).copy {
+                            properties = discriminatorProperty + properties.orEmpty()
+                        }
+                    } else {
+                        val discriminator = ObjectSchema { properties = discriminatorProperty }
+                        ObjectSchema { allOf = listOf(discriminator, schema) }
+                    }
+                }
+            } else {
+                for (i in 0 until descriptor.elementsCount) {
+                    val elementDescriptor = descriptor.getElementDescriptor(i)
+                    val name = descriptor.getElementName(i)
+                    val property = generatePropertySchema(
+                        descriptor = elementDescriptor,
+                        propertyMeta = descriptor.getElementAnnotations(i)
+                    )
+                    props[name] = property
+                    if (!descriptor.isElementOptional(i)) {
+                        req.add(name)
+                    }
                 }
             }
 
@@ -177,9 +203,10 @@ private class JsonSchemaGenerator(
             val schema = ObjectSchema {
                 this.title = title ?: combinedMeta.find<Title>()?.value
                 this.description = description ?: combinedMeta.find<Description>()?.value
-                properties = props
+                this.oneOf = oneOf.ifEmpty { null }
+                properties = props.ifEmpty { null }
                 definitions = if (isRoot && defs.isNotEmpty()) defs else null
-                required = req
+                required = req.ifEmpty { null }
                 additionalProperties = this@JsonSchemaGenerator.additionalProperties
             }
 
