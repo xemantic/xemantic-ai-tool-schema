@@ -46,7 +46,7 @@ public inline fun <reified T> jsonSchemaOf(
     title: String? = null,
     description: String? = null,
     additionalProperties: Boolean? = null,
-    inlineRefs: Boolean? = null
+    inlineRefs: Boolean = false
 ): JsonSchema = generateSchema(
     serializer<T>().descriptor,
     title,
@@ -75,7 +75,7 @@ public fun generateSchema(
     title: String? = null,
     description: String? = null,
     additionalProperties: Boolean? = null,
-    inlineRefs: Boolean? = null
+    inlineRefs: Boolean = false
 ): JsonSchema = JsonSchemaGenerator(
     additionalProperties,
     inlineRefs
@@ -87,7 +87,7 @@ public fun generateSchema(
 
 private class JsonSchemaGenerator(
     private val additionalProperties: Boolean? = null,
-    private val inlineRefs: Boolean? = null
+    private val inlineRefs: Boolean = false
 ) {
 
     private var rootRef: String? = null
@@ -172,7 +172,7 @@ private class JsonSchemaGenerator(
                 }
             }
 
-            val combinedMeta = if (inlineRefs == true) propertyMeta + typeMeta else typeMeta
+            val combinedMeta = if (inlineRefs) propertyMeta + typeMeta else typeMeta
 
             val schema = ObjectSchema {
                 this.title = title ?: combinedMeta.find<Title>()?.value
@@ -183,7 +183,7 @@ private class JsonSchemaGenerator(
                 additionalProperties = this@JsonSchemaGenerator.additionalProperties
             }
 
-            return if (isRoot || inlineRefs == true) {
+            return if (isRoot || inlineRefs) {
                 schema
             } else {
                 defs[ref] = schema
