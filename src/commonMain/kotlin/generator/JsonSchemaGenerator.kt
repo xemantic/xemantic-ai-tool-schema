@@ -178,7 +178,7 @@ private class JsonSchemaGenerator(
                     val discriminatorProperty = mapOf(discriminatorName to JsonSchema.Const(discriminatorValue))
                     val schema = objectSchemaOrRef(title, description, classDescriptor.annotations, emptyList(), classDescriptor)
 
-                    oneOf += if (inlineRefs == true) {
+                    oneOf += if (inlineRefs) {
                         (schema as ObjectSchema).copy {
                             properties = discriminatorProperty + properties.orEmpty()
                         }
