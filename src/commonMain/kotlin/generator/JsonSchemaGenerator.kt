@@ -40,6 +40,8 @@ import kotlinx.serialization.serializer
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type [T].
  * @see generateSchema
  */
@@ -47,7 +49,7 @@ public inline fun <reified T> jsonSchemaOf(
     title: String? = null,
     description: String? = null,
     additionalProperties: Boolean? = null,
-    inlineRefs: Boolean? = null
+    inlineRefs: Boolean = false
 ): JsonSchema = generateSchema(
     serializer<T>().descriptor,
     title,
@@ -68,6 +70,8 @@ public inline fun <reified T> jsonSchemaOf(
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type described by the [descriptor].
  */
 @OptIn(ExperimentalSerializationApi::class)
@@ -76,7 +80,7 @@ public fun generateSchema(
     title: String? = null,
     description: String? = null,
     additionalProperties: Boolean? = null,
-    inlineRefs: Boolean? = null
+    inlineRefs: Boolean = false
 ): JsonSchema = JsonSchemaGenerator(
     additionalProperties,
     inlineRefs
@@ -88,7 +92,7 @@ public fun generateSchema(
 
 private class JsonSchemaGenerator(
     private val additionalProperties: Boolean? = null,
-    private val inlineRefs: Boolean? = null
+    private val inlineRefs: Boolean = false
 ) {
 
     private var rootRef: String? = null
@@ -198,7 +202,7 @@ private class JsonSchemaGenerator(
                 }
             }
 
-            val combinedMeta = if (inlineRefs == true) propertyMeta + typeMeta else typeMeta
+            val combinedMeta = if (inlineRefs) propertyMeta + typeMeta else typeMeta
 
             val schema = ObjectSchema {
                 this.title = title ?: combinedMeta.find<Title>()?.value
@@ -210,7 +214,7 @@ private class JsonSchemaGenerator(
                 additionalProperties = this@JsonSchemaGenerator.additionalProperties
             }
 
-            return if (isRoot || inlineRefs == true) {
+            return if (isRoot || inlineRefs) {
                 schema
             } else {
                 defs[ref] = schema
