@@ -39,6 +39,8 @@ import kotlinx.serialization.serializer
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type [T].
  * @see generateSchema
  */
@@ -67,6 +69,8 @@ public inline fun <reified T> jsonSchemaOf(
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type described by the [descriptor].
  */
 @OptIn(ExperimentalSerializationApi::class)
