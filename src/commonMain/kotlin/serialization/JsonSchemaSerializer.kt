@@ -43,6 +43,10 @@ public object JsonSchemaSerializer : KSerializer<JsonSchema> {
                 serializer = JsonSchema.Ref.serializer(),
                 value = value
             )
+            is JsonSchema.Const -> encoder.encodeSerializableValue(
+                serializer = JsonSchema.Const.serializer(),
+                value = value
+            )
             is BaseSchema -> encoder.encodeSerializableValue(
                 serializer = BaseSchema.serializer(),
                 value = value

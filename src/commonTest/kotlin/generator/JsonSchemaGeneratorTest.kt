@@ -670,6 +670,182 @@ class JsonSchemaGeneratorTest {
         """
     }
 
+    @Serializable
+    @SerialName("animal")
+    @Description("Animal")
+    sealed interface Animal
+
+    @Serializable
+    @SerialName("mammal")
+    @Description("Mammal")
+    sealed interface Mammal : Animal {
+        val legs: Int
+    }
+
+    @Serializable
+    @SerialName("cat")
+    @Description("Cat")
+    data class Cat(
+        @Description("Legs")
+        override val legs: Int = 2,
+        val name: String,
+    ) : Mammal
+
+    @Serializable
+    @SerialName("dog")
+    @Description("Dog")
+    data class Dog(
+        @Description("Legs")
+        override val legs: Int = 2,
+        val name: String,
+    ) : Mammal
+
+    @Test
+    fun `should generate schema for Animal list`() {
+        val schema = jsonSchemaOf<List<Animal>>()
+        val schemaJson = testJson.encodeToString(schema)
+
+        // then
+        schemaJson shouldEqualJson /* language=json */ $$"""
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/animal",
+                "description": "Animal"
+              },
+              "definitions": {
+                "cat": {
+                  "type": "object",
+                  "description": "Cat",
+                  "properties": {
+                    "legs": {
+                      "type": "integer",
+                      "description": "Legs"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "dog": {
+                  "type": "object",
+                  "description": "Dog",
+                  "properties": {
+                    "legs": {
+                      "type": "integer",
+                      "description": "Legs"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "animal": {
+                  "type": "object",
+                  "description": "Animal",
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "const": "cat"
+                            }
+                          }
+                        },
+                        {
+                          "$ref": "#/definitions/cat"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "const": "dog"
+                            }
+                          }
+                        },
+                        {
+                          "$ref": "#/definitions/dog"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+        """
+    }
+
+    @Test
+    fun `should generate schema for Animal list with inline refs`() {
+        val schema = jsonSchemaOf<List<Animal>>(inlineRefs = true)
+        val schemaJson = testJson.encodeToString(schema)
+
+        // then
+        schemaJson shouldEqualJson /* language=json */ $$"""
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Animal",
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "description": "Cat",
+                    "properties": {
+                      "type": {
+                        "const": "cat"
+                      },
+                      "legs": {
+                        "type": "integer",
+                        "description": "Legs"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "description": "Dog",
+                    "properties": {
+                      "type": {
+                        "const": "dog"
+                      },
+                      "legs": {
+                        "type": "integer",
+                        "description": "Legs"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ]
+                  }
+                ]
+              }
+            }
+        """
+    }
+
     /**
      * Test class `Foo` containing monetary amounts.
      *
