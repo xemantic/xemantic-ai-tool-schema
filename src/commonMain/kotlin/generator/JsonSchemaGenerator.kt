@@ -39,18 +39,22 @@ import kotlinx.serialization.serializer
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type [T].
  * @see generateSchema
  */
 public inline fun <reified T> jsonSchemaOf(
     title: String? = null,
     description: String? = null,
-    additionalProperties: Boolean? = null
+    additionalProperties: Boolean? = null,
+    inlineRefs: Boolean = false
 ): JsonSchema = generateSchema(
-    descriptor = serializer<T>().descriptor,
+    serializer<T>().descriptor,
     title,
     description,
-    additionalProperties
+    additionalProperties,
+    inlineRefs,
 )
 
 /**
@@ -65,6 +69,8 @@ public inline fun <reified T> jsonSchemaOf(
  * @param description An optional description for the schema.
  * @param additionalProperties Determines whether additional properties are allowed in objects.
  *        If null, the schema will not specify this constraint.
+ * @param inlineRefs A boolean flag that determines whether to inline referenced schemas
+ *        instead of using `$ref`. Defaults to `false`.
  * @return A [JsonSchema] representing the structure of type described by the [descriptor].
  */
 @OptIn(ExperimentalSerializationApi::class)
@@ -72,9 +78,11 @@ public fun generateSchema(
     descriptor: SerialDescriptor,
     title: String? = null,
     description: String? = null,
-    additionalProperties: Boolean? = null
+    additionalProperties: Boolean? = null,
+    inlineRefs: Boolean = false
 ): JsonSchema = JsonSchemaGenerator(
-    additionalProperties
+    additionalProperties,
+    inlineRefs
 ).generatePropertySchema(
     descriptor,
     title,
@@ -82,7 +90,8 @@ public fun generateSchema(
 )
 
 private class JsonSchemaGenerator(
-    private val additionalProperties: Boolean? = null
+    private val additionalProperties: Boolean? = null,
+    private val inlineRefs: Boolean = false
 ) {
 
     private var rootRef: String? = null
@@ -167,16 +176,18 @@ private class JsonSchemaGenerator(
                 }
             }
 
+            val combinedMeta = if (inlineRefs) propertyMeta + typeMeta else typeMeta
+
             val schema = ObjectSchema {
-                this.title = title ?: typeMeta.find<Title>()?.value
-                this.description = description ?: typeMeta.find<Description>()?.value
+                this.title = title ?: combinedMeta.find<Title>()?.value
+                this.description = description ?: combinedMeta.find<Description>()?.value
                 properties = props
                 definitions = if (isRoot && defs.isNotEmpty()) defs else null
                 required = req
                 additionalProperties = this@JsonSchemaGenerator.additionalProperties
             }
 
-            return if (isRoot) {
+            return if (isRoot || inlineRefs) {
                 schema
             } else {
                 defs[ref] = schema
@@ -304,9 +315,7 @@ private fun stringSchema(
     pattern = meta.find<Pattern>()?.regex
     format = meta.find<Format>()?.value?.toString()
         ?: meta.find<FormatString>()?.format
-                ?: if (descriptor.serialName == "kotlinx.datetime.Instant") {
-            StringFormat.DATE_TIME.toString()
-        } else null
+        ?: getFallbackFormat(descriptor.serialName)?.toString()
     contentEncoding = meta.find<Encoding>()?.value
     contentMediaType = meta.find<ContentMediaType>()?.value
 }
@@ -334,3 +343,14 @@ private fun mapSchema(
 private inline fun <reified T : Annotation> List<Annotation>.find(): T? =
     filterIsInstance<T>()
         .firstOrNull()
+
+private fun getFallbackFormat(serialName: String): StringFormat? {
+    return when (serialName) {
+        "kotlin.uuid.Uuid" -> StringFormat.UUID
+        "kotlin.time.Duration" -> StringFormat.DURATION
+        "kotlin.time.Instant", "kotlinx.datetime.Instant" -> StringFormat.DATE_TIME
+        "kotlinx.datetime.LocalDate" -> StringFormat.DATE
+        "kotlinx.datetime.LocalTime" -> StringFormat.TIME
+        else -> null
+    }
+}
