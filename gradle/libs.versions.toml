@@ -1,12 +1,12 @@
 [versions]
 kotlinTarget = "2.1"
-javaTarget = "17"
+javaTarget = "1.8"
 
 kotlin = "2.1.10"
 kotlinxSerialization = "1.8.0"
 kotlinxDatetime = "0.6.2"
 
-xemanticKotlinTest = "1.8.10"
+xemanticKotlinTest = "1.9.0"
 
 kotest = "6.0.0.M1"
 
