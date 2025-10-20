@@ -1,27 +1,25 @@
 [versions]
-kotlinTarget = "2.1"
+kotlinTarget = "2.2"
 javaTarget = "1.8"
 
-kotlin = "2.1.10"
-kotlinxSerialization = "1.8.0"
-kotlinxDatetime = "0.6.2"
+kotlin = "2.2.20"
+kotlinxSerialization = "1.9.0"
 
-xemanticKotlinTest = "1.9.0"
+xemanticKotlinTest = "1.14.0"
 
-kotest = "6.0.0.M1"
+kotest = "6.0.4"
 
 bignum = "0.3.10"
 
-versionsPlugin = "0.52.0"
-dokkaPlugin = "2.0.0"
-binaryCompatibilityValidatorPlugin = "0.17.0"
-jreleaserPlugin = "1.16.0"
-xemanticConventionsPlugin = "0.3.1"
+versionsPlugin = "0.53.0"
+dokkaPlugin = "2.1.0"
+binaryCompatibilityValidatorPlugin = "0.18.1"
+jreleaserPlugin = "1.20.0"
+xemanticConventionsPlugin = "0.4.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 xemantic-kotlin-test = { module = "com.xemantic.kotlin:xemantic-kotlin-test", version.ref = "xemanticKotlinTest" }
 

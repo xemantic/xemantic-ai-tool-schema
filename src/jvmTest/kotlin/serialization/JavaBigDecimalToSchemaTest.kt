@@ -44,7 +44,7 @@ class JavaBigDecimalToSchemaTest {
     @Test
     fun `should represent Java BigDecimal as String with pattern and description JSON Schema`() {
         val schema = jsonSchemaOf<FinancialReport>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
           {
             "type": "object",
             "properties": {

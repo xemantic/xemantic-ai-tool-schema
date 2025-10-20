@@ -33,7 +33,7 @@ class ArraySchemaTest {
             minItems = 1
             maxItems = 10
             uniqueItems = true
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "array",
               "title": "Numbers",
@@ -58,7 +58,7 @@ class ArraySchemaTest {
                     "name" to StringSchema {}
                 )
             }
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "array",
               "title": "Users",
@@ -88,7 +88,7 @@ class ArraySchemaTest {
                     )
                 }
             )
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "array",
               "items": {

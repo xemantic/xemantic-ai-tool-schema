@@ -26,7 +26,7 @@ class JsonSchemaRefTest {
 
     @Test
     fun `should create JsonSchemaRef`() {
-        JsonSchema.Ref(ref = "#/definitions/address").toString() shouldEqualJson /* language=json */ $$"""
+        JsonSchema.Ref(ref = "#/definitions/address").toString() shouldEqualJson $$"""
             {
               "$ref": "#/definitions/address"
             }
@@ -38,7 +38,7 @@ class JsonSchemaRefTest {
         JsonSchema.Ref("#/definitions/address") {
             title = "Address Reference"
             description = "Reference to the address definition"
-        }.toString() shouldEqualJson /* language=json */ $$"""
+        }.toString() shouldEqualJson $$"""
             {
               "$ref": "#/definitions/address",
               "title": "Address Reference",

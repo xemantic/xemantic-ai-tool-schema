@@ -10,7 +10,7 @@ public final class com/xemantic/ai/tool/schema/ArraySchema : com/xemantic/ai/too
 	public final fun getUniqueItems ()Ljava/lang/Boolean;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/ArraySchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/ArraySchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/ArraySchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/ArraySchema;
@@ -18,6 +18,7 @@ public synthetic class com/xemantic/ai/tool/schema/ArraySchema$$serializer : kot
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ArraySchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/ArraySchema$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -57,7 +58,7 @@ public final class com/xemantic/ai/tool/schema/BooleanSchema : com/xemantic/ai/t
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/BooleanSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/BooleanSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/BooleanSchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/BooleanSchema;
@@ -65,6 +66,7 @@ public synthetic class com/xemantic/ai/tool/schema/BooleanSchema$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/BooleanSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/BooleanSchema$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -103,7 +105,7 @@ public final class com/xemantic/ai/tool/schema/IntegerSchema : com/xemantic/ai/t
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/IntegerSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/IntegerSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/IntegerSchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/IntegerSchema;
@@ -111,6 +113,7 @@ public synthetic class com/xemantic/ai/tool/schema/IntegerSchema$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/IntegerSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/IntegerSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
@@ -155,7 +158,7 @@ public final class com/xemantic/ai/tool/schema/JsonSchema$Const : com/xemantic/a
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/JsonSchema$Const$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/JsonSchema$Const$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/JsonSchema$Const$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/JsonSchema$Const;
@@ -163,6 +166,7 @@ public synthetic class com/xemantic/ai/tool/schema/JsonSchema$Const$$serializer 
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/JsonSchema$Const;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/JsonSchema$Const$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -183,7 +187,7 @@ public final class com/xemantic/ai/tool/schema/JsonSchema$Ref : com/xemantic/ai/
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/JsonSchema$Ref$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/JsonSchema$Ref$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/JsonSchema$Ref$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/JsonSchema$Ref;
@@ -191,6 +195,7 @@ public synthetic class com/xemantic/ai/tool/schema/JsonSchema$Ref$$serializer : 
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/JsonSchema$Ref;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/JsonSchema$Ref$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -234,7 +239,7 @@ public final class com/xemantic/ai/tool/schema/NumberSchema : com/xemantic/ai/to
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/NumberSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/NumberSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/NumberSchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/NumberSchema;
@@ -242,6 +247,7 @@ public synthetic class com/xemantic/ai/tool/schema/NumberSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/NumberSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/NumberSchema$Builder : com/xemantic/ai/tool/schema/NumericSchema$Builder {
@@ -290,7 +296,7 @@ public final class com/xemantic/ai/tool/schema/ObjectSchema : com/xemantic/ai/to
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/ObjectSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/ObjectSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/ObjectSchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/ObjectSchema;
@@ -298,6 +304,7 @@ public synthetic class com/xemantic/ai/tool/schema/ObjectSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/ObjectSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/ObjectSchema$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -372,7 +379,7 @@ public final class com/xemantic/ai/tool/schema/StringSchema : com/xemantic/ai/to
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/StringSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class com/xemantic/ai/tool/schema/StringSchema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lcom/xemantic/ai/tool/schema/StringSchema$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/xemantic/ai/tool/schema/StringSchema;
@@ -380,6 +387,7 @@ public synthetic class com/xemantic/ai/tool/schema/StringSchema$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/xemantic/ai/tool/schema/StringSchema;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/xemantic/ai/tool/schema/StringSchema$Builder : com/xemantic/ai/tool/schema/JsonSchema$Builder {
@@ -419,7 +427,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Cont
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/ContentMediaType$Impl : com/xemantic/ai/tool/schema/meta/ContentMediaType {
+public final synthetic class com/xemantic/ai/tool/schema/meta/ContentMediaType$Impl : com/xemantic/ai/tool/schema/meta/ContentMediaType {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun value ()Ljava/lang/String;
 }
@@ -428,7 +436,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Desc
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Description$Impl : com/xemantic/ai/tool/schema/meta/Description {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Description$Impl : com/xemantic/ai/tool/schema/meta/Description {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun value ()Ljava/lang/String;
 }
@@ -437,7 +445,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Enco
 	public abstract fun value ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Encoding$Impl : com/xemantic/ai/tool/schema/meta/Encoding {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Encoding$Impl : com/xemantic/ai/tool/schema/meta/Encoding {
 	public fun <init> (Lcom/xemantic/ai/tool/schema/ContentEncoding;)V
 	public final synthetic fun value ()Lcom/xemantic/ai/tool/schema/ContentEncoding;
 }
@@ -446,7 +454,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Form
 	public abstract fun value ()Lcom/xemantic/ai/tool/schema/StringFormat;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Format$Impl : com/xemantic/ai/tool/schema/meta/Format {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Format$Impl : com/xemantic/ai/tool/schema/meta/Format {
 	public fun <init> (Lcom/xemantic/ai/tool/schema/StringFormat;)V
 	public final synthetic fun value ()Lcom/xemantic/ai/tool/schema/StringFormat;
 }
@@ -455,7 +463,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Form
 	public abstract fun format ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/FormatString$Impl : com/xemantic/ai/tool/schema/meta/FormatString {
+public final synthetic class com/xemantic/ai/tool/schema/meta/FormatString$Impl : com/xemantic/ai/tool/schema/meta/FormatString {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun format ()Ljava/lang/String;
 }
@@ -464,7 +472,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Item
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/ItemDescription$Impl : com/xemantic/ai/tool/schema/meta/ItemDescription {
+public final synthetic class com/xemantic/ai/tool/schema/meta/ItemDescription$Impl : com/xemantic/ai/tool/schema/meta/ItemDescription {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun value ()Ljava/lang/String;
 }
@@ -473,7 +481,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Item
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/ItemTitle$Impl : com/xemantic/ai/tool/schema/meta/ItemTitle {
+public final synthetic class com/xemantic/ai/tool/schema/meta/ItemTitle$Impl : com/xemantic/ai/tool/schema/meta/ItemTitle {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun value ()Ljava/lang/String;
 }
@@ -483,7 +491,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Max 
 	public abstract fun value ()D
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Max$Impl : com/xemantic/ai/tool/schema/meta/Max {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Max$Impl : com/xemantic/ai/tool/schema/meta/Max {
 	public fun <init> (DZ)V
 	public synthetic fun <init> (DZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final synthetic fun exclusive ()Z
@@ -495,7 +503,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxI
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MaxInt$Impl : com/xemantic/ai/tool/schema/meta/MaxInt {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MaxInt$Impl : com/xemantic/ai/tool/schema/meta/MaxInt {
 	public fun <init> (JZ)V
 	public synthetic fun <init> (JZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final synthetic fun exclusive ()Z
@@ -506,7 +514,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxI
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MaxItems$Impl : com/xemantic/ai/tool/schema/meta/MaxItems {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MaxItems$Impl : com/xemantic/ai/tool/schema/meta/MaxItems {
 	public fun <init> (J)V
 	public final synthetic fun value ()J
 }
@@ -515,7 +523,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MaxL
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MaxLength$Impl : com/xemantic/ai/tool/schema/meta/MaxLength {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MaxLength$Impl : com/xemantic/ai/tool/schema/meta/MaxLength {
 	public fun <init> (J)V
 	public final synthetic fun value ()J
 }
@@ -525,7 +533,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Min 
 	public abstract fun value ()D
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Min$Impl : com/xemantic/ai/tool/schema/meta/Min {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Min$Impl : com/xemantic/ai/tool/schema/meta/Min {
 	public fun <init> (DZ)V
 	public synthetic fun <init> (DZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final synthetic fun exclusive ()Z
@@ -537,7 +545,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinI
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MinInt$Impl : com/xemantic/ai/tool/schema/meta/MinInt {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MinInt$Impl : com/xemantic/ai/tool/schema/meta/MinInt {
 	public fun <init> (JZ)V
 	public synthetic fun <init> (JZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final synthetic fun exclusive ()Z
@@ -548,7 +556,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinI
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MinItems$Impl : com/xemantic/ai/tool/schema/meta/MinItems {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MinItems$Impl : com/xemantic/ai/tool/schema/meta/MinItems {
 	public fun <init> (J)V
 	public final synthetic fun value ()J
 }
@@ -557,7 +565,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/MinL
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MinLength$Impl : com/xemantic/ai/tool/schema/meta/MinLength {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MinLength$Impl : com/xemantic/ai/tool/schema/meta/MinLength {
 	public fun <init> (J)V
 	public final synthetic fun value ()J
 }
@@ -566,7 +574,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Mult
 	public abstract fun value ()D
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MultipleOf$Impl : com/xemantic/ai/tool/schema/meta/MultipleOf {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MultipleOf$Impl : com/xemantic/ai/tool/schema/meta/MultipleOf {
 	public fun <init> (D)V
 	public final synthetic fun value ()D
 }
@@ -575,7 +583,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Mult
 	public abstract fun value ()J
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/MultipleOfInt$Impl : com/xemantic/ai/tool/schema/meta/MultipleOfInt {
+public final synthetic class com/xemantic/ai/tool/schema/meta/MultipleOfInt$Impl : com/xemantic/ai/tool/schema/meta/MultipleOfInt {
 	public fun <init> (J)V
 	public final synthetic fun value ()J
 }
@@ -591,7 +599,7 @@ public final class com/xemantic/ai/tool/schema/meta/Pattern$Companion {
 	public final fun getDECIMAL ()Lcom/xemantic/ai/tool/schema/meta/Pattern;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Pattern$Impl : com/xemantic/ai/tool/schema/meta/Pattern {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Pattern$Impl : com/xemantic/ai/tool/schema/meta/Pattern {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun regex ()Ljava/lang/String;
 }
@@ -600,7 +608,7 @@ public abstract interface annotation class com/xemantic/ai/tool/schema/meta/Titl
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/Title$Impl : com/xemantic/ai/tool/schema/meta/Title {
+public final synthetic class com/xemantic/ai/tool/schema/meta/Title$Impl : com/xemantic/ai/tool/schema/meta/Title {
 	public fun <init> (Ljava/lang/String;)V
 	public final synthetic fun value ()Ljava/lang/String;
 }
@@ -608,7 +616,7 @@ public synthetic class com/xemantic/ai/tool/schema/meta/Title$Impl : com/xemanti
 public abstract interface annotation class com/xemantic/ai/tool/schema/meta/UniqueItems : java/lang/annotation/Annotation {
 }
 
-public synthetic class com/xemantic/ai/tool/schema/meta/UniqueItems$Impl : com/xemantic/ai/tool/schema/meta/UniqueItems {
+public final synthetic class com/xemantic/ai/tool/schema/meta/UniqueItems$Impl : com/xemantic/ai/tool/schema/meta/UniqueItems {
 	public fun <init> ()V
 }
 

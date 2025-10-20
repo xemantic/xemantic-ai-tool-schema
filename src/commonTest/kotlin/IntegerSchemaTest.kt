@@ -29,7 +29,7 @@ class IntegerSchemaTest {
             minimum = 0
             maximum = 120
             multipleOf = 1
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "integer",
               "title": "Age",
@@ -46,7 +46,7 @@ class IntegerSchemaTest {
         IntegerSchema {
             title = "Dozen"
             range = 1L..12
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "integer",
               "title": "Dozen",
@@ -63,7 +63,7 @@ class IntegerSchemaTest {
             description = "A person's age"
             exclusiveMinimum = 0
             exclusiveMaximum = 120
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "integer",
               "title": "Age",
@@ -79,7 +79,7 @@ class IntegerSchemaTest {
         IntegerSchema {
             minimum = -100
             maximum = -1
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "integer",
               "minimum": -100,
@@ -90,7 +90,7 @@ class IntegerSchemaTest {
 
     @Test
     fun `should create empty IntegerSchema`() {
-        IntegerSchema().toString() shouldEqualJson /* language=json */ """{"type": "integer"}"""
+        IntegerSchema().toString() shouldEqualJson """{"type": "integer"}"""
     }
 
 }

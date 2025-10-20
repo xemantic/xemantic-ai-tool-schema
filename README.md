@@ -20,9 +20,6 @@ which generates JSON Schema for Kotlin `@Serializable` classes.
 [<img alt="discord users online" src="https://img.shields.io/discord/811561179280965673">](https://discord.gg/vQktqqN2Vn)
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/xemantic.com)
 
-> [!IMPORTANT]
-> 🤖 **Build Your Own AI Agents** - Join our one-day Agentic AI & Creative Coding Workshop in Berlin (Spring 2025), led by AI hack Berlin hackathon winner Kazik Pogoda. Learn to create autonomous AI agents using Anthropic API, engineer advanced prompts, and give your agents tools to control machines. Workshops run Tuesdays (Feb 25 - Mar 25) at Prachtsaal Berlin, limited to 15 participants. 150 EUR contribution supports open source development (solidarity access available, no questions asked). All examples use Kotlin (crash course included) but focus on meta-principles of AI agent development. Details: <https://xemantic.com/ai/workshops>
-
 ## Why?
 
 This library was created to fulfill the need of agentic AI projects created by [xemantic](https://xemantic.com/). In particular:
@@ -43,8 +40,8 @@ In `build.gradle.kts` add:
 
 ```kotlin
 plugins {
-    kotlin("multiplatform") version "2.1.0" // (or jvm for jvm-only project)
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("multiplatform") version "2.2.20" // (or jvm for jvm-only project)
+    kotlin("plugin.serialization") version "2.2.20"
 }
 
 // ...
@@ -70,8 +67,19 @@ data class Address(
     @Pattern("[a-z]{2}")
     val countryCode: String,
     @Format(StringFormat.EMAIL)
-    val email: String? = null
+    val email: String? = null,
+    @OptIn(ExperimentalTime::class)
+    val registeredAt: Instant,
+    val status: AddressStatus
 )
+
+@Title("Address status")
+@Description("The verification status of an address")
+enum class AddressStatus {
+    PENDING_VERIFICATION,
+    VERIFIED,
+    INVALID
+}
 ```
 
 And when `jsonSchemaOf()` function is invoked:
@@ -107,13 +115,29 @@ It will produce a [JsonSchema](src/commonMain/kotlin/JsonSchema.kt) instance, wh
     "email": {
       "type": "string",
       "format": "email"
+    },
+    "registeredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "title": "Address status",
+      "description": "The verification status of an address",
+      "enum": [
+        "PENDING_VERIFICATION",
+        "VERIFIED",
+        "INVALID"
+      ]
     }
   },
   "required": [
     "street",
     "city",
     "postalCode",
-    "countryCode"
+    "countryCode",
+    "registeredAt",
+    "status"
   ]
 }
 ```
