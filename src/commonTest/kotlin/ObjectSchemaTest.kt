@@ -32,7 +32,7 @@ class ObjectSchemaTest {
             )
             required = listOf("name")
             additionalProperties = false
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "object",
               "title": "Person",
@@ -67,7 +67,7 @@ class ObjectSchemaTest {
                     )
                 }
             )
-        }.toString() shouldEqualJson /* language=json */ $$"""
+        }.toString() shouldEqualJson $$"""
             {
               "type": "object",
               "title": "Person",
@@ -98,7 +98,7 @@ class ObjectSchemaTest {
 
     @Test
     fun `should create empty ObjectSchema`() {
-        ObjectSchema().toString() shouldEqualJson /* language=json */ """{"type": "object"}"""
+        ObjectSchema().toString() shouldEqualJson """{"type": "object"}"""
     }
 
     @Test
@@ -128,7 +128,7 @@ class ObjectSchemaTest {
         }
 
         // then
-        copiedSchema.toString() shouldEqualJson /* language=json */ $$"""
+        copiedSchema.toString() shouldEqualJson $$"""
             {
               "type": "object",
               "title": "Person",

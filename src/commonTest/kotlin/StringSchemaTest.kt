@@ -29,7 +29,7 @@ class StringSchemaTest {
             minLength = 3
             maxLength = 20
             pattern = "^[a-zA-Z0-9_]+$"
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "string",
               "title": "Username",
@@ -49,7 +49,7 @@ class StringSchemaTest {
             minLength = 3
             maxLength = 100
             format(StringFormat.EMAIL)
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "string",
               "title": "Email",
@@ -66,7 +66,7 @@ class StringSchemaTest {
         StringSchema {
             title = "Color"
             enum = listOf("red", "green", "blue")
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "string",
               "title": "Color",
@@ -82,7 +82,7 @@ class StringSchemaTest {
             description = "User's avatar image"
             contentEncoding = ContentEncoding.BASE64
             contentMediaType = "image/png"
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "string",
               "title": "Image",
@@ -95,7 +95,7 @@ class StringSchemaTest {
 
     @Test
     fun `should create empty StringSchema`() {
-        StringSchema().toString() shouldEqualJson /* language=json */ """{"type": "string"}"""
+        StringSchema().toString() shouldEqualJson """{"type": "string"}"""
     }
 
 }

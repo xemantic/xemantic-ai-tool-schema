@@ -26,7 +26,7 @@ class BooleanSchemaTest {
         BooleanSchema {
             title = "Is Active"
             description = "Whether the user is active"
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "boolean",
               "title": "Is Active",
@@ -37,7 +37,7 @@ class BooleanSchemaTest {
 
     @Test
     fun `should create empty BooleanSchema`() {
-        BooleanSchema().toString() shouldEqualJson /* language=json */ """{"type": "boolean"}"""
+        BooleanSchema().toString() shouldEqualJson """{"type": "boolean"}"""
     }
 
 }

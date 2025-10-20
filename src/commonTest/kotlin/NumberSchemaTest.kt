@@ -29,7 +29,7 @@ class NumberSchemaTest {
             minimum = 0.0
             maximum = 1000.0
             multipleOf = 0.01
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "number",
               "title": "Price",
@@ -48,7 +48,7 @@ class NumberSchemaTest {
             description = "A price value"
             exclusiveMinimum = 0.0
             exclusiveMaximum = 1000.0
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "number",
               "title": "Price",
@@ -65,7 +65,7 @@ class NumberSchemaTest {
             minimum = 0.0
             maximum = 0.0
             multipleOf = 0.0
-        }.toString() shouldEqualJson /* language=json */ """
+        }.toString() shouldEqualJson """
             {
               "type": "number",
               "minimum": 0.0,
@@ -77,7 +77,7 @@ class NumberSchemaTest {
 
     @Test
     fun `should create empty NumberSchema`() {
-        NumberSchema().toString() shouldEqualJson /* language=json */ """{"type": "number"}"""
+        NumberSchema().toString() shouldEqualJson """{"type": "number"}"""
     }
 
 }

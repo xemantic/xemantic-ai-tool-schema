@@ -62,7 +62,6 @@ kotlin {
     compilerOptions {
         apiVersion = kotlinTarget
         languageVersion = kotlinTarget
-        freeCompilerArgs.add("-Xmulti-dollar-interpolation")
         extraWarnings = true
         progressiveMode = true
     }
@@ -139,7 +138,6 @@ kotlin {
                 implementation(libs.kotlin.test)
                 implementation(libs.xemantic.kotlin.test)
                 implementation(libs.kotest.assertions.json)
-                implementation(libs.kotlinx.datetime)
                 implementation(libs.bignum)
             }
         }

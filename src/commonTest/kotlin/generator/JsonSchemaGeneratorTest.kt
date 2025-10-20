@@ -23,17 +23,18 @@ import com.xemantic.ai.tool.schema.test.BigDecimal
 import com.xemantic.ai.tool.schema.test.Money
 import com.xemantic.ai.tool.schema.test.testJson
 import io.kotest.assertions.json.shouldEqualJson
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class JsonSchemaGeneratorTest {
 
     @Test
     fun `should generate Int schema`() {
         val schema = jsonSchemaOf<Int>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "integer"
             }
@@ -43,7 +44,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Byte schema`() {
         val schema = jsonSchemaOf<Byte>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "integer"
             }
@@ -53,7 +54,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Short schema`() {
         val schema = jsonSchemaOf<Short>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "integer"
             }
@@ -63,7 +64,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Double schema`() {
         val schema = jsonSchemaOf<Double>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "number"
             }
@@ -73,7 +74,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Float schema`() {
         val schema = jsonSchemaOf<Float>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "number"
             }
@@ -83,7 +84,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Boolean schema`() {
         val schema = jsonSchemaOf<Boolean>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "boolean"
             }
@@ -93,7 +94,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Char schema`() {
         val schema = jsonSchemaOf<Char>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "string",
               "minLength": 1,
@@ -105,7 +106,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate String schema`() {
         val schema = jsonSchemaOf<String>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "string"
             }
@@ -115,7 +116,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Ints schema`() {
         val schema = jsonSchemaOf<List<Int>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -128,7 +129,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Bytes schema`() {
         val schema = jsonSchemaOf<List<Byte>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -141,7 +142,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Shorts schema`() {
         val schema = jsonSchemaOf<List<Short>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -154,7 +155,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Doubles schema`() {
         val schema = jsonSchemaOf<List<Double>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -167,7 +168,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Floats schema`() {
         val schema = jsonSchemaOf<List<Float>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -180,7 +181,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Booleans schema`() {
         val schema = jsonSchemaOf<List<Boolean>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -193,7 +194,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Chars schema`() {
         val schema = jsonSchemaOf<List<Char>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -208,7 +209,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Strings schema`() {
         val schema = jsonSchemaOf<List<String>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -221,7 +222,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate List of Lists of Strings schema`() {
         val schema = jsonSchemaOf<List<List<String>>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "array",
               "items": {
@@ -240,7 +241,7 @@ class JsonSchemaGeneratorTest {
             title = "foo",
             description = "bar",
         )
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "string",
               "title": "foo",
@@ -276,7 +277,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate Address schema`() {
         val schema = jsonSchemaOf<Address>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ """
+        testJson.encodeToString(schema) shouldEqualJson """
             {
               "type": "object",
               "title": "The full address",
@@ -322,6 +323,7 @@ class JsonSchemaGeneratorTest {
     data class Person(
         @Description("The official name")
         val name: String,
+        @OptIn(ExperimentalTime::class)
         val birthDate: Instant,
         @Format(StringFormat.EMAIL)
         @MinLength(6)
@@ -383,7 +385,7 @@ class JsonSchemaGeneratorTest {
         val schemaJson = testJson.encodeToString(schema)
 
         // then
-        schemaJson shouldEqualJson /* language=json */ $$"""
+        schemaJson shouldEqualJson $$"""
             {
               "type": "object",
               "description": "Personal data",
@@ -534,7 +536,7 @@ class JsonSchemaGeneratorTest {
         val schemaJson = testJson.encodeToString(schema)
 
         // then
-        schemaJson shouldEqualJson /* language=json */ $$"""
+        schemaJson shouldEqualJson $$"""
             {
               "type": "object",
               "description": "Personal data",
@@ -706,7 +708,7 @@ class JsonSchemaGeneratorTest {
         val schemaJson = testJson.encodeToString(schema)
 
         // then
-        schemaJson shouldEqualJson /* language=json */ $$"""
+        schemaJson shouldEqualJson $$"""
             {
               "type": "array",
               "items": {
@@ -795,7 +797,7 @@ class JsonSchemaGeneratorTest {
         val schemaJson = testJson.encodeToString(schema)
 
         // then
-        schemaJson shouldEqualJson /* language=json */ $$"""
+        schemaJson shouldEqualJson $$"""
             {
               "type": "array",
               "items": {
@@ -867,7 +869,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should prioritize title and description set on property over the one set for the whole class`() {
         val schema = jsonSchemaOf<Foo>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
             {
               "type": "object",
               "description": "A container of monetary amounts",
@@ -907,7 +909,7 @@ class JsonSchemaGeneratorTest {
         val schema = jsonSchemaOf<Bar>(
             additionalProperties = false
         )
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
             {
               "type": "object",
               "properties": {
@@ -963,7 +965,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should generate schema of recursive structure`() {
         val schema = jsonSchemaOf<Node>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
             {
               "type": "object",
               "properties": {
@@ -988,7 +990,7 @@ class JsonSchemaGeneratorTest {
     @Test
     fun `should create schema of list of recursive structures`() {
         val schema = jsonSchemaOf<List<Node>>()
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
             {
               "type": "array",
               "items": {
@@ -1026,7 +1028,7 @@ class JsonSchemaGeneratorTest {
             title = "New title",
             description = "New description"
         )
-        testJson.encodeToString(schema) shouldEqualJson /* language=json */ $$"""
+        testJson.encodeToString(schema) shouldEqualJson $$"""
             {
               "type": "object",
               "title": "New title",
