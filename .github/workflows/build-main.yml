@@ -1,4 +1,4 @@
-# Builds than main branch, and then deploys SNAPSHOT versions to GitHub Packages
+# Builds main branch and deploys SNAPSHOT versions to Maven Central
 name: Build main
 
 on:
@@ -7,25 +7,9 @@ on:
       - main
 
 jobs:
-  build_main:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v5.0.0
-
-      - name: Setup Java
-        uses: actions/setup-java@v5.0.0
-        with:
-          distribution: 'temurin'
-          java-version: 23
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5.0.0
-
-      - name: Build
-        run: ./gradlew build sourcesJar javadocJar publish
-        env:
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_githubActor: ${{ secrets.GITHUBACTOR }}
-          ORG_GRADLE_PROJECT_githubToken: ${{ secrets.GITHUBTOKEN }}
+  build:
+    uses: xemantic/.github/.github/workflows/build-gradle.yml@main
+    secrets: inherit
+    with:
+      gradle_args: build publishToMavenCentral --no-configuration-cache
+      maven_central: true
