@@ -97,7 +97,11 @@ private class JsonSchemaGenerator(
 
     private var rootRef: String? = null
 
+    // Tracks all types that were already fully processed or encountered.
     private val trackedRefs = mutableSetOf<String>()
+
+    // Tracks types currently being constructed to detect cycles.
+    private val buildingRefs = mutableSetOf<String>()
 
     private val defs: MutableMap<String, ObjectSchema> = mutableMapOf()
 
@@ -147,79 +151,88 @@ private class JsonSchemaGenerator(
             this.description = propertyMeta.find<Description>()?.value
         }
 
-        return if (ref in trackedRefs) {
+        val seen = ref in trackedRefs
+        val active = ref in buildingRefs
 
-            if (ref == rootRef) JsonSchema.Ref("#") { refDefaults() }
+        // If we've already seen this type, decide whether to return a $ref or inline again.
+        // - When inlineRefs is false, always return $ref to avoid duplication.
+        // - When inlineRefs is true, return $ref only if we are in an active construction path (cycle).
+        if (seen && (!inlineRefs || active)) {
+            return if (ref == rootRef) JsonSchema.Ref("#") { refDefaults() }
             else JsonSchema.Ref("#/definitions/$ref") { refDefaults() }
+        }
+
+        // Proceed with building (inlining allowed). Track as seen and mark as building to detect cycles.
+        trackedRefs += ref
+        buildingRefs += ref
+
+        val isRoot = if (rootRef == null) {
+            rootRef = ref
+            true
         } else {
+            false
+        }
 
-            trackedRefs += ref
+        val props = mutableMapOf<String, JsonSchema>()
+        val req = mutableListOf<String>()
+        val oneOf = mutableListOf<JsonSchema>()
 
-            val isRoot = if (rootRef == null) {
-                rootRef = ref
-                true
-            } else {
-                false
-            }
+        @OptIn(ExperimentalSerializationApi::class)
+        if (descriptor.kind == PolymorphicKind.SEALED) {
+            val sealedDescriptor = descriptor.getElementDescriptor(1)
+            val discriminatorName = descriptor.getElementName(0)
 
-            val props = mutableMapOf<String, JsonSchema>()
-            val req = mutableListOf<String>()
-            val oneOf = mutableListOf<JsonSchema>()
+            for (i in 0 until sealedDescriptor.elementsCount) {
+                val classDescriptor = sealedDescriptor.getElementDescriptor(i)
+                val discriminatorValue = sealedDescriptor.getElementName(i)
 
-            @OptIn(ExperimentalSerializationApi::class)
-            if (descriptor.kind == PolymorphicKind.SEALED) {
-                val sealedDescriptor = descriptor.getElementDescriptor(1)
-                val discriminatorName = descriptor.getElementName(0)
+                val discriminatorProperty = mapOf(discriminatorName to JsonSchema.Const(discriminatorValue))
+                val schema = objectSchemaOrRef(title, description, classDescriptor.annotations, emptyList(), classDescriptor)
 
-                for (i in 0 until sealedDescriptor.elementsCount) {
-                    val classDescriptor = sealedDescriptor.getElementDescriptor(i)
-                    val discriminatorValue = sealedDescriptor.getElementName(i)
-
-                    val discriminatorProperty = mapOf(discriminatorName to JsonSchema.Const(discriminatorValue))
-                    val schema = objectSchemaOrRef(title, description, classDescriptor.annotations, emptyList(), classDescriptor)
-
-                    oneOf += if (inlineRefs) {
-                        (schema as ObjectSchema).copy {
-                            properties = discriminatorProperty + properties.orEmpty()
-                        }
-                    } else {
-                        val discriminator = ObjectSchema { properties = discriminatorProperty }
-                        ObjectSchema { allOf = listOf(discriminator, schema) }
+                oneOf += if (inlineRefs) {
+                    (schema as ObjectSchema).copy {
+                        properties = discriminatorProperty + properties.orEmpty()
                     }
-                }
-            } else {
-                for (i in 0 until descriptor.elementsCount) {
-                    val elementDescriptor = descriptor.getElementDescriptor(i)
-                    val name = descriptor.getElementName(i)
-                    val property = generatePropertySchema(
-                        descriptor = elementDescriptor,
-                        propertyMeta = descriptor.getElementAnnotations(i)
-                    )
-                    props[name] = property
-                    if (!descriptor.isElementOptional(i)) {
-                        req.add(name)
-                    }
+                } else {
+                    val discriminator = ObjectSchema { properties = discriminatorProperty }
+                    ObjectSchema { allOf = listOf(discriminator, schema) }
                 }
             }
-
-            val combinedMeta = if (inlineRefs) propertyMeta + typeMeta else typeMeta
-
-            val schema = ObjectSchema {
-                this.title = title ?: combinedMeta.find<Title>()?.value
-                this.description = description ?: combinedMeta.find<Description>()?.value
-                this.oneOf = oneOf.ifEmpty { null }
-                properties = props.ifEmpty { null }
-                definitions = if (isRoot && defs.isNotEmpty()) defs else null
-                required = req.ifEmpty { null }
-                additionalProperties = this@JsonSchemaGenerator.additionalProperties
+        } else {
+            for (i in 0 until descriptor.elementsCount) {
+                val elementDescriptor = descriptor.getElementDescriptor(i)
+                val name = descriptor.getElementName(i)
+                val property = generatePropertySchema(
+                    descriptor = elementDescriptor,
+                    propertyMeta = descriptor.getElementAnnotations(i)
+                )
+                props[name] = property
+                if (!descriptor.isElementOptional(i)) {
+                    req.add(name)
+                }
             }
+        }
 
-            return if (isRoot || inlineRefs) {
-                schema
-            } else {
-                defs[ref] = schema
-                JsonSchema.Ref("#/definitions/$ref") { refDefaults() }
-            }
+        val combinedMeta = if (inlineRefs) propertyMeta + typeMeta else typeMeta
+
+        val schema = ObjectSchema {
+            this.title = title ?: combinedMeta.find<Title>()?.value
+            this.description = description ?: combinedMeta.find<Description>()?.value
+            this.oneOf = oneOf.ifEmpty { null }
+            properties = props.ifEmpty { null }
+            definitions = if (isRoot && defs.isNotEmpty()) defs else null
+            required = req.ifEmpty { null }
+            additionalProperties = this@JsonSchemaGenerator.additionalProperties
+        }
+
+        // Done building this type
+        buildingRefs -= ref
+
+        return if (isRoot || inlineRefs) {
+            schema
+        } else {
+            defs[ref] = schema
+            JsonSchema.Ref("#/definitions/$ref") { refDefaults() }
         }
     }
 

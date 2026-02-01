@@ -1055,4 +1055,21 @@ class JsonSchemaGeneratorTest {
         """
     }
 
+    @Serializable
+    data class WrappedInline(val value: String)
+
+    @Serializable
+    data class ContainerWithTwoWrappeds(val propA: WrappedInline, val propB: WrappedInline)
+
+    @Test
+    fun `should inline duplicate types when inlineRefs is true`() {
+        val schema = jsonSchemaOf<ContainerWithTwoWrappeds>(inlineRefs = true)
+        val schemaJson = testJson.encodeToString(schema)
+        println("[DEBUG_LOG] inlineRefs duplicate actual:\n" + schemaJson)
+        // Assert there are no $ref occurrences and both properties are present
+        kotlin.test.assertFalse(schemaJson.contains("\"${'$'}ref\""), "Expected no ${'$'}ref when inlineRefs=true, but found one. Actual: \n$schemaJson")
+        kotlin.test.assertTrue(schemaJson.contains("\"propA\""), "Expected 'propA' in schema. Actual: \n$schemaJson")
+        kotlin.test.assertTrue(schemaJson.contains("\"propB\""), "Expected 'propB' in schema. Actual: \n$schemaJson")
+    }
+
 }
